@@ -20,7 +20,7 @@ public abstract class BaseInfo implements Serializable {
 	@Column("updateTime")
 	private Date updateTime;
 	@Column("status")
-	private int status = 1;
+	private Integer status = 1;
 
 	public String getId() {
 		return id;
@@ -62,11 +62,12 @@ public abstract class BaseInfo implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
 }
