@@ -5,8 +5,9 @@
 	<parent>
 		<groupId>org.hbhk.aili</groupId>
 		<artifactId>aili</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
+	<version>${aili-version}</version>
 	<artifactId>aili-web</artifactId>
 	<packaging>war</packaging>
 	<properties>

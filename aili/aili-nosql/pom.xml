@@ -5,10 +5,10 @@
 	<parent>
 		<artifactId>aili</artifactId>
 		<groupId>org.hbhk.aili</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
-
 	<artifactId>aili-nosql</artifactId>
+	<version>${aili-version}</version>
 	<packaging>jar</packaging>
 
 	<name>aili-nosql</name>
