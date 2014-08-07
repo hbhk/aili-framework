@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:loxia="http://loxia.benjamin.cn/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		">
+	<tx:annotation-driven transaction-manager="jcrTransactionManager" />
+	<bean id="repository" class="org.apache.jackrabbit.commons.JcrUtils"
+		factory-method="getRepository">
+		<constructor-arg value="localhost" />
+	</bean>
+
+	<!-- normal factory beans params -->
+	<!-- <bean id="repository" class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean"> 
+		<property name="configuration" value="classpath:jackrabbit-repo.xml" /> <property 
+		name="homeDir" ref="D:/jcr-repo/tmp" /> </bean> -->
+
+	<!-- SessionFactory -->
+	<bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.JcrSessionFactory">
+		<property name="repository" ref="repository" />
+		<property name="credentials">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="admin" />
+				<!-- create the credentials using a bean factory -->
+				<constructor-arg index="1">
+					<bean factory-bean="password" factory-method="toCharArray" />
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- create the password to return it as a char[] -->
+	<bean id="password" class="java.lang.String">
+		<constructor-arg index="0" value="135246" />
+	</bean>
+
+	<bean id="jcrTemplate" class="org.springframework.extensions.jcr.JcrTemplate">
+		<property name="sessionFactory" ref="jcrSessionFactory" />
+		<property name="allowCreate" value="true" />
+	</bean>
+
+	<bean id="jcrTransactionManager"
+		class="org.springframework.extensions.jcr.jackrabbit.LocalTransactionManager">
+		<property name="sessionFactory" ref="jcrSessionFactory" />
+		<qualifier value="jcrTransactionManager" />
+	</bean>
+
+	<!-- <bean id="jcrom" class="org.jcrom.Jcrom"> <constructor-arg index="0" 
+		type="boolean" value="true" /> <constructor-arg index="1" type="boolean" 
+		value="true" /> <constructor-arg index="2" type="java.util.Set"> <set> <value 
+		type="java.lang.Class">com.baozun.nebula.cms.model.definition.BaseElementDefinition 
+		</value> </set> </constructor-arg> <property name="sessionFactory" ref="jcrSessionFactory" 
+		/> </bean> <bean id="registerNode" class="com.baozun.nebula.cms.jcr.RegisterNode"> 
+		<property name="jcrTemplate" ref="jcrTemplate" /> <property name="namespaces"> 
+		<props> <prop key="cms">http://www.baozun.com/cms/1.0</prop> </props> </property> 
+		<property name="nodeDefinitions"> <list> <value>cnd/cms-nodes.cnd</value> 
+		</list> </property> </bean> -->
+</beans>

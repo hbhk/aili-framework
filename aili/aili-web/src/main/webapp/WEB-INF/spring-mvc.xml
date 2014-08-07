@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="   
+           http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+           http://www.springframework.org/schema/mvc   
+           http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+	<bean id="resourceBean" class="org.hbhk.aili.core.server.context.ResourceRoot"
+		init-method="init" />
+
+	<!-- 约定优于配置，约定优于配置 -->
+
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理-->
+	<mvc:resources mapping="#{resourceBean.resourcePrefix}/images/**"
+		location="/images/" cache-period="31556926"/>
+	<mvc:resources mapping="#{resourceBean.resourcePrefix}/scripts/**"
+		location="/scripts/" />
+	<mvc:resources mapping="#{resourceBean.resourcePrefix}/styles/**"
+		location="/styles/" />
+
+	<!-- 异常统一处理 -->
+	<bean class="org.hbhk.aili.core.server.ex.GlobalExceptionController" />
+	<!-- 扫描所有的controller -->
+	<context:component-scan base-package="org.hbhk.aili.**.server.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+		<!-- <mvc:message-converters register-defaults="false">
+			<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+				<constructor-arg ref="xstreamMarshaller" />
+			</bean>
+			<bean class="com.deppon.ula.module.core.converter.JsonHttpMessageConverter">
+				<property name="enableFieldsEntityFilter" value="true" />
+				<property name="enableNullToEmptybean" value="true" />
+			</bean>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+		</mvc:message-converters> -->
+	</mvc:annotation-driven>
+	<!-- 启用基于注解的处理器映射，添加拦截器，类级别的处理器映射 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
+			<bean class="org.hbhk.aili.core.server.deploy.spring.ModuleInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
+			<bean class="org.hbhk.aili.security.server.security.SecurityInterceptor" />
+		</mvc:interceptor>
+		<!-- 	
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
+			<bean class="org.hbhk.aili.security.server.security.LoginLimitInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		</mvc:interceptor> 
+		-->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
+			<bean
+				class="org.hbhk.aili.core.server.interceptor.PerformanceWatchInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean class="jetbrick.template.web.springmvc.JetTemplateViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+        <property name="suffix" value=".jhtml" />
+        <property name="contentType" value="text/html; charset=UTF-8" />
+        <property name="order" value="8888" />
+    </bean>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+		<property name="order" value="9999" />
+	</bean>
+
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+		<property name="favorParameter" value="true" />
+		<property name="defaultContentType" value="application/json" />
+		<property name="mediaTypes">
+			<value>
+				json=application/json
+				xml=application/xml
+			</value>
+		</property>
+	</bean>
+	<!-- 异常处理 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView">
+			<value>/framework/error/error</value> <!-- 接受界面 -->
+		</property>
+		<property name="defaultStatusCode">
+			<value>500</value> <!-- 错误类型 -->
+		</property>
+		<property name="warnLogCategory"> <!--记录日志处理 -->
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
+			</value>
+		</property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="maxUploadSize" value="200000" />
+		<property name="maxInMemorySize" value="4098"></property>
+	</bean>
+
+	<!--spring 国际化 -->
+	<!-- <bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				配置语言文件的地址的默认配置文件,在这里我是message_zh_CN.properties
+				<value>classpath:org/hbhk/module/framework/server/META-INF/messages/message_zh_CN
+				</value>
+			</list>
+		</property>
+		<property name="cacheSeconds" value="-1" />
+	</bean> -->
+
+</beans>   

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<orm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.hbhk.org/orm/sql"
+	xsi:schemaLocation="http://www.hbhk.org/orm/sql orm.xsd">
+	<insert id="insert" class="insert">
+		<sql>
+		insert
+		</sql>
+	</insert>
+	<delete id="delete" class="delete">
+		<sql>
+		delete
+		</sql>
+	</delete>
+	<update id="update" class="update">
+		<sql>
+		update
+		</sql>
+	</update>
+	<select id="select" class="select">
+		<sql>
+	select
+		</sql>
+	</select>
+
+</orm>

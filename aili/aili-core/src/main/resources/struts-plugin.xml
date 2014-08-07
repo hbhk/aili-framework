@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="hbhk-struts-default" extends="struts-default">
+<!--     	<result-types>
+    		<result-type name="json" class="com.deppon.foss.framework.server.web.result.json.JSONResult"/>
+    		<result-type name="jsonerror" class="com.deppon.foss.framework.server.web.result.json.JsonErrorResult"/>
+    		<result-type name="jsontree" class="com.deppon.foss.framework.server.web.result.json.JSONTreeResult"/>
+    		<result-type name="jsperror" class="com.deppon.foss.framework.server.web.result.JSPErrorResult"/>
+    	</result-types>
+    	    	
+ -->   
+    	<interceptors>
+    	    <interceptor name="module" class="org.hbhk.aili.core.server.deploy.struts.ModuleInterceptor"/>
+    		<!-- <interceptor name="error" class="com.deppon.foss.framework.server.web.interceptor.ExceptionInterceptor"/>
+    		<interceptor name="security" class="com.deppon.foss.framework.server.web.interceptor.SecurityInterceptor"/>
+    		<interceptor name="json" class="com.deppon.foss.framework.server.web.interceptor.JSONInterceptor"/> -->
+    		
+    		<interceptor-stack name="frameworkStack">
+    			<interceptor-ref name="module"/>
+    		<!-- 	<interceptor-ref name="error"/>
+    			<interceptor-ref name="security"/>
+    			<interceptor-ref name="defaultStack"/>
+    			<interceptor-ref name="json"/> -->
+    		</interceptor-stack>
+    	</interceptors>
+    	
+    	<default-interceptor-ref name="frameworkStack"/>
+    	
+    <!-- 	<global-results>
+    		<result name="jspError" type="jsperror"></result>
+    	</global-results> -->
+ </package>
+</struts>

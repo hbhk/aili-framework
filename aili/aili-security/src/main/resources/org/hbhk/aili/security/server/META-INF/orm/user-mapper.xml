@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="aili.user">
+	<resultMap id="userResultMap" type="org.hbhk.aili.security.share.pojo.UserInfo">
+		<result property="id" column="id" />
+		<result property="enable" column="enable" />
+		<result property="password" column="password" />
+		<result property="username" column="username" />
+		<result property="name" column="name" />
+		<result property="mail" column="mail" />
+		<result property="gender" column="gender" />
+	</resultMap>
+
+	<resultMap id="userRoleResultMap" type="org.hbhk.aili.security.share.pojo.UserInfo">
+		<result property="id" column="uid" />
+		<result property="enable" column="uenable" />
+		<result property="password" column="password" />
+		<result property="username" column="username" />
+		<result property="name" column="uname" />
+		<result property="mail" column="mail" />
+		<result property="gender" column="gender" />
+		<collection property="roles"
+			ofType="org.hbhk.aili.security.share.pojo.RoleInfo">
+			<result property="id" column="rid" />
+			<result property="code" column="rcode" />
+			<result property="enable" column="renable" />
+			<result property="name" column="rname" />
+		</collection>
+	</resultMap>
+
+
+	<select id="getMe" resultMap="userRoleResultMap" parameterType="map">
+		SELECT u.id uid,u.enable uenable,password ,username,u.name
+		uname,mail,gender,r.id rid,r.code rcode,r.name rname,r.enable renable
+		from t_aili_user u LEFT JOIN t_aili_user_role ur on u.username =
+		ur.ucode
+		LEFT JOIN t_aili_role r on r.code = ur.rcode
+		where u.username
+		=#{username}
+	</select>
+	
+	<select id="login" resultMap="userResultMap" parameterType="map">
+		SELECT id,username,name,mail,gender
+			from t_aili_user u 
+		where u.username=#{username}
+			and u.password = #{password}
+			and u.enable = 1
+	</select>
+</mapper>

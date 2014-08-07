@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+ 
+<project basedir="." name="security" default="deploy">
+
+	<property name="webapp" value="${basedir}/../aili-web/target/webapp"/>
+
+    <property name="moduleName" value="security"/>
+    <property name="todir-scripts" value="${webapp}/scripts/${moduleName}/"/>
+    <property name="todir-pages" value="${webapp}/WEB-INF/views/${moduleName}/"/>
+	<property name="todir-images" value="${webapp}/WEB-INF/images/${moduleName}/"/>
+    <property name="fromdir" value="${basedir}/src/main/resources/org/hbhk/aili/${ant.project.name}/server/META-INF"/>
+    <property name="scripts" value="${fromdir}/scripts"/>
+    <property name="pages" value="${fromdir}/views"/>
+	<property name="images" value="${fromdir}/images"/>
+ 
+    <target name="deploy">
+        <copy todir="${todir-scripts}" overwrite="true" verbose="true">
+            <fileset dir="${scripts}">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <copy todir="${todir-pages}" overwrite="true" verbose="true">
+            <fileset dir="${pages}">
+                <include name="**" />
+            </fileset>
+        </copy>
+    	 <copy todir="${todir-images}" overwrite="true" verbose="true">
+    	            <fileset dir="${images}">
+    	                <include name="**" />
+    	            </fileset>
+    	  </copy>
+    </target>
+</project>

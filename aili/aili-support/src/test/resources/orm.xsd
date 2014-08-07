@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.hbhk.org/orm/excel"
+	targetNamespace="http://www.hbhk.org/orm/excel" elementFormDefault="qualified">
+
+	<element name="models" type="tns:models"></element>
+
+	<complexType name="models">
+		<sequence>
+			<element name="model" type="tns:model" minOccurs="0"
+				maxOccurs="unbounded">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="model">
+		<sequence>
+			<element name="property" type="tns:property" minOccurs="1"
+				maxOccurs="unbounded">
+			</element>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="class" type="string" use="required" />
+	</complexType>
+	<complexType name="property">
+		<sequence>
+			<element name="map" type="tns:map" minOccurs="0" maxOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="name" type="string" use="required" />
+		<attribute name="column" type="string" use="required" />
+		<attribute name="excelTitleName" type="string" use="required" />
+		<attribute name="dataType" type="string" use="required" />
+		<attribute name="maxLength" type="string" use="optional" />
+		<attribute name="default" type="string" use="optional" />
+		<attribute name="isConvertable" type="string" use="optional" />
+		<attribute name="format" type="string" use="optional" />
+		<attribute name="width" type="string" use="optional" />
+	</complexType>
+	<complexType name="map">
+		<sequence>
+			<element name="entry" type="tns:entry" minOccurs="1"
+				maxOccurs="unbounded">
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="entry">
+		<attribute name="excel_key" type="string" use="optional" />
+		<attribute name="bean_value" type="string" use="optional" />
+	</complexType>
+</schema>

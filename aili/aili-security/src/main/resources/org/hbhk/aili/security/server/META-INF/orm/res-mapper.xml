@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="aili.res">
+
+	<resultMap id="resResultMap"
+		type="org.hbhk.aili.security.share.pojo.ResourceInfo">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="text" column="text" />
+		<result property="url" column="url" />
+		<result property="priority" column="priority" />
+		<result property="type" column="type" />
+		<result property="parentCode" column="parent_code" />
+		<result property="hasChildren" column="hasChildren" />
+		<result property="classes" column="classes" />
+		<result property="expanded" column="expanded" />
+		<result property="active" column="active" />
+		<result property="memo" column="memo" />
+	</resultMap>
+
+	<select id="getResByCode" resultMap="resResultMap"
+		parameterType="map">
+		SELECT id ,text,code ,url,priority,type,memo,
+		parent_code,hasChildren,classes,expanded,active
+		from t_aili_resource
+		where code=#{code}
+	</select>
+
+	<select id="getResByPaCode" resultMap="resResultMap"
+		parameterType="map">
+		SELECT id ,text,code ,url,priority,type,memo,
+		parent_code,hasChildren,classes,expanded,active
+		from t_aili_resource
+		where parent_code=#{pcode}
+	</select>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.hbhk.org/orm/sql"
+	targetNamespace="http://www.hbhk.org/orm/sql" elementFormDefault="qualified">
+
+	<element name="orm" type="tns:orm"></element>
+
+	<complexType name="orm">
+		<sequence>
+			<element name="insert" type="tns:insert" minOccurs="0"
+				maxOccurs="unbounded">
+			</element>
+			<element name="delete" type="tns:delete" minOccurs="0"
+				maxOccurs="unbounded">
+			</element>
+			<element name="update" type="tns:update" minOccurs="0"
+				maxOccurs="unbounded">
+			</element>
+			<element name="select" type="tns:select" minOccurs="0"
+				maxOccurs="unbounded">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="insert">
+		<sequence>
+			<element name="sql" type="string" minOccurs="1" maxOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="class" type="string" use="required" />
+	</complexType>
+	<complexType name="delete">
+		<sequence>
+			<element name="sql" type="string" minOccurs="1" maxOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="class" type="string" use="required" />
+	</complexType>
+	<complexType name="update">
+		<sequence>
+			<element name="sql" type="string" minOccurs="1" maxOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="class" type="string" use="required" />
+	</complexType>
+	<complexType name="select">
+		<sequence>
+			<element name="sql" type="string" minOccurs="1" maxOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="class" type="string" use="required" />
+	</complexType>
+</schema>

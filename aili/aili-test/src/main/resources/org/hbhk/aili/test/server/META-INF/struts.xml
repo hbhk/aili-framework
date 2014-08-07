@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="aili-test" namespace="/aili-test" extends="hbhk-struts">
+		<!-- 模块主页面 -->
+		<action name="index">
+			<result name="success">index.jsp</result>
+		</action>
+
+	</package>
+</struts>

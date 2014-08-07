@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://hbhk.aili.org/schema/hbhk"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://hbhk.aili.org/schema/hbhk"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+	 	schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"/>	
+	
+	<xsd:element name="dao-config">
+		<xsd:complexType>
+			<xsd:attribute name="base-package" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="dao">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:group ref="beans:beanElements" />
+					<xsd:attributeGroup ref="beans:beanAttributes" />
+					<xsd:attribute name="interface" type="xsd:string"/>
+				</xsd:extension>				
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

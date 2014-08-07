@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		">
+
+	<util:properties id="meta" location="classpath:metainfo.properties"/>
+	<!--dataSource -->
+	<bean id="parentSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		p:driverClass="#{meta['dataSource.driverClassName']}">
+		<property name="user" value="#{meta['dataSource.username']}"></property>
+		<property name="password">
+			<value><![CDATA[#{meta['dataSource.password']}]]></value>
+		</property>
+		<property name="minPoolSize" value="#{meta['dataSource.minPoolSize']}" />
+		<property name="maxPoolSize" value="#{meta['dataSource.maxPoolSize']}" />
+		<property name="initialPoolSize" value="#{meta['dataSource.initialPoolSize']}" />
+
+		<property name="maxIdleTime" value="#{meta['dataSource.maxIdleTime']}" />
+
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="#{meta['dataSource.acquireIncrement']}" />
+		<property name="idleConnectionTestPeriod"
+			value="#{meta['dataSource.idleConnectionTestPeriod']}" />
+		<property name="preferredTestQuery">
+			<value><![CDATA[#{meta['dataSource.preferredTestQuery']}]]></value>
+		</property>
+	</bean>
+	<!-- 写节点 -->
+	<bean id="writeSource" parent="parentSource">
+		<property name="jdbcUrl">
+			<value><![CDATA[#{meta['dataSource.url.write']}]]></value>
+		</property>
+	</bean>
+
+	<!-- 读节点 -->
+	<bean id="readSource" parent="parentSource">
+		<property name="jdbcUrl">
+			<value><![CDATA[#{meta['dataSource.url.read']}]]></value>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="org.hbhk.aili.orm.server.datasource.ReadWriteDataSource">
+		<property name="writeDataSource" ref="writeSource" />
+		<property name="readDataSource" ref="readSource" />
+	</bean>
+
+	<!--aop代理切换数据源  -->
+	<bean class="org.hbhk.aili.orm.server.aspect.ReadWriteDataSourceAspect" />
+	
+</beans>

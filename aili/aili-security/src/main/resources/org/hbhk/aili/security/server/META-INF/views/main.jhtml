@@ -1,0 +1,26 @@
+#define(List<UserInfo> userlist)
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+<table>
+  <tr>
+	<td>姓名</td>
+	<td>邮箱</td>
+	<td>性别</td>
+  </tr>
+  #for (UserInfo user : userlist)
+  <tr>
+    <td>${user.name}</td>
+    <td>${user.mail}</td>
+ 	<td>${user.gender}</td>
+  </tr>
+  #end
+</table>
+
+<embed src="http://player.youku.com/player.php/Type/Folder/Fid/22249201/Ob/1/sid/XNzEzNzQ3MTQw/v.swf"
+ quality="high" width="500" height="250" align="middle" allowscriptaccess="always"
+ allowfullscreen="true" mode="transparent" type="application/x-shockwave-flash">
+</body>
+</html>

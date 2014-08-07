@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:context="http://www.springframework.org/schema/context" 
+        xsi:schemaLocation="http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+  <import resource="simplesm-context.xml" />
+  <aop:aspectj-autoproxy />  
+
+  <bean name="defaultMemcachedClient" class="com.google.code.ssm.CacheFactory">
+    <property name="cacheClientFactory">
+      <bean name="cacheClientFactory" class="com.google.code.ssm.providers.xmemcached.MemcacheClientFactoryImpl" />
+    </property>
+    <property name="addressProvider">
+      <bean class="com.google.code.ssm.config.DefaultAddressProvider">
+      <!-- memcached 服务器地址，可配置多个，用“，”号隔开 -->
+        <property name="address" value="127.0.0.1:11211" />
+      </bean>
+    </property>
+    <property name="configuration">
+      <bean class="com.google.code.ssm.providers.CacheConfiguration">
+      <!-- 是否使用哈希 -->
+        <property name="consistentHashing" value="true" />
+      </bean>
+    </property>
+    <!-- 该Memcached配置的Cache名称 一个应用中存在多个Memcached时，各个配置的cacheName必须不同。如果该值未设，系统默认为default 
+    <property name="cacheName" value="mailbill"/>-->
+  </bean>
+  <context:component-scan base-package="org.hbhk.aili.cache.mem"/>
+</beans>

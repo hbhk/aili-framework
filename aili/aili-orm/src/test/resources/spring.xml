@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:hbhk="http://hbhk.aili.org/schema/hbhk"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/jee 
+			http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+			http://hbhk.aili.org/schema/hbhk  
+			http://hbhk.aili.org/schema/hbhk/aili-spring-ext.xsd
+			">
+	<hbhk:dao-config base-package="org.hbhk.aili.**.test" />
+
+	 <!-- <aop:aspectj-autoproxy />  -->
+	 
+	<context:annotation-config />
+	<context:component-scan base-package="org.hbhk.aili.orm.server" />
+	 <bean id="queryInterceptor" class="org.hbhk.aili.orm.server.aspect.QueryInterceptor" />
+	<bean id="genericDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean"
+		abstract="true">
+		<!-- 老的aop方式 -->
+		<!-- <property name="interceptorNames">
+			<list>
+				<value>queryInterceptor</value>
+			</list>
+		</property> -->
+	</bean> 
+	<!-- 新的aop方式 -->
+ 	<aop:aspectj-autoproxy />  
+ 	<bean class="org.hbhk.aili.orm.server.aspect.QueryAspect"></bean>
+ 	
+	<context:property-placeholder location="classpath*:config.properties" />
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${db.driverClass}" />
+		<property name="url" value="${db.jdbcUrl}" />
+		<property name="username" value="${db.user}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+
+</beans>

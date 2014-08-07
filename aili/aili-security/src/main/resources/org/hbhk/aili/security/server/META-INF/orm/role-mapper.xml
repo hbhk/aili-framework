@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="aili.role">
+	<resultMap id="roleResultMap" type="org.hbhk.aili.security.share.pojo.RoleInfo">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="enable" column="enable" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<resultMap id="roleReResultMap" type="org.hbhk.aili.security.share.pojo.RoleInfo">
+		<result property="id" column="roid" />
+		<result property="code" column="rocode" />
+		<result property="enable" column="enable" />
+		<result property="name" column="roname" />
+		<collection property="resources"
+			ofType="org.hbhk.aili.security.share.pojo.ResourceInfo">
+			<result property="id" column="reid" />
+			<result property="code" column="recode" />
+			<result property="text" column="resname" />
+			<result property="url" column="url" />
+			<result property="priority" column="priority" />
+			<result property="type" column="type" />
+			<result property="memo" column="memo" />
+		</collection>
+	</resultMap>
+
+	<select id="getMe" resultMap="roleReResultMap" parameterType="map">
+		SELECT ro.id roid,ro.enable enable,
+			ro.name roname,ro.code rocode,
+			re.id reid,re.code recode ,re.text resname,
+			url,priority,type,memo
+			from t_aili_role ro
+			LEFT JOIN t_aili_role_resource rr on ro.code = rr.rocode
+			LEFT JOIN t_aili_resource re on re.code = rr.recode
+		where ro.code=#{code}
+	</select>
+</mapper>

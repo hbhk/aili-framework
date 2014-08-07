@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jee 
+			http://www.springframework.org/schema/jee/spring-jee.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://cxf.apache.org/jaxws 
+   	 	    http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-xml.xml" />
+
+	<bean id="getInfoService" class="org.hbhk.aili.test.server.ws.impl.GetInfoService"></bean>
+	<!-- <jaxws:endpoint id="getInfoService" implementor="#getInfoService"
+		address="/getInfo"></jaxws:endpoint> -->
+
+	<!-- <bean id="inMessageInterceptor" class="com.hoo.interceptor.MessageInterceptor"> 
+		<constructor-arg value="receive" /> </bean> -->
+
+	<bean id="outLoggingInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+	<!-- 注意下面的address，这里的address的名称就是访问的WebService的name -->
+	<!-- <jaxws:server id="userService" serviceClass="org.hbhk.aili.test.server.ws.impl.GetInfoService" 
+		address="/user"> <jaxws:serviceBean> 要暴露的 bean 的引用 <ref bean="userServiceBean" 
+		/> </jaxws:serviceBean> <jaxws:inInterceptors> <ref bean="inMessageInterceptor" 
+		/> </jaxws:inInterceptors> <jaxws:outInterceptors> <ref bean="outLoggingInterceptor" 
+		/> </jaxws:outInterceptors> </jaxws:server> -->
+</beans>

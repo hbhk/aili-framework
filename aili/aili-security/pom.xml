@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>aili</artifactId>
+		<groupId>org.hbhk.aili</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>aili-security</artifactId>
+	<packaging>jar</packaging>
+
+	<name>aili-security</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-version>3.2.2.RELEASE</spring-version>
+		<security-version>3.1.4.RELEASE</security-version>
+		<moduleName>security</moduleName>
+	</properties>
+	<dependencies>
+
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-core</artifactId>
+			<version>${aili-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-orm</artifactId>
+			<version>${aili-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-cache</artifactId>
+			<version>${aili-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-support</artifactId>
+			<version>${aili-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!-- jetbrick -->
+		<dependency>
+			<groupId>com.github.subchen</groupId>
+			<artifactId>jetbrick-template</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

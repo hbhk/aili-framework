@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hbhk.aili">
+
+	<!-- 
+	CREATE TABLE T_BUSINESS_LOCK(
+	   KEY VARCHAR2(50) NOT NULL, 
+	   VALUE VARCHAR2(50), 
+	   TTL_TIME TIMESTAMP(6)
+	);
+	ALTER TABLE T_MSG_INSTATION ADD PRIMARY KEY (ID);
+	-->
+
+	<!-- 新增业务锁对象 -->
+	<insert id="insert" parameterType="map">
+		<![CDATA[
+			INSERT INTO T_BUSINESS_LOCK (
+				KEY,
+				VALUE,
+				TTL_TIME
+			)VALUES(
+				#{key, jdbcType=VARCHAR},
+				#{value, jdbcType=VARCHAR},
+				sysdate + #{ttl}/86400
+			)
+		]]>
+	</insert>
+
+	<!-- 通过key进行删除 -->
+	<delete id="delete" parameterType="string">
+		<![CDATA[
+			DELETE FROM T_BUSINESS_LOCK WHERE KEY = #{key, jdbcType=VARCHAR}
+		]]>
+	</delete>
+
+	<!-- 通过key列表，批量删除 -->
+	<delete id="deleteBatchByKeys" parameterType="list">
+		DELETE FROM T_BUSINESS_LOCK WHERE KEY IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<!-- 通过删除TTL_TIME时间比现在要小的数据 -->
+	<delete id="deleteTimeoutData">
+		<![CDATA[
+			DELETE FROM T_BUSINESS_LOCK WHERE TTL_TIME < sysdate
+		]]>
+	</delete>
+	
+	<!-- 通过key进行查询value -->
+	<select id="selectByKey" parameterType="string" resultType="string">
+		SELECT VALUE
+		FROM T_BUSINESS_LOCK
+		WHERE KEY = #{key, jdbcType=VARCHAR}
+	</select>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<models xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.hbhk.org/orm/excel"
+	xsi:schemaLocation="http://www.hbhk.org/orm/excel orm.xsd">
+	<model id="deptModel" class="org.hbhk.aili.support.server.DeptModel">
+		<property name="deptName" column="1" excelTitleName="部门名称" dataType="String" maxLength="15" width="50"   default=""/>
+		<property name="deptCode" column="2" excelTitleName="部门编号" dataType="String" maxLength="15" width="50"   default="abc"/>
+		<property name="sendFileName" column="4" excelTitleName="发文简称" width="50"  dataType="String" maxLength="15" isConvertable="true"  default="C">
+			<map>
+				<entry excel_key="永久" bean_value="c"></entry>
+				<entry excel_key="长期1" bean_value="send_1"></entry>
+				<entry excel_key="长期2" bean_value="send_2"></entry>
+				<entry excel_key="长期3" bean_value="send_3"></entry>
+				<entry excel_key="长期4" bean_value="send_4"></entry>
+				<entry excel_key="长期5" bean_value="send_5"></entry>
+			</map>
+		</property>
+		<property name="sendDate" column="3" excelTitleName="时间" width="50"  dataType="Date" format="yyyy-MM-dd HH:mm:ss" maxLength="15"  default="10"/>
+	</model>
+	
+</models>

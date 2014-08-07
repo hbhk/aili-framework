@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>aili</artifactId>
+		<groupId>org.hbhk.aili</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>aili-test</artifactId>
+	<packaging>jar</packaging>
+	<name>aili-test</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-version>3.2.2.RELEASE</spring-version>
+		<security-version>3.1.4.RELEASE</security-version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-job</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<!-- CXF Dependencies -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-simple</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-databinding-aegis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-local</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-jms</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-management</artifactId>
+		</dependency>
+		<!-- End of CXF Dependencies -->
+		<!-- jcr start -->
+		<!-- <dependency>
+			<groupId>org.springframework.extensions</groupId>
+			<artifactId>se-jcr-commons</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.extensions</groupId>
+			<artifactId>se-jcr</artifactId>
+			<version>0.9</version>
+		</dependency> -->
+		<dependency>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<!-- All the Jackrabbit libraries needed for DavEx, plus JcrUtils -->
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-jcr2dav</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-core</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jcrom</groupId>
+			<artifactId>jcrom</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<!-- jcr end -->
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- <plugin> <groupId>org.apache.cxf</groupId> <artifactId>cxf-codegen-plugin</artifactId> 
+				<version>${cxf.version}</version> <executions> <execution> <id>generate-sources</id> 
+				<phase>generate-sources</phase> <configuration> <sourceRoot>generated/cxf</sourceRoot> 
+				<wsdlOptions> <wsdlOption> <wsdl>http://localhost:8082/cxf-spring-test/getInfoService?wsdl</wsdl> 
+				</wsdlOption> </wsdlOptions> </configuration> <goals> <goal>wsdl2java</goal> 
+				</goals> </execution> </executions> </plugin> -->
+		</plugins>
+
+	</build>
+</project>
