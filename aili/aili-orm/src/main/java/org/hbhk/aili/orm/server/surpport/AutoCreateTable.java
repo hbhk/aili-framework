@@ -57,7 +57,8 @@ public class AutoCreateTable implements InitializingBean {
 			String columnName = column.value();
 			if (columnName != null && !columnName.equals(prikey)) {
 				String dbtype = column.dbType();
-				if (StringUtils.isEmpty(dbtype)) {
+				//暂时解决现有项目的兼容 TODO
+				if (dbtype.equals("varchar")) {
 					dbtype = JavaType.getDbType(f.getType());
 				} else {
 					dbtype = dbtype + "(" + column.len() + ")";
