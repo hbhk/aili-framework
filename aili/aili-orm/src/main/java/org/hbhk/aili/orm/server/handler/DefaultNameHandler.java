@@ -100,4 +100,25 @@ public class DefaultNameHandler implements INameHandler {
 		}
 		return columnName;
 	}
+
+	@Override
+	public Column getColumn(Class<?> cls, String fieldName) {
+		Field[] fields = cls.getDeclaredFields();
+		Column column = null;
+		boolean brk = true;
+		for (int i = 0; i < fields.length && brk; i++) {
+			Field field = fields[i];
+			if (field.getName().equals(fieldName)) {
+				PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
+				if (primaryKey != null) {
+					return null;
+				}
+				column = field.getAnnotation(Column.class);
+				if (column == null) {
+					return null;
+				}
+			}
+		}
+		return column;
+	}
 }

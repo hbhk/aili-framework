@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
+import org.hbhk.aili.orm.server.annotation.Column;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.server.handler.INameHandler;
 import org.springframework.beans.factory.InitializingBean;
@@ -52,9 +53,15 @@ public class AutoCreateTable implements InitializingBean {
 				new Field[] {});
 		for (int i = 0; i < field.length; i++) {
 			Field f = field[i];
-			String columnName = nameHandler.getColumnName(cls, f.getName());
+			Column column = nameHandler.getColumn(cls, f.getName());
+			String columnName = column.value();
 			if (columnName != null && !columnName.equals(prikey)) {
-				String dbtype = JavaType.getDbType(f.getType());
+				String dbtype = column.dbType();
+				if (StringUtils.isEmpty(dbtype)) {
+					dbtype = JavaType.getDbType(f.getType());
+				} else {
+					dbtype = dbtype + "(" + column.len() + ")";
+				}
 				sb.append(columnName + " " + dbtype + ",\n");
 			}
 		}
