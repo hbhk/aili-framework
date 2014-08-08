@@ -69,7 +69,7 @@ public class AutoCreateTable implements InitializingBean {
 		sb.append("primary key (" + prikey + ")\n");
 		sb.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 		try {
-			logger.info("自动创建表语句：" + sb.toString());
+			logger.debug("自动创建表语句：" + sb.toString());
 			jdbcTemplate.update(sb.toString());
 		} catch (Exception e) {
 			logger.error("自动创建表语句时错误", e);
