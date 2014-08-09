@@ -75,8 +75,8 @@ public class DefaultNameHandler implements INameHandler {
 	 * 根据属性名获取列名
 	 */
 	@Override
-	public String getColumnName(Class<?> cls, String fieldName) {
-		Field[] fields = cls.getDeclaredFields();
+	public String getColumnName(Class<?> clazz, String fieldName) {
+		Field[] fields = clazz.getFields();
 		Column column = null;
 		boolean brk = true;
 		for (int i = 0; i < fields.length && brk; i++) {
@@ -102,8 +102,7 @@ public class DefaultNameHandler implements INameHandler {
 	}
 
 	@Override
-	public Column getColumn(Class<?> cls, String fieldName) {
-		Field[] fields = cls.getDeclaredFields();
+	public Column getColumn(Field[] fields, String fieldName) {
 		Column column = null;
 		boolean brk = true;
 		for (int i = 0; i < fields.length && brk; i++) {

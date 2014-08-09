@@ -1,5 +1,7 @@
 package org.hbhk.aili.orm.server.handler;
 
+import java.lang.reflect.Field;
+
 import org.hbhk.aili.orm.server.annotation.Column;
 
 /**
@@ -29,7 +31,7 @@ public interface INameHandler {
 	 * @param fieldName
 	 * @return
 	 */
-	String getColumnName(Class<?> cls, String fieldName);
+	String getColumnName(Class<?> clazz , String fieldName);
 
-	Column getColumn(Class<?> cls, String fieldName);
+	Column getColumn(Field[] fields, String fieldName);
 }

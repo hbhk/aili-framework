@@ -49,15 +49,19 @@ public class AutoCreateTable implements InitializingBean {
 		String prikey = nameHandler.getPrimaryName(cls);
 		sb.append(prikey + " varchar(255),\n");
 		List<Field> fields = new ArrayList<Field>();
-		Field field[] = getParentClassFields(fields, cls).toArray(
+		getParentClassFields(fields, cls).toArray(
 				new Field[] {});
-		for (int i = 0; i < field.length; i++) {
-			Field f = field[i];
-			Column column = nameHandler.getColumn(cls, f.getName());
+		Field[]  fs = fields.toArray(new Field[]{});
+		for (int i = 0; i < fields.size(); i++) {
+			Field f = fields.get(i);
+			Column column = nameHandler.getColumn(fs, f.getName());
+			if (column == null) {
+				continue;
+			}
 			String columnName = column.value();
 			if (columnName != null && !columnName.equals(prikey)) {
 				String dbtype = column.dbType();
-				//暂时解决现有项目的兼容 TODO
+				// 暂时解决现有项目的兼容 TODO
 				if (dbtype.equals("varchar")) {
 					dbtype = JavaType.getDbType(f.getType());
 				} else {
