@@ -10,6 +10,8 @@ public interface IUserService {
 	
 	UserInfo save(UserInfo user);
 	
+	UserInfo update(UserInfo user);
+	
 	boolean validate(String url);
 	boolean validate(String username,String url);
 	void logout();

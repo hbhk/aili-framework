@@ -12,6 +12,7 @@ import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.share.ex.BusinessException;
 import org.hbhk.aili.core.share.util.EncryptUtil;
 import org.hbhk.aili.security.server.cache.LoginLimitCache;
+import org.hbhk.aili.security.server.cache.UserCache;
 import org.hbhk.aili.security.server.cache.UserResourceCache;
 import org.hbhk.aili.security.server.context.LoginLimitContext;
 import org.hbhk.aili.security.server.context.UserContext;
@@ -37,7 +38,7 @@ public class UserService implements IUserService {
 	@Override
 	public UserInfo getMe(String username) {
 		UserInfo u = new UserInfo();
-		u.setUsername(username);
+		u.setMail(username);
 		return userDao.getOne(u);
 	}
 
@@ -124,6 +125,17 @@ public class UserService implements IUserService {
 
 	public void setDefaultHead(String defaultHead) {
 		this.defaultHead = defaultHead;
+	}
+
+	@Override
+	public UserInfo update(UserInfo user) {
+		ICache<String, UserInfo> usercache = CacheManager.getInstance()
+				.getCache(UserCache.cacheID);
+		String username= UserContext.getCurrentContext().getCurrentUserName();
+		UserInfo cuser = usercache.get(username);
+		user.setId(cuser.getId());
+		usercache.invalid(username);
+		return userDao.update(user);
 	}
 
 }
