@@ -29,8 +29,8 @@
 		</property>
 	</bean>
 	<bean id="emailService" class="org.hbhk.aili.support.server.email.impl.EmailService">
-		<property name="sender" ref="mailSender"/>
-		<property name="from" value="hbhk888918@sina.com"/>
+		<property name="mailSender" ref="mailSender"/>
+		<property name="toFromEmail" value="hbhk888918@sina.com"/>
 	</bean>
 
 </beans>
