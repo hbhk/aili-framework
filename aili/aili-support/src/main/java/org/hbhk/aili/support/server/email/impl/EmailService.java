@@ -158,4 +158,21 @@ public class EmailService implements IEmailService {
 		return context;
 	}
 
+	public JavaMailSender getMailSender() {
+		return mailSender;
+	}
+
+	public void setMailSender(JavaMailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+
+	public String getToFromEmail() {
+		return toFromEmail;
+	}
+
+	public void setToFromEmail(String toFromEmail) {
+		this.toFromEmail = toFromEmail;
+	}
+
+	
 }
