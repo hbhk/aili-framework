@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Component;
 public class EmailService implements IEmailService {
 
 	private Log log = LogFactory.getLog(getClass());
+	private Executor executor = Executors.newFixedThreadPool(10);
 	@Autowired
 	protected JavaMailSender mailSender;
 	@Value("${toFromEmail}")
@@ -95,33 +98,59 @@ public class EmailService implements IEmailService {
 	}
 
 	@Override
-	public void sendEmail(EmailInfo email) throws MessagingException,
+	public void sendEmail(final EmailInfo email) throws MessagingException,
 			ResourceNotFoundException, IOException {
-		MimeMessage msg = mailSender.createMimeMessage();
-		// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
-		MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8");
-		helper.setTo(email.getEmail()); // 邮件接收地址
-		helper.setFrom(toFromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
-		helper.setSubject(email.getSubject()); // 主题
-		// String htmlText = getMailText(content); // 使用模板生成html邮件内容
-		helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
-		mailSender.send(msg); // 发送邮件
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				MimeMessage msg = mailSender.createMimeMessage();
+				// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
+				MimeMessageHelper helper;
+				try {
+					helper = new MimeMessageHelper(msg, true, "utf-8");
+					helper.setTo(email.getEmail()); // 邮件接收地址
+					helper.setFrom(toFromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+					helper.setSubject(email.getSubject()); // 主题
+					// String htmlText = getMailText(content); // 使用模板生成html邮件内容
+					helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
+					mailSender.send(msg); // 发送邮件
+				} catch (Exception e) {
+					log.error("sead emial error", e);
+				}
+
+			}
+		});
+
 	}
 
 	@Override
-	public void sendBatchEmail(List<EmailInfo> emails)
+	public void sendBatchEmail(final List<EmailInfo> emails)
 			throws MessagingException {
-		for (EmailInfo email : emails) {
-			MimeMessage msg = mailSender.createMimeMessage();
-			// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
-			MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8");
-			helper.setTo(email.getEmail()); // 邮件接收地址
-			helper.setFrom(toFromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
-			helper.setSubject(email.getSubject()); // 主题
-			// String htmlText = getMailText(content); // 使用模板生成html邮件内容
-			helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
-			mailSender.send(msg); // 发送邮件
-		}
+		executor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				for (EmailInfo email : emails) {
+					try {
+						MimeMessage msg = mailSender.createMimeMessage();
+						// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
+						MimeMessageHelper helper = new MimeMessageHelper(msg,
+								true, "utf-8");
+						helper.setTo(email.getEmail()); // 邮件接收地址
+						helper.setFrom(toFromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+						helper.setSubject(email.getSubject()); // 主题
+						// String htmlText = getMailText(content); //
+						// 使用模板生成html邮件内容
+						helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
+						mailSender.send(msg); // 发送邮件
+					} catch (Exception e) {
+						log.error("sead emial error", e);
+					}
+
+				}
+			}
+		});
+
 	}
 
 	public String setContext(String msg) throws ResourceNotFoundException,
@@ -174,5 +203,4 @@ public class EmailService implements IEmailService {
 		this.toFromEmail = toFromEmail;
 	}
 
-	
 }
