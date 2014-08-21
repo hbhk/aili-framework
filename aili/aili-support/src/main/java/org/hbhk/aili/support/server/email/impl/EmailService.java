@@ -31,8 +31,8 @@ public class EmailService implements IEmailService {
 	private Executor executor = Executors.newFixedThreadPool(10);
 	@Autowired
 	protected JavaMailSender mailSender;
-	@Value("${toFromEmail}")
-	private String toFromEmail;
+	@Value("${toEmail}")
+	private String toEmail;
 
 	/**
 	 * 发送带模板的单个html格式邮件
@@ -109,7 +109,7 @@ public class EmailService implements IEmailService {
 				try {
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(email.getEmail()); // 邮件接收地址
-					helper.setFrom(toFromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+					helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 					helper.setSubject(email.getSubject()); // 主题
 					// String htmlText = getMailText(content); // 使用模板生成html邮件内容
 					helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
@@ -137,7 +137,7 @@ public class EmailService implements IEmailService {
 						MimeMessageHelper helper = new MimeMessageHelper(msg,
 								true, "utf-8");
 						helper.setTo(email.getEmail()); // 邮件接收地址
-						helper.setFrom(toFromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+						helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 						helper.setSubject(email.getSubject()); // 主题
 						// String htmlText = getMailText(content); //
 						// 使用模板生成html邮件内容
@@ -195,12 +195,12 @@ public class EmailService implements IEmailService {
 		this.mailSender = mailSender;
 	}
 
-	public String getToFromEmail() {
-		return toFromEmail;
+	public String getToEmail() {
+		return toEmail;
 	}
 
-	public void setToFromEmail(String toFromEmail) {
-		this.toFromEmail = toFromEmail;
+	public void setToEmail(String toEmail) {
+		this.toEmail = toEmail;
 	}
 
 }
