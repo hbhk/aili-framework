@@ -1,6 +1,7 @@
 package org.hbhk.aili.orm.server.surpport;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Page implements Serializable{
 
@@ -12,6 +13,7 @@ public class Page implements Serializable{
 	private int start;
 	private int size = 0;
 	
+	private  List<String> sorts;
 	public Page(){}
 	
 	public Page(int startPage, int size){
@@ -34,4 +36,14 @@ public class Page implements Serializable{
 	public void setSize(int size) {
 		this.size = size;
 	}
+
+	public List<String> getSorts() {
+		return sorts;
+	}
+
+	public void setSorts(List<String> sorts) {
+		this.sorts = sorts;
+	}
+	
+	
 }
