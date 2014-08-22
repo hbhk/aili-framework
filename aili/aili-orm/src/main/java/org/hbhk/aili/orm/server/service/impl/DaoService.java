@@ -318,8 +318,21 @@ public class DaoService implements IDaoService {
 		SqlContext context = SqlUtil.buildQuerySql(model, nameHandler);
 		String queryString = context.getSql().toString();
 		// (pageNow-1)*pageSize,pageSize;
+		List<String> sorts = page.getSorts();
+		if (CollectionUtils.isNotEmpty(sorts)) {
+			for (int i = 0; i < sorts.size(); i++) {
+				String sort = sorts.get(i);
+				if (i == sorts.size() - 1) {
+					queryString = queryString + " order by " + sort;
+				} else {
+					queryString = queryString + " order by " + sort + ",";
+				}
+
+			}
+		}
 		queryString = queryString + " limit " + page.getStart() + ","
 				+ page.getSize();
+
 		List<Object> args = context.getParams();
 		return jdbcTemplate.query(queryString, rowMapper, args.toArray());
 	}
