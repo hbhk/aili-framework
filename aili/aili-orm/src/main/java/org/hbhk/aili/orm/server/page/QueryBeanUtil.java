@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.orm.server.page.bean.QueryBean;
 import org.hbhk.aili.orm.server.page.bean.QueryPara;
 import org.hbhk.aili.orm.server.surpport.Sort;
@@ -44,22 +44,37 @@ public class QueryBeanUtil {
 			queryBean.setSorts(Sort.parse(sortStr));
 		}
 		Map<String, Object> queryParaMap = new HashMap<String, Object>();
-		for(Object keyObject:request.getParameterMap().keySet()){
-			String key = keyObject.toString();
-			if(QueryPara.isQueryPara(key)){
-				
-				String value = request.getParameter(key);
-				//若值为null不做处理
-				if(StringUtils.isBlank(value)){
-					continue;
-				}
-				//去空格处理
-				value=value.trim();
-				
-				QueryPara queryPara = QueryPara.parse(key);
-	
-				queryParaMap.put(queryPara.getName(), dealType(queryPara.getType(),value));
-			}
+//		for(Object keyObject:request.getParameterMap().keySet()){
+//			String key = keyObject.toString();
+//			//if(QueryPara.isQueryPara(key)){
+//				if(key.equalsIgnoreCase("page.start") 
+//						|| key.equalsIgnoreCase("page.size")
+//						|| key.equalsIgnoreCase("page.size")){
+//					continue;
+//				}
+//				String value = request.getParameter(key);
+//				//若值为null不做处理
+//				if(StringUtils.isBlank(value)){
+//					continue;
+//				}
+//				//去空格处理
+//				value=value.trim();
+//				
+//				//QueryPara queryPara = QueryPara.parse(key);
+//	
+//				//queryParaMap.put(queryPara.getName(), dealType(queryPara.getType(),value));
+//				queryParaMap.put(key, value);
+//			//}
+//		}
+		
+//		if(!key.equalsIgnoreCase("searchField") 
+//				|| !key.equalsIgnoreCase("searchString")){
+//			continue;
+//		}
+		String qkey =  request.getParameter("searchField");
+		String qvalue =  request.getParameter("searchString");
+		if(StringUtils.isNotEmpty(qkey) &&StringUtils.isNotEmpty(qvalue)){
+			queryParaMap.put(qkey, qvalue);
 		}
 		queryBean.setParaMap(queryParaMap);
 		return queryBean;
