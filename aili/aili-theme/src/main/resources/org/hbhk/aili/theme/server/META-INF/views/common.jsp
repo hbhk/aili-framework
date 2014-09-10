@@ -9,6 +9,6 @@
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
 		 var base="${base}";
-		 var UserContext = {'user':'${cuser}','name':'${cuserName}'};
+		 var UserContext = {'user':'${cuser}','name':'${cuserName}','head':'${head}'};
 	</script>
 </head>
