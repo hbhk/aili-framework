@@ -69,5 +69,11 @@
 			<version>2.1.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>
