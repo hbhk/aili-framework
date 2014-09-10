@@ -1,6 +1,7 @@
 package org.hbhk.aili.security.server.service.impl;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -11,6 +12,9 @@ import org.hbhk.aili.cache.server.ICache;
 import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.share.ex.BusinessException;
 import org.hbhk.aili.core.share.util.EncryptUtil;
+import org.hbhk.aili.orm.server.surpport.Page;
+import org.hbhk.aili.orm.server.surpport.Sort;
+import org.hbhk.aili.orm.share.model.Pagination;
 import org.hbhk.aili.security.server.cache.LoginLimitCache;
 import org.hbhk.aili.security.server.cache.UserCache;
 import org.hbhk.aili.security.server.cache.UserResourceCache;
@@ -132,10 +136,18 @@ public class UserService implements IUserService {
 		ICache<String, UserInfo> usercache = CacheManager.getInstance()
 				.getCache(UserCache.cacheID);
 		String username= UserContext.getCurrentContext().getCurrentUserName();
-		UserInfo cuser = usercache.get(username);
-		user.setId(cuser.getId());
-		usercache.invalid(username);
+		if(StringUtils.isNotEmpty(username)){
+			UserInfo cuser = usercache.get(username);
+			user.setId(cuser.getId());
+			usercache.invalid(username);
+		}
 		return userDao.update(user);
+	}
+
+	@Override
+	public Pagination<UserInfo> queryUsersByPage(Page page, Sort sort,
+			Map<String, Object> params) {
+		return userDao.queryUsersByPage(page, sort, params);
 	}
 
 }
