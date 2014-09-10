@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class GetbrickTemplate implements IGetbrickTemplate {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
-
+	private static JetEngine engine = JetEngine.create();
 	@Override
 	public String setContextData(Map<String, Object> context, String id) {
 		JetTemplate template = getTemplate(id);
@@ -31,7 +31,6 @@ public class GetbrickTemplate implements IGetbrickTemplate {
 
 	@Override
 	public JetTemplate getTemplate(String id) throws ResourceNotFoundException {
-		JetEngine engine = JetEngine.create();
 		String sql = OrmContext.getSql(id);
 		log.debug("jet-template-sql:" + sql);
 		// 获取一个模板对象
