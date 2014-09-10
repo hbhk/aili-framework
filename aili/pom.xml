@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hbhk.aili</groupId>
 	<artifactId>aili</artifactId>
@@ -8,7 +7,7 @@
 	<packaging>pom</packaging>
 	<name>aili</name>
 	<url>http://maven.apache.org</url>
-	<licenses></licenses>
+	<licenses/>
 	<scm>
 		<connection>scm:git:git://github.com/hbhk/aili-repo.git</connection>
 		<url>scm:git:git://github.com/hbhk/aili-repo.git</url>
@@ -36,7 +35,8 @@
 		<module>aili-test</module>
 		<module>aili-support</module>
 		<module>aili-struts-mvc</module>
-	</modules>
+    <module>aili-gen</module>
+  </modules>
 
 	<properties>
 		<aili-version>1.0.0-SNAPSHOT</aili-version>
@@ -296,7 +296,7 @@
 				<artifactId>itext</artifactId>
 				<version>1.2.3</version>
 			</dependency>
-			<!-- 验证�? -->
+			<!-- 验证�? -->
 			<dependency>
 				<groupId>com.github.axet</groupId>
 				<artifactId>kaptcha</artifactId>
@@ -464,13 +464,13 @@
 				<artifactId>jetbrick-template</artifactId>
 				<version>1.2.2</version>
 			</dependency>
-			<!-- 这是针对xmemcached 客户�? -->
+			<!-- 这是针对xmemcached 客户�? -->
 			<dependency>
 				<groupId>com.google.code.simple-spring-memcached</groupId>
 				<artifactId>xmemcached-provider</artifactId>
 				<version>${memcached-version}</version>
 			</dependency>
-			<!-- 这是针对spymemcached客户�? -->
+			<!-- 这是针对spymemcached客户�? -->
 			<dependency>
 				<groupId>com.google.code.simple-spring-memcached</groupId>
 				<artifactId>spymemcached-provider</artifactId>
@@ -668,7 +668,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<execute/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

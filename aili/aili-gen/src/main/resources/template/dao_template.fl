@@ -1,0 +1,99 @@
+package org.hbhk.${projectName}.${moduleName}.server.dao;
+
+import java.util.List;
+import java.util.Map;
+import org.hbhk.aili.orm.server.annotation.NativeQuery;
+import org.hbhk.aili.orm.server.annotation.NativeUpdate;
+import org.hbhk.aili.orm.server.annotation.QueryParam;
+import org.hbhk.aili.orm.server.dao.GenericEntityDao;
+import org.hbhk.aili.orm.server.surpport.Page;
+import org.hbhk.aili.orm.server.surpport.Sort;
+import org.hbhk.aili.orm.share.model.Pagination;
+import ${entityPackagName};
+
+/**
+ * ${entityName}Dao
+ * @author  ${authName}
+ *
+ */
+public interface I${entityName}Dao extends GenericEntityDao<${entityName},String>{
+
+	/**
+	 * 获取所有${entityName}列表
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	List<${entityName}> findAll${entityName}List();
+	
+	/**
+	 * 通过ids获取${entityName}列表
+	 * @param ids
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	List<${entityName}> find${entityName}ListByIds(@QueryParam("ids")List<Long> ids);
+	
+	/**
+	 * 通过参数map获取${entityName}列表
+	 * @param paraMap
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	List<${entityName}> find${entityName}ListByQueryMap(@QueryParam Map<String, Object> paraMap);
+	
+	/**
+	 * 分页获取${entityName}列表
+	 * @param start
+	 * @param size
+	 * @param paraMap
+	 * @param sorts 
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	Pagination<${entityName}> find${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,@QueryParam Map<String, Object> paraMap);
+	
+	
+	<#if lifecycle !="">
+	
+	/**
+	 * 通过ids批量启用或禁用${entityName}
+	 * 设置${lifecycle} =0 或 1
+	 * @param ids
+	 * @return
+	 */
+	@NativeUpdate
+	void updateStatus${entityName}ByIds(@QueryParam("ids")List<Long> ids,@QueryParam("state")Integer status);
+	
+	/**
+	 * 获取有效的${entityName}列表
+	 * ${lifecycle} =1
+	 * @param ids
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	List<${entityName}> findAllEffect${entityName}List();
+	
+	/**
+	 * 通过参数map获取有效的${entityName}列表
+	 * 强制加上${lifecycle} =1
+	 * @param paraMap
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	List<${entityName}> findEffect${entityName}ListByQueryMap(@QueryParam Map<String, Object> paraMap);
+	
+	/**
+	 * 分页获取有效的${entityName}列表
+	 * 强制加上${lifecycle} =1
+	 * @param start
+	 * @param size
+	 * @param paraMap
+	 * @param sorts 
+	 * @return
+	 */
+	@NativeQuery(model = ${entityName}.class)
+	Pagination<${entityName}> findEffect${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,@QueryParam Map<String, Object> paraMap);
+	
+	</#if>
+	
+}

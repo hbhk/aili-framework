@@ -1,0 +1,5 @@
+					<#list propertyList as item>
+	       				#if(${item.fieldName})
+	       					and ${item.columnName} = ${item.jetName}
+	       				#end
+		       		</#list>

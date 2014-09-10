@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<orm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.hbhk.org/orm/sql"
+	xsi:schemaLocation="http://www.hbhk.org/orm/sql orm.xsd">
+	<select id="${entityName}.findAll${entityName}List">
+		<sql>
+			select * from ${tableName} 
+	       		<#if lifecycle !="" && hasDeleteLifecycle>
+	       			 where ${lifecycle} !=2
+	       		</#if>
+		</sql>
+	</select>
+	<select id="${entityName}.find${entityName}ListByIds">
+		<sql>
+			select * from ${tableName} where 
+		       		id in (
+		       		#for (id : ids)
+		       			id,
+					#end
+		       		 -1)
+		</sql>
+	</select>
+	<select id="${entityName}.find${entityName}ListByQueryMap">
+		<sql>
+			select * from ${tableName} where 
+					<#if lifecycle !="" && hasDeleteLifecycle>
+		       			${lifecycle} !=2
+		       		<#else>
+		       			1=1	
+		       		</#if>
+		       		<#include "xml_template_condition.fl">
+		</sql>
+	</select>
+	<select id="${entityName}.find${entityName}ListByQueryMapWithPage">
+		<sql>
+			select * from ${tableName} 
+	       		<#if lifecycle !="" && hasDeleteLifecycle>
+	       			 where ${lifecycle} !=2
+	       		</#if>
+		</sql>
+	</select>
+	<#if lifecycle !="">
+	
+	<select id="${entityName}.findAllEffect${entityName}List">
+		<sql>
+			select * from ${tableName} where ${lifecycle}=1
+		</sql>
+	</select>
+	<select id="${entityName}.findEffect${entityName}ListByQueryMap">
+		<sql>
+			select * from ${tableName} where ${lifecycle}=1
+		       		<#include "xml_template_condition.fl">
+		</sql>
+	</select>
+	<select id="${entityName}.findEffect${entityName}ListByQueryMapWithPage">
+		<sql>
+			select * from ${tableName} where ${lifecycle}=1
+		       		<#include "xml_template_condition.fl">
+		</sql>
+	</select>
+	
+	<update id="${entityName}.enableOrDisable${entityName}ByIds">
+			<sql>
+			update ${tableName}
+		       		set ${lifecycle}=${r'${status}'}
+		       		 where 
+		       		id in (
+		       		#for (id : ids)
+		       			id,
+					#end
+		       		 -1)
+			</sql>
+	</update>
+	</#if>	
+</orm>
+
