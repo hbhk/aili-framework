@@ -83,7 +83,7 @@ public class OrmContext {
 
 	private static void keyExit(String key) {
 		if (context.containsKey(key)) {
-			throw new RuntimeException("key is exits:"+key);
+			throw new RuntimeException("id is exits:"+key);
 		}
 	}
 
