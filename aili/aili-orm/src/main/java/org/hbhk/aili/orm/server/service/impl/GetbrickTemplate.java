@@ -38,11 +38,11 @@ public class GetbrickTemplate implements IGetbrickTemplate {
 		log.debug("jet-template-sql:" + sql);
 		JetTemplate template = null;
 		// 获取一个模板对象
-		if (ormTemplateCache.containsKey(sql)) {
-			template = ormTemplateCache.get(sql);
+		if (ormTemplateCache.containsKey(id)) {
+			template = ormTemplateCache.get(id);
 		} else {
 			template = engine.createTemplate(sql);
-			ormTemplateCache.put(sql, template);
+			ormTemplateCache.put(id, template);
 		}
 		return template;
 	}
