@@ -96,7 +96,7 @@ public class SecurityController extends BaseController {
 			return returnException("注册失败");
 		}
 	}
-
+	
 	@RequestMapping("/validateEmail")
 	@ResponseBody
 	public ResponseEntity getUserByMail(String mail) {
