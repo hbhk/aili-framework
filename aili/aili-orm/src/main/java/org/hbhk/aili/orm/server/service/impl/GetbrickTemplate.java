@@ -1,6 +1,7 @@
 package org.hbhk.aili.orm.server.service.impl;
 
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import jetbrick.template.JetEngine;
@@ -18,6 +19,8 @@ public class GetbrickTemplate implements IGetbrickTemplate {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	private static JetEngine engine = JetEngine.create();
+	private Map<String, JetTemplate> ormTemplateCache = new HashMap<String, JetTemplate>();
+
 	@Override
 	public String setContextData(Map<String, Object> context, String id) {
 		JetTemplate template = getTemplate(id);
@@ -33,8 +36,13 @@ public class GetbrickTemplate implements IGetbrickTemplate {
 	public JetTemplate getTemplate(String id) throws ResourceNotFoundException {
 		String sql = OrmContext.getSql(id);
 		log.debug("jet-template-sql:" + sql);
+		JetTemplate template = null;
 		// 获取一个模板对象
-		JetTemplate template = engine.createTemplate(sql);
+		if (ormTemplateCache.containsKey(sql)) {
+			template = ormTemplateCache.get(sql);
+		} else {
+			template = engine.createTemplate(sql);
+		}
 		return template;
 	}
 
