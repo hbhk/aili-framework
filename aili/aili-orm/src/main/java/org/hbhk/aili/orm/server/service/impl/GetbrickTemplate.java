@@ -19,7 +19,7 @@ public class GetbrickTemplate implements IGetbrickTemplate {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	private static JetEngine engine = JetEngine.create();
-	private Map<String, JetTemplate> ormTemplateCache = new HashMap<String, JetTemplate>();
+	private static Map<String, JetTemplate> ormTemplateCache = new HashMap<String, JetTemplate>();
 
 	@Override
 	public String setContextData(Map<String, Object> context, String id) {
@@ -42,6 +42,7 @@ public class GetbrickTemplate implements IGetbrickTemplate {
 			template = ormTemplateCache.get(sql);
 		} else {
 			template = engine.createTemplate(sql);
+			ormTemplateCache.put(sql, template);
 		}
 		return template;
 	}
