@@ -177,13 +177,13 @@ public class DaoService implements IDaoService {
 	@Override
 	public <T> List<T> findByNativeQuery(String queryString, Object[] params,
 			RowMapper<T> rowMapper) {
-		return (List<T>) jdbcTemplate.query(queryString, rowMapper);
+		return (List<T>) jdbcTemplate.query(queryString, rowMapper,params);
 	}
 
 	@Override
 	public <T> List<T> findByNativeQuery(String queryString, Object[] params,
 			Sort[] sorts, RowMapper<T> rowMapper) {
-		return (List<T>) jdbcTemplate.query(queryString, rowMapper);
+		return (List<T>) jdbcTemplate.query(queryString, rowMapper,params);
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class DaoService implements IDaoService {
 			int start, int pageSize, RowMapper<T> rowMapper) {
 		queryString = pageQueryProvider.getPagableQuery(queryString, start,
 				pageSize);
-		return (List<T>) jdbcTemplate.query(queryString, rowMapper);
+		return (List<T>) jdbcTemplate.query(queryString, rowMapper,params);
 	}
 
 	@Override
@@ -199,11 +199,11 @@ public class DaoService implements IDaoService {
 			Sort[] sorts, int start, final int pageSize,
 			final RowMapper<T> rowMapper) {
 		if (start == -1 && pageSize == -1) {
-			return (List<T>) jdbcTemplate.query(queryString, rowMapper);
+			return (List<T>) jdbcTemplate.query(queryString, rowMapper,params);
 		}
 		queryString = pageQueryProvider.getPagableQuery(queryString, start,
 				pageSize);
-		return (List<T>) jdbcTemplate.query(queryString, rowMapper);
+		return (List<T>) jdbcTemplate.query(queryString, rowMapper,params);
 	}
 
 	@Override
@@ -225,7 +225,7 @@ public class DaoService implements IDaoService {
 	@Override
 	public <T> T findOneByNativeQuery(String queryString, Object[] params,
 			RowMapper<T> rowMapper, Sort[] sorts) {
-		return (T) jdbcTemplate.query(queryString, rowMapper).get(0);
+		return (T) jdbcTemplate.query(queryString, rowMapper,params).get(0);
 	}
 
 	@Override
