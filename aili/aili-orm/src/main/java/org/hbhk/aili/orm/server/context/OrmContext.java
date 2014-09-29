@@ -22,16 +22,13 @@ public class OrmContext {
 
 	private static Log log = LogFactory.getLog(OrmContext.class);
 	private static Map<String, Object> context = new ConcurrentHashMap<String, Object>();
-	private static String path = "orm.auotscan.module";
-	private static String filename = "orm.auotscan.filename";
-
+	private static String path = "orm.auotscan.path";
 	public static void init() throws IOException {
 		FileAsStringUtil scanUtil = new FileAsStringUtil();
 		OrmConvertor convertor = new OrmConvertor();
 
 		List<String> orms = scanUtil.scanBeansXml(
-				PropertiesUtil.getPValue(path),
-				PropertiesUtil.getPValue(filename));
+				PropertiesUtil.getPValue(path));
 		for (String str : orms) {
 			Orm orm = convertor.toMessage(str);
 			List<Insert> inserts = orm.getInsert();
@@ -71,6 +68,7 @@ public class OrmContext {
 			try {
 				init();
 			} catch (IOException e) {
+				context.clear();
 				log.error("orm error", e);
 				throw new RuntimeException(e);
 			}
@@ -83,6 +81,7 @@ public class OrmContext {
 
 	private static void keyExit(String key) {
 		if (context.containsKey(key)) {
+			context.clear();
 			throw new RuntimeException("id is exits:"+key);
 		}
 	}

@@ -11,7 +11,7 @@ public class FileScanUtilTest {
 		// List<String> paths = f.getFilePath("org/hbhk/");
 		// System.out.println(paths.size());
 		String dirPath = "org/hbhk/aili";
-		List<String> xmls = f.scanBeansXml(dirPath, "orm.xml");
+		List<String> xmls = f.scanBeansXml(dirPath);
 		for (String string : xmls) {
 			System.out.println(string);
 		}
