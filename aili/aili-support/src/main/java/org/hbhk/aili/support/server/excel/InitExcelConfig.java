@@ -11,15 +11,13 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class InitExcelConfig implements InitializingBean {
 
-	private String moduleName;
-	private String fileName;
+	private String path;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		FileAsStringUtil stringUtil = new FileAsStringUtil();
 		// 获取所有excel配置文件
-		List<String> excelConfig = stringUtil
-				.scanBeansXml(moduleName, fileName);
+		List<String> excelConfig = stringUtil.scanBeansXml(path);
 		if (excelConfig != null && excelConfig.size() != 0) {
 			ExcelConvertor convertor = new ExcelConvertor();
 			for (String str : excelConfig) {
@@ -38,20 +36,13 @@ public class InitExcelConfig implements InitializingBean {
 		}
 	}
 
-	public String getModuleName() {
-		return moduleName;
+	public String getPath() {
+		return path;
 	}
 
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 
 }
