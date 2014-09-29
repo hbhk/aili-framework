@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.web.WebApplicationContextHolder;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -12,6 +15,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * 提供文件操作的的工具类
  */
 public final class FileLoadUtil {
+	
+	private static Log  log = LogFactory.getLog(FileLoadUtil.class);
 	/**
 	 * 
 	 * <p>
@@ -26,6 +31,26 @@ public final class FileLoadUtil {
 		return resources;
 	}
 
+	public static Resource[] getResourcesForClasspathByPath(String path) throws IOException {
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		if(StringUtils.isEmpty(path)){
+			return null;
+		}
+		if(!path.startsWith("classpath*:")){
+			path = "classpath*:"+path;
+		}
+		Resource[] resources = resolver.getResources(path);
+		if(log.isDebugEnabled()){
+			if(resources!=null && resources.length>0){
+				for (Resource resource : resources) {
+					String name = resource.getFilename();
+					log.debug("file info:"+ path+":"+name);
+				}
+			}
+		}
+		
+		return resources;
+	}
 	
 	public static Resource getResourceForClasspath(String moduleName,String fileName)
 			throws IOException {

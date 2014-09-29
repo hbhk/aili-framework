@@ -25,21 +25,14 @@ public class FileAsStringUtil {
 
 	private Log log = LogFactory.getLog(getClass());
 
-	public List<String> scanBeansXml(String moduleName, String filename)
+	public List<String> scanBeansXml(String path)
 			throws IOException {
-		Resource[] resources = null;
-		if (StringUtils.isNotEmpty(filename)) {
-			resources = FileLoadUtil.getResourcesForClasspath(moduleName,
-					filename);
-		} else {
-			resources = FileLoadUtil.getResourcesForClasspath(moduleName,
-					"orm.xml");
-		}
+		Resource[] resources  =FileLoadUtil.getResourcesForClasspathByPath(path);
 		List<String> beansXml = new ArrayList<String>();
 		for (Resource res : resources) {
 			URL url = res.getURL();
 			if (url == null) {
-				throw new IOException(moduleName + "找不到");
+				throw new IOException(path + "找不到");
 			}
 			String protocol = url.getProtocol();
 			log.debug("protocol:" + protocol);
@@ -55,13 +48,8 @@ public class FileAsStringUtil {
 					if (!name.startsWith("org/hbhk") || entry.isDirectory()) {
 						continue;
 					}
-					// if (!name.endsWith("orm.xml")) {
-					// continue;
-					// }
-					if (StringUtils.isNotEmpty(filename)) {
-						if (!name.endsWith(filename)) {
-							continue;
-						}
+					if (!name.endsWith(".xml")) {
+						continue;
 					}
 					// 开始读取文件内容
 					InputStream is = this.getClass().getClassLoader()
@@ -75,7 +63,7 @@ public class FileAsStringUtil {
 				}
 			} else if (protocol.equals("file")) {
 				String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-				readFileContext(filePath, beansXml, filename);
+				readFileContext(filePath, beansXml);
 			}
 		}
 
@@ -110,8 +98,7 @@ public class FileAsStringUtil {
 
 	}
 
-	private List<String> readFileContext(String filePath, List<String> fileStr,
-			final String filename) throws IOException {
+	private List<String> readFileContext(String filePath, List<String> fileStr) throws IOException {
 		// 获取此包的目录 建立一个File
 		File dir = new File(filePath);
 		// 如果不存在或者 也不是目录就直接返回
@@ -128,10 +115,7 @@ public class FileAsStringUtil {
 		File[] dirfiles = dir.listFiles(new FileFilter() {
 			// 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
 			public boolean accept(File file) {
-				boolean ename = true;
-				if (StringUtils.isNotEmpty(filename)) {
-					ename = file.getName().endsWith(filename);
-				}
+				boolean ename = file.getName().endsWith(".xml");
 				return (file.isDirectory()) || (ename);
 			}
 		});
@@ -139,7 +123,7 @@ public class FileAsStringUtil {
 		for (File file : dirfiles) {
 			// 如果是目录 则继续扫描
 			if (file.isDirectory()) {
-				readFileContext(file.getAbsolutePath(), fileStr, filename);
+				readFileContext(file.getAbsolutePath(), fileStr);
 			} else {
 				String str = FileUtils.readFileToString(file, "utf8");
 				fileStr.add(str);
