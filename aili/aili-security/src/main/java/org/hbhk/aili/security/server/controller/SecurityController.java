@@ -9,9 +9,11 @@ import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.server.web.BaseController;
 import org.hbhk.aili.core.share.pojo.ResponseEntity;
 import org.hbhk.aili.security.server.context.UserContext;
+import org.hbhk.aili.security.server.service.ILoginLogInfoService;
 import org.hbhk.aili.security.server.service.IUserService;
 import org.hbhk.aili.security.share.define.SecurityConstant;
 import org.hbhk.aili.security.share.define.UserConstants;
+import org.hbhk.aili.security.share.pojo.LoginLogInfo;
 import org.hbhk.aili.security.share.pojo.UserInfo;
 import org.hbhk.aili.support.server.email.IEmailService;
 import org.hbhk.aili.support.server.email.impl.EmailInfo;
@@ -24,19 +26,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(SecurityConstant.moduleName)
 public class SecurityController extends BaseController {
 
-	private Log log = LogFactory.getLog(getClass());
+	private static Log log = LogFactory.getLog(SecurityController.class);
 	@Autowired
 	private IUserService userService;
 
 	@Autowired
 	private IEmailService emailService;
+	@Autowired
+	private ILoginLogInfoService logInfoService;
 
 	@RequestMapping("/login")
 	@ResponseBody
-	public ResponseEntity login(HttpServletResponse response, String email,
-			String pwd) {
+	public ResponseEntity login(HttpServletResponse response,
+			HttpServletRequest request, String email, String pwd) {
 		try {
 			if (userService.login(email, pwd)) {
+				LoginLogInfo log = new LoginLogInfo();
+				log.setUser(email);
+				log.setId(getIpAddr(request));
+				logInfoService.save(log);
 				return returnSuccess();
 			} else {
 				return returnException();
@@ -96,7 +104,7 @@ public class SecurityController extends BaseController {
 			return returnException("注册失败");
 		}
 	}
-	
+
 	@RequestMapping("/validateEmail")
 	@ResponseBody
 	public ResponseEntity getUserByMail(String mail) {
@@ -131,4 +139,24 @@ public class SecurityController extends BaseController {
 		}
 	}
 
+	public static String getIpAddr(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		try {
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getHeader("Proxy-Client-IP");
+			}
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getHeader("WL-Proxy-Client-IP");
+			}
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getHeader("Cdn-Src-Ip");
+			}
+			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getRemoteAddr();
+			}
+		} catch (Exception e) {
+			log.error("getIpAddr", e);
+		}
+		return ip;
+	}
 }
