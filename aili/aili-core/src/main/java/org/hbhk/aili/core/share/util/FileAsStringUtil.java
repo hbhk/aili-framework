@@ -6,17 +6,10 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
@@ -30,42 +23,48 @@ public class FileAsStringUtil {
 		Resource[] resources  =FileLoadUtil.getResourcesForClasspathByPath(path);
 		List<String> beansXml = new ArrayList<String>();
 		for (Resource res : resources) {
-			URL url = res.getURL();
-			if (url == null) {
-				throw new IOException(path + "找不到");
-			}
-			String protocol = url.getProtocol();
-			log.debug("protocol:" + protocol);
-			if (protocol.equals("jar")) {
-				JarURLConnection jarCon = (JarURLConnection) url
-						.openConnection();
-				JarFile jarFile = jarCon.getJarFile();
-				Enumeration<JarEntry> jarEntrys = jarFile.entries();
-				while (jarEntrys.hasMoreElements()) {
-					JarEntry entry = jarEntrys.nextElement();
-					// 简单的判断路径，如果想做到想Spring，Ant-Style格式的路径匹配需要用到正则。
-					String name = entry.getName();
-					if (!name.startsWith("org/hbhk") || entry.isDirectory()) {
-						continue;
-					}
-					if (!name.endsWith(".xml")) {
-						continue;
-					}
-					// 开始读取文件内容
-					InputStream is = this.getClass().getClassLoader()
-							.getResourceAsStream(name);
-					String context = readJarContext(is);
-					if (StringUtils.isNotEmpty(context)) {
-						beansXml.add(context);
-					}
-					log.debug("jar:" + context);
-
-				}
-			} else if (protocol.equals("file")) {
-				String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-				readFileContext(filePath, beansXml);
-			}
+			InputStreamReader inputStreamReader = new InputStreamReader(res.getInputStream());
+			char[] data = new char[10240];  
+	        inputStreamReader.read(data);  
+	        beansXml.add(new String(data).trim());
 		}
+//		for (Resource res : resources) {
+//			URL url = res.getURL();
+//			if (url == null) {
+//				throw new IOException(path + "找不到");
+//			}
+//			String protocol = url.getProtocol();
+//			log.debug("protocol:" + protocol);
+//			if (protocol.equals("jar")) {
+//				JarURLConnection jarCon = (JarURLConnection) url
+//						.openConnection();
+//				JarFile jarFile = jarCon.getJarFile();
+//				Enumeration<JarEntry> jarEntrys = jarFile.entries();
+//				while (jarEntrys.hasMoreElements()) {
+//					JarEntry entry = jarEntrys.nextElement();
+//					// 简单的判断路径，如果想做到想Spring，Ant-Style格式的路径匹配需要用到正则。
+//					String name = entry.getName();
+//					if (!name.startsWith("org/hbhk") || entry.isDirectory()) {
+//						continue;
+//					}
+//					if (!name.endsWith(".xml")) {
+//						continue;
+//					}
+//					// 开始读取文件内容
+//					InputStream is = this.getClass().getClassLoader()
+//							.getResourceAsStream(name);
+//					String context = readJarContext(is);
+//					if (StringUtils.isNotEmpty(context)) {
+//						beansXml.add(context);
+//					}
+//					log.debug("jar:" + context);
+//
+//				}
+//			} else if (protocol.equals("file")) {
+//				String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
+//				readFileContext(filePath, beansXml);
+//			}
+//		}
 
 		return beansXml;
 
