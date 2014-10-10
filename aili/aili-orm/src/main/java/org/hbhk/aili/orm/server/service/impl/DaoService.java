@@ -231,7 +231,7 @@ public class DaoService implements IDaoService {
 	@Override
 	public int batchUpdateByNativeQuery(String queryString, Object[] params,
 			Class<?>[] types) {
-		return jdbcTemplate.update(queryString);
+		return jdbcTemplate.update(queryString,params);
 	}
 
 	@Override
