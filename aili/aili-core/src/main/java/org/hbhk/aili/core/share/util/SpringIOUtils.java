@@ -34,21 +34,21 @@ public class SpringIOUtils {
 	public static boolean saveFile(InputStream is, String path,
 			String childPath, String name) throws IOException {
 		String sep = System.getProperty("file.separator");
-		Resource resource = FileLoadUtil.getResourceForServletpath(path);
-		if (resource == null) {
-			log.error("file info:" + path + "," + childPath + "," + name);
-			throw new IOException("path not find");
-		}
+		// Resource resource = FileLoadUtil.getResourceForServletpath(path);
+		// if (resource == null) {
+		// log.error("file info:" + path + "," + childPath + "," + name);
+		// throw new IOException("path not find");
+		// }
 		log.debug("file info:" + path + "," + childPath + "," + name);
-		File file = resource.getFile();
-		String uploadFile = file.getAbsolutePath() + sep + childPath;
+		// File file = resource.getFile();
+		String uploadFile = path + sep + childPath;
 		File f = new File(uploadFile);
 		if (!f.exists()) {
-			f.mkdir();
+			f.mkdirs();
 		}
 		FileUtils.copyInputStreamToFile(is, new File(uploadFile, name));
 
-		return false;
+		return true;
 
 	}
 
