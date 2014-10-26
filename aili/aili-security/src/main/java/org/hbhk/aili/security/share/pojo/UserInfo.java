@@ -32,6 +32,10 @@ public class UserInfo extends BaseInfo {
 	@Column("roles")
 	@JoinColumn
 	private Set<RoleInfo> roles;
+	@Column("nickName")
+	private String nickName;
+	@Column("area")
+	private String area;
 
 	public int getEnable() {
 		return enable;
@@ -103,6 +107,22 @@ public class UserInfo extends BaseInfo {
 
 	public void setRemail(String remail) {
 		this.remail = remail;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 }

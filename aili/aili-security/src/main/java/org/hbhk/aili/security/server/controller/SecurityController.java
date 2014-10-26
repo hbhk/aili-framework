@@ -87,7 +87,7 @@ public class SecurityController extends BaseController {
 			UserInfo u = new UserInfo();
 			u.setMail(user.getMail());
 			if (userService.getUser(u) != null) {
-				return returnException("该邮箱已被注册，请直接登录");
+				return returnException("用户名已经被注册");
 			}
 			userService.save(user);
 			RequestContext.setSessionAttribute(UserConstants.CURRENT_USER_NAME,
