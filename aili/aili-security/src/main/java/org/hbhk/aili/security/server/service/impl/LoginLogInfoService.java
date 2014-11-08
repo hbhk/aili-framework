@@ -3,6 +3,8 @@ package org.hbhk.aili.security.server.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.hbhk.aili.orm.server.surpport.Page;
 import org.hbhk.aili.orm.server.surpport.Sort;
@@ -27,11 +29,17 @@ public class LoginLogInfoService implements ILoginLogInfoService {
 
 	@Autowired
 	private ILoginLogInfoDao loginLogInfoDao;
-
-	public LoginLogInfo save(LoginLogInfo model) {
+	private  ExecutorService executor = Executors.newFixedThreadPool(5);
+	public LoginLogInfo save(final LoginLogInfo model) {
 		model.setCreateTime(new Date());
 		model.setId(UUIDUitl.getUuid());
-		return loginLogInfoDao.save(model);
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				loginLogInfoDao.save(model);
+			}
+		} );
+		return model;
 	}
 
 	public LoginLogInfo update(LoginLogInfo model) {

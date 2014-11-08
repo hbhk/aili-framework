@@ -43,7 +43,7 @@ public class SecurityController extends BaseController {
 			if (userService.login(email, pwd)) {
 				LoginLogInfo log = new LoginLogInfo();
 				log.setUser(email);
-				log.setId(getIpAddr(request));
+				log.setIp(getIpAddr(request));
 				logInfoService.save(log);
 				return returnSuccess();
 			} else {
