@@ -103,8 +103,10 @@ public final class ModuleManager {
 						int i = pathHeader.lastIndexOf('/');
 						String module = path.substring(i + 1, j);
 						List<String> modules = getModdules();
-						if (modules.contains(module)) {
-							continue;
+						if (modules != null) {
+							if (modules.contains(module)) {
+								continue;
+							}
 						}
 						String page = path.substring(j + from.length());
 						String dist = to + module + "/" + page;
