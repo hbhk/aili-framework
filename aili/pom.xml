@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hbhk.aili</groupId>
 	<artifactId>aili</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>aili</name>
 	<url>http://maven.apache.org</url>
-	<licenses/>
+	<licenses />
 	<scm>
 		<connection>scm:git:git://github.com/hbhk/aili-repo.git</connection>
 		<url>scm:git:git://github.com/hbhk/aili-repo.git</url>
@@ -35,11 +36,11 @@
 		<module>aili-test</module>
 		<module>aili-support</module>
 		<module>aili-struts-mvc</module>
-    <module>aili-gen</module>
-  </modules>
+		<module>aili-gen</module>
+	</modules>
 
 	<properties>
-		<aili-version>1.0.0-SNAPSHOT</aili-version>
+		<aili-version>1.2.0-SNAPSHOT</aili-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-version>3.2.3.RELEASE</spring-version>
 		<security-version>3.1.4.RELEASE</security-version>
@@ -296,7 +297,7 @@
 				<artifactId>itext</artifactId>
 				<version>1.2.3</version>
 			</dependency>
-			<!-- 验证�? -->
+			<!-- 验证�? -->
 			<dependency>
 				<groupId>com.github.axet</groupId>
 				<artifactId>kaptcha</artifactId>
@@ -464,13 +465,13 @@
 				<artifactId>jetbrick-template</artifactId>
 				<version>1.2.2</version>
 			</dependency>
-			<!-- 这是针对xmemcached 客户�? -->
+			<!-- 这是针对xmemcached 客户�? -->
 			<dependency>
 				<groupId>com.google.code.simple-spring-memcached</groupId>
 				<artifactId>xmemcached-provider</artifactId>
 				<version>${memcached-version}</version>
 			</dependency>
-			<!-- 这是针对spymemcached客户�? -->
+			<!-- 这是针对spymemcached客户�? -->
 			<dependency>
 				<groupId>com.google.code.simple-spring-memcached</groupId>
 				<artifactId>spymemcached-provider</artifactId>
@@ -552,7 +553,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>aili-release</id>
+			<id>aili-r</id>
 			<properties>
 				<aili-deploy>releases</aili-deploy>
 			</properties>
@@ -560,6 +561,7 @@
 	</profiles>
 	<build>
 		<plugins>
+			<!--maven-jar包部署插件 -->
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.8.1</version>
@@ -567,14 +569,13 @@
 					<altDeploymentRepository>releases::default::file://E:\aili-repo\${aili-deploy}\${aili-deploy}</altDeploymentRepository>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--与 maven-jar包部署插件分开执行 -->
+			<!-- <plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.9</version>
 				<configuration>
-					<!-- git commit message -->
 					<message>Maven artifacts for ${project.version}</message>
-					<!-- disable webpage processing -->
 					<noJekyll>true</noJekyll>
 					<outputDirectory>E:\aili-repo\${aili-deploy}</outputDirectory>
 					<branch>refs/heads/master</branch>
@@ -582,9 +583,7 @@
 					<includes>
 						<include>**/*</include>
 					</includes>
-					<!-- github repo name -->
 					<repositoryName>aili-repo</repositoryName>
-					<!-- github username -->
 					<repositoryOwner>hbhk</repositoryOwner>
 				</configuration>
 				<executions>
@@ -595,7 +594,7 @@
 						<phase>deploy</phase>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -668,7 +667,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute/>
+										<execute />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

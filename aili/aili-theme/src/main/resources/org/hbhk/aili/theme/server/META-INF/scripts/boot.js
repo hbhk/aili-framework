@@ -30,6 +30,9 @@ document.write('<script src="' + jsPATH + 'jquery/jquery-1.9.1.js" type="text/ja
 document.write('<script src="' + jsPATH + 'jquery/jquery.cookie.js" type="text/javascript"></script>');
 document.write('<script src="' + jsPATH + 'jquery-exp.js" type="text/javascript"></sc' + 'ript>');
 //bootstrap
+//css
+document.write('<link rel="stylesheet" href="' +cssPATH + 'bootstrap/bootstrap-combined.min.css" >');
+document.write('<link rel="stylesheet" href="' +cssPATH + 'bootstrap/bootstrap-theme.min.css" >');
 document.write('<script src="' + jsPATH + 'bootstrap/bootstrap.min.js" type="text/javascript"></script>');
 document.write('<script src="' + jsPATH + 'bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>');
 //fancybox
@@ -39,9 +42,7 @@ document.write('<script src="' + jsPATH + 'fancybox/jquery.fancybox.pack.js" typ
 document.write('<script src="' + jsPATH + 'jquery/jquery.mousewheel-3.0.6.pack.js" type="text/javascript"></script>');
 //common
 document.write('<script src="' + jsPATH + 'common.js" type="text/javascript"></script>');
-//css
-document.write('<link rel="stylesheet" href="' +cssPATH + 'bootstrap/bootstrap.min.css" >');
-document.write('<link rel="stylesheet" href="' +cssPATH + 'bootstrap/bootstrap-theme.min.css" >');
+
 //fancybox css
 document.write('<link rel="stylesheet" href="' +jsPATH + 'fancybox/jquery.fancybox.css" >');
 //jquery ui
