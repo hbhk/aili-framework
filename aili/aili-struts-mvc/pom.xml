@@ -13,7 +13,6 @@
 	<name>aili-struts-mvc</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<aili-version>1.0.0-SNAPSHOT</aili-version>
 	</properties>
 	<dependencies>
 		<dependency>

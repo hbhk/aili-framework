@@ -21,18 +21,18 @@
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-core</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${aili-version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-mybatis</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${aili-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-cache</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${aili-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
