@@ -7,8 +7,8 @@
 		<groupId>org.hbhk.aili</groupId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-
 	<artifactId>aili-gen</artifactId>
+	<version>${aili-version}</version>
 	<packaging>jar</packaging>
 	<name>aili-gen</name>
 	<properties>
