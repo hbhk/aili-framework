@@ -156,7 +156,7 @@ public final class ModuleManager {
 	}
 
 	private static List<String> getModdules() {
-		String ms = PropertiesUtil.getPValue(no_modules);
+		String ms =  PropertiesUtil.getPValue(no_modules);
 		if (ms == null) {
 			return null;
 		}
