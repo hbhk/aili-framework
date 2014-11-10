@@ -7,13 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 import org.hbhk.aili.orm.server.surpport.Page;
 import org.hbhk.aili.orm.server.surpport.Sort;
 import org.hbhk.aili.orm.share.model.Pagination;
+import org.hbhk.aili.orm.server.surpport.Page;
 import ${entityPackagName};
 import org.hbhk.${projectName}.${moduleName}.server.service.I${entityName}Service;
 import org.hbhk.${projectName}.${moduleName}.server.dao.I${entityName}Dao;
-
+import org.hbhk.aili.orm.share.util.UUIDUitl;
  <#assign daovar =  "${entityName[0]?lower_case}${entityName[1..]}Dao" />
 /**
  * ${entityName}Manager
@@ -21,21 +23,43 @@ import org.hbhk.${projectName}.${moduleName}.server.dao.I${entityName}Dao;
  *
  */
 @Transactional
-@Service("${entityName[0]?lower_case}Service") 
+@Service 
 public class ${entityName}Service implements I${entityName}Service {
 
+	private  Logger log = LoggerFactory.getLogger(${entityName}Service.class);
 	@Autowired
-	private ${entityName}Dao ${daovar};
+	private I${entityName}Dao ${daovar};
 
 
 	/**
 	 * 保存${entityName}
 	 */
-	public ${entityName} save${entityName}(${entityName} model){
-	
+	public ${entityName} save(${entityName} model){
+		model.setCreateTime(new Date());
+		model.setId(UUIDUitl.getUuid());
 		return ${daovar}.save(model);
 	}
 	
+	/**
+	 *修改${entityName}
+	 */
+	public ${entityName} update(${entityName} model){
+		model.setUpdateTime(new Date());
+		return ${daovar}.update(model);
+	}
+	
+	
+	public ${entityName} getOne(${entityName} model){
+		return ${daovar}.getOne(model);
+	}
+	
+	public List<${entityName}> get(${entityName} model){
+		return ${daovar}.get(model);
+	}
+	
+	public List<${entityName}> get(${entityName} model,Page page){
+		return ${daovar}.get(model,page);
+	}
 	/**
 	 * 通过id获取${entityName}
 	 * 
