@@ -38,11 +38,11 @@ public class SecurityController extends BaseController {
 	@RequestMapping("/login")
 	@ResponseBody
 	public ResponseEntity login(HttpServletResponse response,
-			HttpServletRequest request, String email, String pwd) {
+			HttpServletRequest request, String userName, String password) {
 		try {
-			if (userService.login(email, pwd)) {
+			if (userService.login(userName, password)) {
 				LoginLogInfo log = new LoginLogInfo();
-				log.setUser(email);
+				log.setUser(userName);
 				log.setIp(getIpAddr(request));
 				logInfoService.save(log);
 				return returnSuccess();
@@ -85,18 +85,18 @@ public class SecurityController extends BaseController {
 			}
 			// 验证用户是否存在
 			UserInfo u = new UserInfo();
-			u.setMail(user.getMail());
+			u.setUserName(user.getUserName());
 			if (userService.getUser(u) != null) {
 				return returnException("用户名已经被注册");
 			}
 			userService.save(user);
 			RequestContext.setSessionAttribute(UserConstants.CURRENT_USER_NAME,
-					user.getMail());
+					user.getEmail());
 			EmailInfo emailInfo = new EmailInfo();
 			emailInfo.setSubject("买客网用户注册");
-			String info = "恭喜您成功注册！您的用户名为：" + user.getMail();
+			String info = "恭喜您成功注册！您的用户名为：" + user.getUserName();
 			emailInfo.setContext(info);
-			emailInfo.setEmail(user.getMail());
+			emailInfo.setEmail(user.getEmail());
 			emailService.sendEmail(emailInfo);
 			return returnSuccess();
 		} catch (Exception e) {
@@ -110,7 +110,7 @@ public class SecurityController extends BaseController {
 	public ResponseEntity getUserByMail(String mail) {
 		try {
 			UserInfo u = new UserInfo();
-			u.setMail(mail);
+			u.setEmail(mail);
 			if (userService.getUser(u) == null) {
 				return returnSuccess();
 			} else {
@@ -127,7 +127,7 @@ public class SecurityController extends BaseController {
 	public ResponseEntity getUserByName(String name) {
 		try {
 			UserInfo u = new UserInfo();
-			u.setName(name);
+			u.setNickName(name);
 			if (userService.getUser(u) == null) {
 				return returnSuccess();
 			} else {

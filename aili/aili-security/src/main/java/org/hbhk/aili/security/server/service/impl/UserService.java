@@ -42,14 +42,14 @@ public class UserService implements IUserService {
 	@Override
 	public UserInfo getMe(String username) {
 		UserInfo u = new UserInfo();
-		u.setMail(username);
+		u.setUserName(username);
 		return userDao.getOne(u);
 	}
 
 	@Override
 	public boolean login(String username, String password) {
 		UserInfo u = new UserInfo();
-		u.setMail(username);
+		u.setUserName(username);
 		String epwd = EncryptUtil.encodeSHA1(password);
 		UserInfo userInfo = userDao.getOne(u);
 		if (userInfo != null && epwd.equals(userInfo.getPassword())) {
@@ -96,14 +96,11 @@ public class UserService implements IUserService {
 		if (user == null) {
 			return null;
 		}
-		if (StringUtils.isEmpty(user.getMail())) {
-			throw new BusinessException("邮箱为空");
+		if (StringUtils.isEmpty(user.getUserName())) {
+			throw new BusinessException("用户名为空");
 		}
 		if (StringUtils.isEmpty(user.getPassword())) {
 			throw new BusinessException("密码为空");
-		}
-		if (StringUtils.isEmpty(user.getName())) {
-			throw new BusinessException("昵称为空");
 		}
 		user.setId(UUIDUitl.getUuid());
 		user.setCreateTime(new Date());
