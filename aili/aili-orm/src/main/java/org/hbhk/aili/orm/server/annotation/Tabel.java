@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Tabel {
 	String value() ;
+	boolean dynamicInsert() default false;
+	boolean dynamicUpdate() default false;
 }
