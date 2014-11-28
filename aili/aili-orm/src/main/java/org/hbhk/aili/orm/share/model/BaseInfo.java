@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.PrimaryKey;
+import org.hbhk.aili.orm.server.annotation.Id;
 
 public abstract class BaseInfo implements Serializable {
 	private static final long serialVersionUID = 5009300140634580156L;
-	@PrimaryKey
+	@Id
 	@Column("id")
 	private String id;
 	@Column("creatUser")

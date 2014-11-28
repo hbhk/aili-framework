@@ -1,45 +1,44 @@
 package org.hbhk.aili.orm.share.util;
 
-import java.beans.BeanInfo;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hbhk.aili.orm.server.annotation.Column;
+import org.hbhk.aili.orm.server.annotation.Id;
+import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.server.handler.INameHandler;
 import org.hbhk.aili.orm.share.model.SqlContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * sql辅助为类
- * 
- * User: liyd Date: 2/13/14 Time: 10:03 AM
  */
 public class SqlUtil {
 
-	/** 日志对象 */
-	private static final Logger LOG = LoggerFactory.getLogger(SqlUtil.class);
-
-	private static PropertyDescriptor[] getPropertyDescriptor(Class<?> clazz) {
-		List<PropertyDescriptor>  list = new ArrayList<PropertyDescriptor>();
-		BeanInfo beanInfo = ClassUtils.getSelfBeanInfo(clazz);
-		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
-		List<PropertyDescriptor> pdslist = Arrays.asList(pds);
-		list.addAll(pdslist);
-		PropertyDescriptor[] supperpds = null;
-		if (clazz.getSuperclass() != null) {
-			BeanInfo supperbeanInfo = ClassUtils.getSelfBeanInfo(clazz
-					.getSuperclass());
-			supperpds = supperbeanInfo.getPropertyDescriptors();
-			List<PropertyDescriptor> spdslist = Arrays.asList(supperpds);
-			list.addAll(spdslist);
+	public static Field[] getColumnFields(Class<?> clazz) {
+		List<Field> list = new ArrayList<Field>();
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			Column col = field.getAnnotation(Column.class);
+			if (col != null) {
+				list.add(field);
+			}
 		}
-		return list.toArray(new PropertyDescriptor[] {});
-
+		list.addAll(Arrays.asList(fields));
+		if (clazz.getSuperclass() != null) {
+			Class<?> superClass = clazz.getSuperclass();
+			fields = superClass.getDeclaredFields();
+			for (Field field : fields) {
+				Column col = field.getAnnotation(Column.class);
+				if (col != null) {
+					list.add(field);
+				}
+			}
+		}
+		return list.toArray(new Field[] {});
 	}
 
 	/**
@@ -51,26 +50,43 @@ public class SqlUtil {
 	 *            名称转换处理器
 	 * @return
 	 */
-	public static SqlContext buildInsertSql(Object entity,
+	public static SqlContext buildInsertSql(Object bean,
 			INameHandler nameHandler) {
-		Class<?> clazz = entity.getClass();
-		String tableName = nameHandler.getTableName(clazz);
-		String primaryName = nameHandler.getPrimaryName(clazz);
+		Class<?> clazz = bean.getClass();
+		Tabel tab = clazz.getAnnotation(Tabel.class);
+		if (tab == null) {
+			return null;
+		}
+		String tableName = tab.value();
+		tableName = nameHandler.getTableName(tableName);
+		Field[] fields = getColumnFields(clazz);
+
+		String primaryName = getpriKey(fields);
+		primaryName = nameHandler.getPrimaryName(primaryName);
+		if (primaryName == null) {
+			throw new RuntimeException(clazz.getName() + "未找到主键");
+		}
 		StringBuilder sql = new StringBuilder("insert into ");
 		List<Object> params = new ArrayList<Object>();
 		sql.append(tableName);
 		// 获取属性信息
-		PropertyDescriptor[] pds = getPropertyDescriptor(clazz);
-
 		sql.append("(");
 		StringBuilder args = new StringBuilder();
 		args.append("(");
-		for (PropertyDescriptor pd : pds) {
-			Object value = getReadMethodValue(pd.getReadMethod(), entity);
+		for (Field field : fields) {
+			String name = field.getName();
+			Object value = null;
+			try {
+				value = PropertyUtils.getProperty(bean, name);
+			} catch (Exception e) {
+				throw new RuntimeException("获取属性值错误:", e);
+			}
 			if (value == null) {
 				continue;
 			}
-			String columnName = nameHandler.getColumnName(clazz, pd.getName());
+			Column col = field.getAnnotation(Column.class);
+			String columnName = col.value();
+			columnName = nameHandler.getColumnName(columnName);
 			if (StringUtils.isEmpty(columnName)) {
 				continue;
 			}
@@ -89,6 +105,21 @@ public class SqlUtil {
 		return new SqlContext(sql, primaryName, params);
 	}
 
+	public static String getpriKey(Field[] fields) {
+		String pk= null;
+		for (Field field : fields) {
+			Id id = field.getAnnotation(Id.class);
+			if (id != null) {
+				pk =  field.getAnnotation(Column.class).value();
+			}
+		}
+		if(pk == null){
+			throw new RuntimeException("未找到主键");
+		}
+		return pk;
+
+	}
+
 	/**
 	 * 构建更新sql
 	 * 
@@ -96,26 +127,38 @@ public class SqlUtil {
 	 * @param INameHandler
 	 * @return
 	 */
-	public static SqlContext buildUpdateSql(Object entity,
+	public static SqlContext buildUpdateSql(Object bean,
 			INameHandler nameHandler) {
-		Class<?> clazz = entity.getClass();
+		Class<?> clazz = bean.getClass();
 		StringBuilder sql = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		String tableName = nameHandler.getTableName(clazz);
-		String primaryName = nameHandler.getPrimaryName(clazz);
-		// 获取属性信息
-		PropertyDescriptor[] pds = getPropertyDescriptor(clazz);
-
+		Tabel tab = clazz.getAnnotation(Tabel.class);
+		if (tab == null) {
+			return null;
+		}
+		String tableName = tab.value();
+		tableName = nameHandler.getTableName(tableName);
+		Field[] fields = getColumnFields(clazz);
+		String primaryName = getpriKey(fields);
+		primaryName = nameHandler.getPrimaryName(primaryName);
+		if (primaryName == null) {
+			throw new RuntimeException(clazz.getName() + "未找到主键");
+		}
 		sql.append("update ");
 		sql.append(tableName);
 		sql.append(" set ");
 		Object primaryValue = null;
-		for (PropertyDescriptor pd : pds) {
-			Object value = getReadMethodValue(pd.getReadMethod(), entity);
-			if (value == null) {
-				continue;
+		for (Field field : fields) {
+			String name = field.getName();
+			Object value = null;
+			try {
+				value = PropertyUtils.getProperty(bean, name);
+			} catch (Exception e) {
+				throw new RuntimeException("获取属性值错误:", e);
 			}
-			String columnName = nameHandler.getColumnName(clazz, pd.getName());
+			Column col = field.getAnnotation(Column.class);
+			String columnName = col.value();
+			columnName = nameHandler.getColumnName(columnName);
 			if (StringUtils.isEmpty(columnName)) {
 				continue;
 			}
@@ -144,27 +187,37 @@ public class SqlUtil {
 	 * @param INameHandler
 	 * @return
 	 */
-	public static SqlContext buildDeleteSql(Object entity,
+	public static SqlContext buildDeleteSql(Object bean,
 			INameHandler nameHandler) {
-		Class<?> clazz = entity.getClass();
+		Class<?> clazz = bean.getClass();
 		StringBuilder sql = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		String tableName = nameHandler.getTableName(clazz);
-		String primaryName = nameHandler.getPrimaryName(clazz);
-		// 获取属性信息
-		PropertyDescriptor[] pds = getPropertyDescriptor(clazz);
-
+		Tabel tab = clazz.getAnnotation(Tabel.class);
+		if (tab == null) {
+			return null;
+		}
+		String tableName = tab.value();
+		tableName = nameHandler.getTableName(tableName);
+		Field[] fields = getColumnFields(clazz);
+		String primaryName = getpriKey(fields);
+		primaryName = nameHandler.getPrimaryName(primaryName);
+		if (primaryName == null) {
+			throw new RuntimeException(clazz.getName() + "未找到主键");
+		}
 		sql.append("delete from ");
 		sql.append(tableName);
 		sql.append(" ");
 		Object primaryValue = null;
-		for (PropertyDescriptor pd : pds) {
-			Object value = getReadMethodValue(pd.getReadMethod(), entity);
-			if (value == null) {
-				continue;
+		for (Field field : fields) {
+			String name = field.getName();
+			Object value = null;
+			try {
+				value = PropertyUtils.getProperty(bean, name);
+			} catch (Exception e) {
+				throw new RuntimeException("获取属性值错误:", e);
 			}
-			String columnName = nameHandler.getColumnName(clazz, pd.getName());
-			if (primaryName.equalsIgnoreCase(columnName)) {
+			Id id = field.getAnnotation(Id.class);
+			if (id != null) {
 				primaryValue = value;
 			}
 		}
@@ -182,23 +235,31 @@ public class SqlUtil {
 	 * @param entity
 	 * @param INameHandler
 	 */
-	public static SqlContext buildQueryCondition(Object entity,
+	public static SqlContext buildQueryCondition(Object bean,
 			INameHandler nameHandler) {
 		// 获取属性信息
-		Class<?> cls = entity.getClass();
-		PropertyDescriptor[] pds = getPropertyDescriptor(cls);
+		Class<?> clazz = bean.getClass();
+		Field[] fields = getColumnFields(clazz);
 		StringBuilder condition = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
 		int count = 0;
-		for (PropertyDescriptor pd : pds) {
-			Object value = getReadMethodValue(pd.getReadMethod(), entity);
+		for (Field field : fields) {
+			String name = field.getName();
+			Object value = null;
+			try {
+				value = PropertyUtils.getProperty(bean, name);
+			} catch (Exception e) {
+				throw new RuntimeException("获取属性值错误:", e);
+			}
 			if (value == null) {
 				continue;
 			}
 			if (count > 0) {
 				condition.append(" and ");
 			}
-			String columnName = nameHandler.getColumnName(cls, pd.getName());
+			Column col = field.getAnnotation(Column.class);
+			String columnName = col.value();
+			columnName = nameHandler.getColumnName(columnName);
 			if (StringUtils.isEmpty(columnName)) {
 				continue;
 			}
@@ -216,50 +277,37 @@ public class SqlUtil {
 	 * @param entity
 	 * @param INameHandler
 	 */
-	public static SqlContext buildQuerySql(Object entity,
-			INameHandler nameHandler) {
+	public static SqlContext buildQuerySql(Object bean, INameHandler nameHandler) {
 		// 获取属性信息
-		Class<?> clazz = entity.getClass();
-		BeanInfo beanInfo = ClassUtils.getSelfBeanInfo(clazz);
-		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+		Class<?> clazz = bean.getClass();
+		Field[] fields = getColumnFields(clazz);
 		StringBuilder querySql = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		String tableName = nameHandler.getTableName(clazz);
+		Tabel tab = clazz.getAnnotation(Tabel.class);
+		if (tab == null) {
+			return null;
+		}
+		String tableName = tab.value();
+		tableName = nameHandler.getTableName(tableName);
 		querySql.append("select *from ");
 		querySql.append(tableName + " where ");
-		for (PropertyDescriptor pd : pds) {
-			Object value = getReadMethodValue(pd.getReadMethod(), entity);
+		for (Field field : fields) {
+			String name = field.getName();
+			Object value = null;
+			try {
+				value = PropertyUtils.getProperty(bean, name);
+			} catch (Exception e) {
+				throw new RuntimeException("获取属性值错误:", e);
+			}
 			if (value == null) {
 				continue;
 			}
 			params.add(value);
 		}
-		SqlContext sqlContext = buildQueryCondition(entity, nameHandler);
+		SqlContext sqlContext = buildQueryCondition(bean, nameHandler);
 		StringBuilder sql = sqlContext.getSql();
 		sqlContext.setSql(querySql.append(sql));
 		return sqlContext;
 	}
 
-	/**
-	 * 获取属性值
-	 * 
-	 * @param readMethod
-	 * @param entity
-	 * @return
-	 */
-	private static Object getReadMethodValue(Method readMethod, Object entity) {
-		if (readMethod == null) {
-			return null;
-		}
-		try {
-			if (!Modifier.isPublic(readMethod.getDeclaringClass()
-					.getModifiers())) {
-				readMethod.setAccessible(true);
-			}
-			return readMethod.invoke(entity);
-		} catch (Exception e) {
-			LOG.error("获取属性值失败", e);
-			throw new RuntimeException(e);
-		}
-	}
 }
