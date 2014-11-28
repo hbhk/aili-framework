@@ -3,14 +3,14 @@ package org.hbhk.aili.orm.server;
 import java.io.Serializable;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.PrimaryKey;
+import org.hbhk.aili.orm.server.annotation.Id;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 
 @Tabel("t_aili_user")
 public class UserInfo implements Serializable {
 
 	private static final long serialVersionUID = 54122579931594962L;
-	@PrimaryKey
+	@Id
 	@Column("id")
 	private String id;
 	@Column("id")

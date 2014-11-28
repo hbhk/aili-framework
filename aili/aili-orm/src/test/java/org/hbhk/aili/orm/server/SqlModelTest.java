@@ -1,7 +1,7 @@
 package org.hbhk.aili.orm.server;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.PrimaryKey;
+import org.hbhk.aili.orm.server.annotation.Id;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.share.model.BaseInfo;
 
@@ -10,7 +10,7 @@ public class SqlModelTest extends BaseInfo {
 
 	private static final long serialVersionUID = 4797694839375226216L;
 	@Column("id")
-	@PrimaryKey
+	@Id
 	private String id;
 	@Column("test_sss")
 	private String sss;
