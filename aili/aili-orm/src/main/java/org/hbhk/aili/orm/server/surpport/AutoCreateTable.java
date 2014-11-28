@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -18,6 +17,7 @@ import org.hbhk.aili.core.server.annotation.AnnotationScanning;
 import org.hbhk.aili.orm.server.annotation.Column;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.server.handler.INameHandler;
+import org.hbhk.aili.orm.share.util.SqlUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,50 +45,36 @@ public class AutoCreateTable implements InitializingBean {
 
 	public void createTable(Class<?> cls, String tableName) {
 		StringBuffer sb = new StringBuffer("");
+		Field[] fields = SqlUtil.getColumnFields(cls);
 		sb.append("CREATE TABLE " + tableName + "(\n");
-		String prikey = nameHandler.getPrimaryName(cls);
-		sb.append(prikey + " varchar(255),\n");
-		List<Field> fields = new ArrayList<Field>();
-		getParentClassFields(fields, cls).toArray(
-				new Field[] {});
-		Field[]  fs = fields.toArray(new Field[]{});
-		for (int i = 0; i < fields.size(); i++) {
-			Field f = fields.get(i);
-			Column column = nameHandler.getColumn(fs, f.getName());
-			if (column == null) {
-				continue;
-			}
-			String columnName = column.value();
-			if (columnName != null && !columnName.equals(prikey)) {
-				String dbtype = column.dbType();
+		String pk = SqlUtil.getpriKey(fields);
+		pk = nameHandler.getPrimaryName(pk);
+		sb.append(pk + " varchar(255),\n");
+		for (int i = 0; i < fields.length; i++) {
+			Field field = fields[i];
+			Column col = field.getAnnotation(Column.class);
+			String columnName = col.value();
+			columnName = nameHandler.getColumnName(columnName);
+			if (columnName != null && !columnName.equals(pk)) {
+				String dbtype = col.dbType();
 				// 暂时解决现有项目的兼容 TODO
 				if (dbtype.equals("varchar")) {
-					dbtype = JavaType.getDbType(f.getType());
+					dbtype = JavaType.getDbType(field.getType());
 				} else {
-					dbtype = dbtype + "(" + column.len() + ")";
+					dbtype = dbtype + "(" + col.len() + ")";
 				}
 				sb.append(columnName + " " + dbtype + ",\n");
 			}
 		}
-		sb.append("primary key (" + prikey + ")\n");
+		sb.append("primary key (" + pk + ")\n");
 		sb.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 		try {
 			logger.debug("自动创建表语句：" + sb.toString());
 			jdbcTemplate.update(sb.toString());
 		} catch (Exception e) {
 			logger.error("自动创建表语句时错误", e);
-			logger.error("自动创建表语句时错误：" + sb.toString());
+			throw new RuntimeException("自动创建表语句时错误", e);
 		}
-	}
-
-	private List<Field> getParentClassFields(List<Field> fields, Class<?> clazz) {
-		Field[] selffields = clazz.getDeclaredFields();
-		fields.addAll(Arrays.asList(selffields));
-		if (clazz.getSuperclass() == null) {
-			return fields;
-		}
-		getParentClassFields(fields, clazz.getSuperclass());
-		return fields;
 	}
 
 	private boolean exits(String tableName) {
@@ -102,10 +88,15 @@ public class AutoCreateTable implements InitializingBean {
 			List<Class<?>> classes = AnnotationScanning.getInstance()
 					.getAnnotatedClasses(Tabel.class, autoTablePath);
 			if (CollectionUtils.isNotEmpty(classes)) {
-				for (Class<?> class1 : classes) {
-					String tableName = nameHandler.getTableName(class1);
+				for (Class<?> cls : classes) {
+					Tabel tab = cls.getAnnotation(Tabel.class);
+					if (tab == null) {
+						continue;
+					}
+					String tableName = tab.value();
+					tableName = nameHandler.getTableName(tableName);
 					if (!exits(tableName)) {
-						createTable(class1, tableName);
+						createTable(cls, tableName);
 					}
 				}
 			}
@@ -123,7 +114,8 @@ public class AutoCreateTable implements InitializingBean {
 				tableNames.add(rest.getString("TABLE_NAME").toLowerCase());
 			}
 		} catch (Exception e) {
-			logger.error("查询表出错：", e);
+			logger.error("查询数据库所有表出错：", e);
+			throw new RuntimeException("查询数据库所有表出错：", e);
 		}
 
 		return tableNames;

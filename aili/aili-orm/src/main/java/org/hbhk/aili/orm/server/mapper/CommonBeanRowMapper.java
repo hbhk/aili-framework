@@ -21,7 +21,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.hbhk.aili.orm.server.annotation.ColumnTranslator;
 import org.hbhk.aili.orm.server.annotation.Entity;
 import org.hbhk.aili.orm.server.annotation.JoinColumn;
-import org.hbhk.aili.orm.server.annotation.PrimaryKey;
+import org.hbhk.aili.orm.server.annotation.Id;
 import org.springframework.jdbc.core.RowMapper;
 
 public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
@@ -146,7 +146,7 @@ public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
 			BeanInfo joinBeanInfo = Introspector.getBeanInfo(p
 					.getPropertyType());
 			for (PropertyDescriptor p1 : joinBeanInfo.getPropertyDescriptors()) {
-				if (p1.getReadMethod().getAnnotation(PrimaryKey.class) != null) {
+				if (p1.getReadMethod().getAnnotation(Id.class) != null) {
 					subAttr = p1.getName();
 					subClass = p1.getPropertyType();
 					break;

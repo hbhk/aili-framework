@@ -1,8 +1,5 @@
 package org.hbhk.aili.orm.server.handler;
 
-import java.lang.reflect.Field;
-
-import org.hbhk.aili.orm.server.annotation.Column;
 
 /**
  * 名称处理接口
@@ -15,7 +12,7 @@ public interface INameHandler {
 	 * @param entityName
 	 * @return
 	 */
-	String getTableName(Class<?> cls);
+	String getTableName(String  tableName);
 
 	/**
 	 * 根据表名获取主键名
@@ -23,7 +20,7 @@ public interface INameHandler {
 	 * @param entityName
 	 * @return
 	 */
-	String getPrimaryName(Class<?> cls);
+	String getPrimaryName(String primaryName);
 
 	/**
 	 * 根据属性名获取列名
@@ -31,7 +28,6 @@ public interface INameHandler {
 	 * @param fieldName
 	 * @return
 	 */
-	String getColumnName(Class<?> clazz , String fieldName);
+	String getColumnName(String fieldName);
 
-	Column getColumn(Field[] fields, String fieldName);
 }
