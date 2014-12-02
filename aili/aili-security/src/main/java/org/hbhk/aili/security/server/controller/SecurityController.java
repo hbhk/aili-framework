@@ -80,7 +80,7 @@ public class SecurityController extends BaseController {
 			if (scode == null) {
 				return returnException("验证码不正确");
 			}
-			if (code != null && !code.equals(scode)) {
+			if (code != null && !code.equalsIgnoreCase(scode)) {
 				return returnException("验证码不正确");
 			}
 			// 验证用户是否存在
