@@ -33,7 +33,10 @@ public class AutoCreateTable implements InitializingBean {
 
 	private JdbcTemplate jdbcTemplate;
 
-	@Value("${autoScanTablePackage}")
+	/**
+	 * 多个包用,分割
+	 */
+	@Value("${auto.scan.table.packages}")
 	private String autoTablePath;
 
 	private List<String> tableNames = new ArrayList<String>();
@@ -85,8 +88,9 @@ public class AutoCreateTable implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		if (StringUtils.isNotEmpty(autoTablePath)) {
 			getAllTableNames();
+			String[] autoTablePaths =  autoTablePath.split(",");
 			List<Class<?>> classes = AnnotationScanning.getInstance()
-					.getAnnotatedClasses(Tabel.class, autoTablePath);
+					.getAnnotatedClasses(Tabel.class, autoTablePaths);
 			if (CollectionUtils.isNotEmpty(classes)) {
 				for (Class<?> cls : classes) {
 					Tabel tab = cls.getAnnotation(Tabel.class);
