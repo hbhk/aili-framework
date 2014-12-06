@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>aili</artifactId>
 		<groupId>org.hbhk.aili</groupId>
-		<version>1.0.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>aili-esb</artifactId>
+	<artifactId>aili-jms</artifactId>
 	<version>${aili-version}</version>
 	<packaging>jar</packaging>
-	<name>aili-esb</name>
+	<name>aili-jms</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -100,11 +100,11 @@
 			<artifactId>providerutil</artifactId>
 			<version>1.0</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
