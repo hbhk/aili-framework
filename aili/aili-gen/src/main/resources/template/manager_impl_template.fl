@@ -76,7 +76,7 @@ public class ${entityName}Service implements I${entityName}Service {
 	public List<${entityName}> findAll${entityName}List(){
 	
 		return ${daovar}.findAll${entityName}List();
-	};
+	}
 	
 	/**
 	 * 通过ids获取${entityName}列表
@@ -86,17 +86,17 @@ public class ${entityName}Service implements I${entityName}Service {
 	public List<${entityName}> find${entityName}ListByIds(List<Long> ids){
 	
 		return ${daovar}.find${entityName}ListByIds(ids);
-	};
+	}
 	
 	/**
 	 * 通过参数map获取${entityName}列表
 	 * @param paraMap
 	 * @return
 	 */
-	public List<${entityName}> find${entityName}ListByQueryMap(Map<String, Object> paraMap){
+	public List<${entityName}> getList(Map<String, Object> paraMap){
 	
 		return ${daovar}.find${entityName}ListByQueryMap(paraMap);
-	};
+	}
 	
 	/**
 	 * 分页获取${entityName}列表
@@ -106,10 +106,10 @@ public class ${entityName}Service implements I${entityName}Service {
 	 * @param sorts 
 	 * @return
 	 */
-	public Pagination<${entityName}> find${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap){
+	public Pagination<${entityName}> getPagination(Page page,Sort[] sorts,Map<String, Object> paraMap){
 	
 		return ${daovar}.find${entityName}ListByQueryMapWithPage(page,sorts,paraMap);
-	};
+	}
 	
 	
 	<#if lifecycle !="">
@@ -120,57 +120,9 @@ public class ${entityName}Service implements I${entityName}Service {
 	 * @param ids
 	 * @return
 	 */
-	public void enableOrDisable${entityName}ByIds(List<Long> ids,Integer state){
-		${daovar}.enableOrDisable${entityName}ByIds(ids,state);
+	public int updateStatusByIds(List<String> ids,Integer state){
+		${daovar}.updateStatusByIds(ids,state);
 	}
-	
-	/**
-	 * 通过ids批量删除${entityName}
-	 * 设置${lifecycle} =2
-	 * @param ids
-	 * @return
-	 */
-	public void remove${entityName}ByIds(List<Long> ids){
-		${daovar}.remove${entityName}ByIds(ids);
-	}
-	
-	
-	/**
-	 * 获取有效的${entityName}列表
-	 * ${lifecycle} =1
-	 * @param ids
-	 * @return
-	 */
-	public List<${entityName}> findAllEffect${entityName}List(){
-	
-		return ${daovar}.findAllEffect${entityName}List();
-	};
-	
-	/**
-	 * 通过参数map获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param paraMap
-	 * @return
-	 */
-	public List<${entityName}> findEffect${entityName}ListByQueryMap(Map<String, Object> paraMap){
-	
-		return ${daovar}.findEffect${entityName}ListByQueryMap(paraMap);
-	};
-	
-	/**
-	 * 分页获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param start
-	 * @param size
-	 * @param paraMap
-	 * @param sorts 
-	 * @return
-	 */
-	
-	public Pagination<${entityName}> findEffect${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap){
-	
-		return ${daovar}.findEffect${entityName}ListByQueryMapWithPage(page,sorts,paraMap);
-	};
 	
 	</#if>
 	

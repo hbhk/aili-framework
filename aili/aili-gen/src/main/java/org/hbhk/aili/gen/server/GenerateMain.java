@@ -5,14 +5,14 @@ import org.hbhk.aili.gen.server.service.MakeCodeService;
 import org.hbhk.aili.gen.server.service.MakeCodeServiceImpl;
 import org.hbhk.aili.gen.server.service.MakeModelService;
 import org.hbhk.aili.gen.server.service.MakeModelServiceImpl;
-import org.hbhk.aili.gen.server.test.Codegen;
+import org.hbhk.aili.gen.server.test.FriendInfo;
 
 public class GenerateMain {
 
 	/**
 	 * 生成的实体
 	 */
-	private final Class<?> modelClass = Codegen.class;
+	private final Class<?> modelClass = FriendInfo.class;
 
 	public static String projectName = "maikkr";
 
@@ -69,7 +69,7 @@ public class GenerateMain {
 		mcs.makeDao(mm, getAutoMakeCode());
 
 		mcs.makeManager(mm, getAutoMakeCode());
-
+		mcs.makeController(mm, getAutoMakeCode());
 		System.out.println(args[0] + args[1] + args[2] + args[3]);
 	}
 
@@ -105,6 +105,7 @@ public class GenerateMain {
 		mcs.makeDao(mm, getAutoMakeCode());
 
 		mcs.makeManager(mm, getAutoMakeCode());
+		mcs.makeController(mm, getAutoMakeCode());
 
 		System.out.println(args[0] + args[1] + args[2] + args[3]);
 	}

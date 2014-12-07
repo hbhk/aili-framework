@@ -3,8 +3,6 @@ package org.hbhk.${projectName}.${moduleName}.server.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import org.hbhk.aili.orm.server.surpport.Page;
@@ -12,7 +10,8 @@ import org.hbhk.aili.orm.server.surpport.Sort;
 import org.hbhk.aili.orm.share.model.Pagination;
 import ${entityPackagName};
 import org.hbhk.${projectName}.${moduleName}.server.service.I${entityName}Service;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
  <#assign service =  "${entityName[0]?lower_case}${entityName[1..]}Service" />
 /**
  * ${entityName}Controller
@@ -20,6 +19,7 @@ import org.hbhk.${projectName}.${moduleName}.server.service.I${entityName}Servic
  *
  */
 @Controller
+@RequestMapping("/${entityName?uncap_first}")
 public class ${entityName}Controller extends BaseController {
 
 	@Autowired
@@ -29,47 +29,57 @@ public class ${entityName}Controller extends BaseController {
 	/**
 	 * 保存${entityName}
 	 */
+	@RequestMapping("/save${entityName}")
+	@ResponseBody
 	public ${entityName} save${entityName}(${entityName} model){
 	
-		return ${daovar}.save(model);
+		return ${service}.save(model);
 	}
 	
 	/**
 	 * 通过id获取${entityName}
 	 * 
 	 */
+	@RequestMapping("/find${entityName}ById")
+	@ResponseBody
 	public ${entityName} find${entityName}ById(Long id){
 	
-		return ${daovar}.getByPrimaryKey(id);
+		return ${service}.getByPrimaryKey(id);
 	}
 
 	/**
 	 * 获取所有${entityName}列表
 	 * @return
 	 */
+	@RequestMapping("/findAll${entityName}List")
+	@ResponseBody
 	public List<${entityName}> findAll${entityName}List(){
 	
-		return ${daovar}.findAll${entityName}List();
-	};
+		return ${service}.findAll${entityName}List();
+	}
 	
 	/**
 	 * 通过ids获取${entityName}列表
 	 * @param ids
 	 * @return
 	 */
+	@RequestMapping("find${entityName}ListByIds")
+	@ResponseBody
 	public List<${entityName}> find${entityName}ListByIds(List<Long> ids){
 	
-		return ${daovar}.find${entityName}ListByIds(ids);
-	};
+		return ${service}.find${entityName}ListByIds(ids);
+	}
 	
 	/**
 	 * 通过参数map获取${entityName}列表
 	 * @param paraMap
 	 * @return
 	 */
+	@RequestMapping("find${entityName}ListByQueryMap")
+	@ResponseBody
 	public List<${entityName}> find${entityName}ListByQueryMap(Map<String, Object> paraMap){
 	
-		return ${daovar}.find${entityName}ListByQueryMap(paraMap);
+		return ${service}.find${entityName}ListByQueryMap(paraMap);
 	};
 	
 	/**
@@ -80,10 +90,12 @@ public class ${entityName}Controller extends BaseController {
 	 * @param sorts 
 	 * @return
 	 */
-	public Pagination<${entityName}> find${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap){
+	@RequestMapping("find${entityName}Page")
+	@ResponseBody
+	public Pagination<${entityName}> find${entityName}Page(Page page,Sort[] sorts,Map<String, Object> paraMap){
 	
-		return ${daovar}.find${entityName}ListByQueryMapWithPage(page,sorts,paraMap);
-	};
+		return ${service}.find${entityName}ListByQueryMapWithPage(page,sorts,paraMap);
+	}
 	
 	
 	<#if lifecycle !="">
@@ -94,57 +106,11 @@ public class ${entityName}Controller extends BaseController {
 	 * @param ids
 	 * @return
 	 */
-	public void enableOrDisable${entityName}ByIds(List<Long> ids,Integer state){
-		${daovar}.enableOrDisable${entityName}ByIds(ids,state);
+	@RequestMapping("updateStatusByIds")
+	@ResponseBody
+	public int updateStatusByIds(List<Long> ids,Integer state){
+		${service}.enableOrDisable${entityName}ByIds(ids,state);
 	}
-	 
-	/**
-	 * 通过ids批量删除${entityName}
-	 * 设置${lifecycle} =2
-	 * @param ids
-	 * @return
-	 */
-	public void remove${entityName}ByIds(List<Long> ids){
-		${daovar}.remove${entityName}ByIds(ids);
-	}
-	
-	
-	/**
-	 * 获取有效的${entityName}列表
-	 * ${lifecycle} =1
-	 * @param ids
-	 * @return
-	 */
-	public List<${entityName}> findAllEffect${entityName}List(){
-	
-		return ${daovar}.findAllEffect${entityName}List();
-	};
-	
-	/**
-	 * 通过参数map获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param paraMap
-	 * @return
-	 */
-	public List<${entityName}> findEffect${entityName}ListByQueryMap(Map<String, Object> paraMap){
-	
-		return ${daovar}.findEffect${entityName}ListByQueryMap(paraMap);
-	};
-	
-	/**
-	 * 分页获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param start
-	 * @param size
-	 * @param paraMap
-	 * @param sorts 
-	 * @return
-	 */
-	
-	public Pagination<${entityName}> findEffect${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap){
-	
-		return ${daovar}.findEffect${entityName}ListByQueryMapWithPage(page,sorts,paraMap);
-	};
 	
 	</#if>
 	

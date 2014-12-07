@@ -33,6 +33,14 @@ public class MakeCodeServiceImpl implements MakeCodeService {
 				generateOutDir + Constants.MANAGER_IMPL_FILE_START
 						+ makeModel.getEntityName() + "Service.java");
 	}
+	
+	public void makeController(MakeModel makeModel, String generateOutDir) {
+		BaseFreemarkUtils.generate(
+				queryTemplatePath("controller_template.fl"),
+				makeModel,
+				generateOutDir +"controller/"
+						+ makeModel.getEntityName() + "Controller.java");
+	}
 
 	@Override
 	public void makeSqlXml(MakeModel makeModel, String generateOutDir) {

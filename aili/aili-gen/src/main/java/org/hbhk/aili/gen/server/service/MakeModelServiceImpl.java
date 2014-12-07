@@ -12,7 +12,7 @@ import org.hbhk.aili.gen.server.GenerateMain;
 import org.hbhk.aili.gen.server.model.MakeModel;
 import org.hbhk.aili.gen.server.model.PropertyDesc;
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.PrimaryKey;
+import org.hbhk.aili.orm.server.annotation.Id;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.springframework.util.ReflectionUtils;
 
@@ -124,7 +124,7 @@ public class MakeModelServiceImpl implements MakeModelService {
 			String fieldName = field.getName();
 			String jetName = "${"+field.getName()+"}";
 			for (Annotation anno : annos) {
-				if (anno instanceof PrimaryKey) {
+				if (anno instanceof Id) {
 					mm.setPkName(fieldName);
 				} else if (anno instanceof Column) {
 					Column column = (Column) anno;

@@ -62,37 +62,7 @@ public interface I${entityName}Dao extends GenericEntityDao<${entityName},String
 	 * @return
 	 */
 	@NativeUpdate
-	void updateStatus${entityName}ByIds(@QueryParam("ids")List<Long> ids,@QueryParam("state")Integer status);
-	
-	/**
-	 * 获取有效的${entityName}列表
-	 * ${lifecycle} =1
-	 * @param ids
-	 * @return
-	 */
-	@NativeQuery(model = ${entityName}.class)
-	List<${entityName}> findAllEffect${entityName}List();
-	
-	/**
-	 * 通过参数map获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param paraMap
-	 * @return
-	 */
-	@NativeQuery(model = ${entityName}.class)
-	List<${entityName}> findEffect${entityName}ListByQueryMap(@QueryParam Map<String, Object> paraMap);
-	
-	/**
-	 * 分页获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param start
-	 * @param size
-	 * @param paraMap
-	 * @param sorts 
-	 * @return
-	 */
-	@NativeQuery(model = ${entityName}.class)
-	Pagination<${entityName}> findEffect${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,@QueryParam Map<String, Object> paraMap);
+	int updateStatusByIds(@QueryParam("ids")List<String> ids,@QueryParam("status")Integer status);
 	
 	</#if>
 	

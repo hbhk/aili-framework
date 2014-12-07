@@ -1,14 +1,8 @@
 package org.hbhk.${projectName}.${moduleName}.server.service;
 
 import java.util.List;
-import java.util.Map;
-
-import org.hbhk.aili.orm.server.surpport.Page;
-import org.hbhk.aili.orm.server.surpport.Sort;
-import org.hbhk.aili.orm.share.model.Pagination;
 import org.hbhk.aili.orm.server.service.ICommonService;
-import com.baozun.nebula.model.${packagName}.${entityName};
-
+import ${entityPackagName};
 /**
  * ${entityName}Service
  * @author  ${authName}
@@ -36,24 +30,6 @@ public interface I${entityName}Service extends ICommonService<${entityName}>  {
 	 */
 	List<${entityName}> find${entityName}ListByIds(List<Long> ids);
 	
-	/**
-	 * 通过参数map获取${entityName}列表
-	 * @param paraMap
-	 * @return
-	 */
-	List<${entityName}> find${entityName}ListByQueryMap(Map<String, Object> paraMap);
-	
-	/**
-	 * 分页获取${entityName}列表
-	 * @param start
-	 * @param size
-	 * @param paraMap
-	 * @param sorts 
-	 * @return
-	 */
-	Pagination<${entityName}> find${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap);
-	
-	
 	<#if lifecycle !="">
 	
 	/**
@@ -62,43 +38,7 @@ public interface I${entityName}Service extends ICommonService<${entityName}>  {
 	 * @param ids
 	 * @return
 	 */
-	void enableOrDisable${entityName}ByIds(List<Long> ids,Integer state);
-	
-	/**
-	 * 通过ids批量删除${entityName}
-	 * 设置${lifecycle} =2
-	 * @param ids
-	 * @return
-	 */
-	void remove${entityName}ByIds(List<Long> ids);
-	
-	/**
-	 * 获取有效的${entityName}列表
-	 * ${lifecycle} =1
-	 * @param ids
-	 * @return
-	 */
-	List<${entityName}> findAllEffect${entityName}List();
-	
-	/**
-	 * 通过参数map获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param paraMap
-	 * @return
-	 */
-	List<${entityName}> findEffect${entityName}ListByQueryMap(Map<String, Object> paraMap);
-	
-	/**
-	 * 分页获取有效的${entityName}列表
-	 * 强制加上${lifecycle} =1
-	 * @param start
-	 * @param size
-	 * @param paraMap
-	 * @param sorts 
-	 * @return
-	 */
-	
-	Pagination<${entityName}> findEffect${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap);
+	int updateStatusByIds(List<String> ids,Integer status);
 	
 	</#if>
 	
