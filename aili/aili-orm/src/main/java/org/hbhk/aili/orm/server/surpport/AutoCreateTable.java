@@ -52,12 +52,20 @@ public class AutoCreateTable implements InitializingBean {
 		sb.append("CREATE TABLE " + tableName + "(\n");
 		String pk = SqlUtil.getpriKey(fields);
 		pk = nameHandler.getPrimaryName(pk);
-		sb.append(pk + " varchar(255),\n");
+		sb.append(pk + " INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,\n");
+		List<String> columnNames = new ArrayList<String>();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
 			Column col = field.getAnnotation(Column.class);
+			if(col == null){
+				continue;
+			}
 			String columnName = col.value();
 			columnName = nameHandler.getColumnName(columnName);
+			if(columnNames.contains(columnName)){
+				continue;
+			}
+			columnNames.add(columnName);
 			if (columnName != null && !columnName.equals(pk)) {
 				String dbtype = col.dbType();
 				// 暂时解决现有项目的兼容 TODO
