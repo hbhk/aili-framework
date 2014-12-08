@@ -33,12 +33,5 @@ public class SqlModelTest extends BaseInfo {
 		this.qqq = qqq;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 }

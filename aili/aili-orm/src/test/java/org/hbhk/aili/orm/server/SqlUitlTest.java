@@ -6,7 +6,6 @@ import org.hbhk.aili.orm.share.util.SqlUtil;
 public final class SqlUitlTest {
 	public static void main(String[] args) {
 		SqlModelTest del = new SqlModelTest();
-		del.setId("id");
 		del.setQqq("dff");
 		del.setSss("sss");
 		String ss = SqlUtil.buildInsertSql(del, new DefaultNameHandler()).getSql().toString();
