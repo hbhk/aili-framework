@@ -15,13 +15,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hbhk.aili.orm.server.annotation.ColumnTranslator;
-import org.hbhk.aili.orm.server.annotation.Entity;
-import org.hbhk.aili.orm.server.annotation.JoinColumn;
 import org.hbhk.aili.orm.server.annotation.Id;
+import org.hbhk.aili.orm.server.annotation.JoinColumn;
 import org.springframework.jdbc.core.RowMapper;
 
 public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
@@ -100,9 +97,7 @@ public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
 
 	public void setAttributes(String[] attributes, ColumnTranslator translator) {
 		try {
-			translator = translator == null ? (clazz
-					.getAnnotation(Entity.class) != null ? new JpaEntityColumnTranslator(
-					clazz) : new UpperCaseColumnTranslator(clazz))
+			translator = translator == null ? (new UpperCaseColumnTranslator(clazz))
 					: translator;
 			// 获取实体信息
 			BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
