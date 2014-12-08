@@ -24,7 +24,6 @@ import org.hbhk.aili.security.server.dao.IUserDao;
 import org.hbhk.aili.security.server.service.IUserService;
 import org.hbhk.aili.security.share.define.UserConstants;
 import org.hbhk.aili.security.share.pojo.UserInfo;
-import org.hbhk.aili.security.share.util.UUIDUitl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -102,7 +101,6 @@ public class UserService implements IUserService {
 		if (StringUtils.isEmpty(user.getPassword())) {
 			throw new BusinessException("密码为空");
 		}
-		user.setId(UUIDUitl.getUuid());
 		user.setCreateTime(new Date());
 		user.setCreatUser("hbhk");
 		user.setUserHead(defaultHead);
@@ -132,8 +130,8 @@ public class UserService implements IUserService {
 	public UserInfo update(UserInfo user) {
 		ICache<String, UserInfo> usercache = CacheManager.getInstance()
 				.getCache(UserCache.cacheID);
-		String username= UserContext.getCurrentContext().getCurrentUserName();
-		if(StringUtils.isNotEmpty(username)){
+		String username = UserContext.getCurrentContext().getCurrentUserName();
+		if (StringUtils.isNotEmpty(username)) {
 			UserInfo cuser = usercache.get(username);
 			user.setId(cuser.getId());
 			usercache.invalid(username);

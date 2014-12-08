@@ -12,16 +12,12 @@ import org.hbhk.aili.orm.share.model.Pagination;
 import org.hbhk.aili.security.server.dao.ILoginLogInfoDao;
 import org.hbhk.aili.security.server.service.ILoginLogInfoService;
 import org.hbhk.aili.security.share.pojo.LoginLogInfo;
-import org.hbhk.aili.security.share.util.UUIDUitl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * LoginLogInfoManager
- * 
  * @author 何波
- * 
  */
 @Transactional
 @Service
@@ -32,7 +28,6 @@ public class LoginLogInfoService implements ILoginLogInfoService {
 	private  ExecutorService executor = Executors.newFixedThreadPool(5);
 	public LoginLogInfo save(final LoginLogInfo model) {
 		model.setCreateTime(new Date());
-		model.setId(UUIDUitl.getUuid());
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
