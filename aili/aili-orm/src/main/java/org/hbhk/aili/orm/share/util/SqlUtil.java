@@ -27,7 +27,6 @@ public class SqlUtil {
 				list.add(field);
 			}
 		}
-		list.addAll(Arrays.asList(fields));
 		if (clazz.getSuperclass() != null) {
 			Class<?> superClass = clazz.getSuperclass();
 			fields = superClass.getDeclaredFields();
