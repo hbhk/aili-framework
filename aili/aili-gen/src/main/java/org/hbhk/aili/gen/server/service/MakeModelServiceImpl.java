@@ -72,6 +72,7 @@ public class MakeModelServiceImpl implements MakeModelService {
 		if (index != -1) {
 			name = name.substring(index + 1);
 		}
+		name = name.replaceAll("Info", "").trim();
 		return name;
 	}
 

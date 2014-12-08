@@ -10,7 +10,6 @@ import org.hbhk.aili.gen.server.test.FriendInfo;
 import org.hbhk.aili.orm.server.surpport.Page;
 import org.hbhk.aili.orm.server.surpport.Sort;
 import org.hbhk.aili.orm.share.model.Pagination;
-import org.hbhk.aili.orm.share.util.UUIDUitl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,6 @@ public class FriendInfoService implements IFriendInfoService {
 	 */
 	public FriendInfo save(FriendInfo model){
 		model.setCreateTime(new Date());
-		model.setId(UUIDUitl.getUuid());
 		return friendInfoDao.save(model);
 	}
 	
