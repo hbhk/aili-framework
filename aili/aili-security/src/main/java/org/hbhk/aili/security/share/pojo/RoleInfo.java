@@ -3,23 +3,23 @@ package org.hbhk.aili.security.share.pojo;
 import java.util.Set;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.Entity;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.share.model.BaseInfo;
 
-@Entity
 @Tabel("t_aili_role")
-public class RoleInfo extends BaseInfo { 
+public class RoleInfo extends BaseInfo {
 
 	private static final long serialVersionUID = 4218930427867063297L;
 	@Column("code")
 	private String code;
-	@Column("enable")
-	private int enable;
+
 	@Column("name")
 	private String name;
-	private Set<ResourceInfo> resources;
 
+	@Column("type")
+	private String type;
+
+	private Set<String> resourceCodes;
 
 	public String getCode() {
 		return code;
@@ -27,14 +27,6 @@ public class RoleInfo extends BaseInfo {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public int getEnable() {
-		return enable;
-	}
-
-	public void setEnable(int enable) {
-		this.enable = enable;
 	}
 
 	public String getName() {
@@ -45,12 +37,20 @@ public class RoleInfo extends BaseInfo {
 		this.name = name;
 	}
 
-	public Set<ResourceInfo> getResources() {
-		return resources;
+	public Set<String> getResourceCodes() {
+		return resourceCodes;
 	}
 
-	public void setResources(Set<ResourceInfo> resources) {
-		this.resources = resources;
+	public void setResourceCodes(Set<String> resourceCodes) {
+		this.resourceCodes = resourceCodes;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

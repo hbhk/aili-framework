@@ -1,7 +1,6 @@
 package org.hbhk.aili.security.share.pojo;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.Entity;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.share.model.BaseInfo;
 
@@ -9,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_EMPTY)
-@Entity
 @Tabel("t_aili_function")
 public class FunctionInfo extends BaseInfo {
 
@@ -20,8 +18,8 @@ public class FunctionInfo extends BaseInfo {
 	@Column("text")
 	private String text;
 
-	@Column("parentCode")
-	private String parentCode;
+	@Column("resource_code")
+	private String resourceCode;
 	// 显示 顺序
 	@Column("priority")
 	private int priority;
@@ -48,14 +46,6 @@ public class FunctionInfo extends BaseInfo {
 		this.text = text;
 	}
 
-	public String getParentCode() {
-		return parentCode;
-	}
-
-	public void setParentCode(String parentCode) {
-		this.parentCode = parentCode;
-	}
-
 	public int getPriority() {
 		return priority;
 	}
@@ -78,6 +68,14 @@ public class FunctionInfo extends BaseInfo {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	public String getResourceCode() {
+		return resourceCode;
+	}
+
+	public void setResourceCode(String resourceCode) {
+		this.resourceCode = resourceCode;
 	}
 
 }

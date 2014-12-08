@@ -1,7 +1,7 @@
 package org.hbhk.aili.security.share.pojo;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 public class MenuInfo implements Serializable {
 
@@ -20,7 +20,7 @@ public class MenuInfo implements Serializable {
 	// 显示效果 样式
 	private String cls;
 	// 子节点
-	private List<MenuInfo> children;
+	private Set<String> childrenCodes;
 
 	public String getCode() {
 		return code;
@@ -78,12 +78,12 @@ public class MenuInfo implements Serializable {
 		this.cls = cls;
 	}
 
-	public List<MenuInfo> getChildren() {
-		return children;
+	public Set<String> getChildrenCodes() {
+		return childrenCodes;
 	}
 
-	public void setChildren(List<MenuInfo> children) {
-		this.children = children;
+	public void setChildrenCodes(Set<String> childrenCodes) {
+		this.childrenCodes = childrenCodes;
 	}
 
 }

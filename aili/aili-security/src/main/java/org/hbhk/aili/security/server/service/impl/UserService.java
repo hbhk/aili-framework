@@ -105,7 +105,7 @@ public class UserService implements IUserService {
 		user.setId(UUIDUitl.getUuid());
 		user.setCreateTime(new Date());
 		user.setCreatUser("hbhk");
-		user.setUserHeadImg(defaultHead);
+		user.setUserHead(defaultHead);
 		String pwd = user.getPassword();
 		pwd = EncryptUtil.encodeSHA1(pwd);
 		user.setPassword(pwd);

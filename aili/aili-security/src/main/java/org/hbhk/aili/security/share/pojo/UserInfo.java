@@ -3,36 +3,33 @@ package org.hbhk.aili.security.share.pojo;
 import java.util.Set;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.Entity;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.share.model.BaseInfo;
 
-@Entity
 @Tabel("t_aili_user")
 public class UserInfo extends BaseInfo {
 
 	private static final long serialVersionUID = 54122579931594962L;
 	@Column("user_name")
 	private String userName;
-	
+
 	@Column("password")
 	private String password;
-	
-	@Column("userHeadImg")
-	private String userHeadImg;
-	
+
+	@Column("user_head")
+	private String userHead;
+
 	@Column("nick_name")
 	private String nickName;
-	
+
 	@Column("email")
 	private String email;
-	
+
 	@Column("gender")
 	private String gender;
-	
-	@Column("roles")
-	private Set<String> roles;
-	
+
+	private Set<String> roleCodes;
+
 	@Column("area")
 	private String area;
 
@@ -50,14 +47,6 @@ public class UserInfo extends BaseInfo {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getUserHeadImg() {
-		return userHeadImg;
-	}
-
-	public void setUserHeadImg(String userHeadImg) {
-		this.userHeadImg = userHeadImg;
 	}
 
 	public String getNickName() {
@@ -84,14 +73,6 @@ public class UserInfo extends BaseInfo {
 		this.gender = gender;
 	}
 
-	public Set<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
-	}
-
 	public String getArea() {
 		return area;
 	}
@@ -99,9 +80,21 @@ public class UserInfo extends BaseInfo {
 	public void setArea(String area) {
 		this.area = area;
 	}
-	
-	
 
+	public Set<String> getRoleCodes() {
+		return roleCodes;
+	}
 
+	public void setRoleCodes(Set<String> roleCodes) {
+		this.roleCodes = roleCodes;
+	}
+
+	public String getUserHead() {
+		return userHead;
+	}
+
+	public void setUserHead(String userHead) {
+		this.userHead = userHead;
+	}
 
 }

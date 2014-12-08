@@ -1,10 +1,8 @@
 package org.hbhk.aili.security.share.pojo;
 
-import java.util.List;
+import java.util.Set;
 
 import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.Entity;
-import org.hbhk.aili.orm.server.annotation.JoinColumn;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.share.model.BaseInfo;
 
@@ -12,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_EMPTY)
-@Entity
 @Tabel("t_aili_resource")
 public class ResourceInfo extends BaseInfo {
 
@@ -25,7 +22,7 @@ public class ResourceInfo extends BaseInfo {
 	// 是否展开
 	@Column("expanded")
 	private boolean expanded;
-	@Column("parentCode")
+	@Column("parent_code")
 	private String parentCode;
 	// 显示 顺序
 	@Column("priority")
@@ -38,9 +35,7 @@ public class ResourceInfo extends BaseInfo {
 	private String cls;
 
 	// 子节点
-	@Column("children")
-	@JoinColumn
-	private List<ResourceInfo> children;
+	private Set<String> childrenCodes;
 
 	// 备注
 	@Column("memo")
@@ -94,14 +89,6 @@ public class ResourceInfo extends BaseInfo {
 		this.url = url;
 	}
 
-	public List<ResourceInfo> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<ResourceInfo> children) {
-		this.children = children;
-	}
-
 	public String getMemo() {
 		return memo;
 	}
@@ -116,6 +103,14 @@ public class ResourceInfo extends BaseInfo {
 
 	public void setCls(String cls) {
 		this.cls = cls;
+	}
+
+	public Set<String> getChildrenCodes() {
+		return childrenCodes;
+	}
+
+	public void setChildrenCodes(Set<String> childrenCodes) {
+		this.childrenCodes = childrenCodes;
 	}
 
 }
