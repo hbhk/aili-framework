@@ -62,6 +62,9 @@ public class AutoCreateTable implements InitializingBean {
 			}
 			String columnName = col.value();
 			columnName = nameHandler.getColumnName(columnName);
+			if(StringUtils.isEmpty(columnName)){
+				continue;
+			}
 			if(columnNames.contains(columnName)){
 				continue;
 			}
