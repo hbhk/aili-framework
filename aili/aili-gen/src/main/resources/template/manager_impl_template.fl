@@ -16,7 +16,7 @@ import ${entityPackagName};
 import org.hbhk.${projectName}.${moduleName}.server.service.I${entityName}Service;
 import org.hbhk.${projectName}.${moduleName}.server.dao.I${entityName}Dao;
 import org.hbhk.aili.orm.share.util.UUIDUitl;
- <#assign daovar =  "${fname[0]?lower_case}${entityName[1..]}Dao" />
+ <#assign daovar =  "${fname[0]?lower_case}${fname[1..]}Dao" />
 /**
  * ${entityName}Manager
  * @author  ${authName}

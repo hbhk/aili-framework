@@ -14,14 +14,14 @@ import ${entityPackagName};
 import org.hbhk.${projectName}.${moduleName}.server.service.I${entityName}Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
- <#assign service =  "${fname[0]?lower_case}${entityName[1..]}Service" />
+ <#assign service =  "${fname[0]?lower_case}${fname[1..]}Service" />
 /**
  * ${entityName}Controller
  * @author  ${authName}
  *
  */
 @Controller
-@RequestMapping("/${entityName?uncap_first}")
+@RequestMapping("/${fname?uncap_first}")
 public class ${fname}Controller extends BaseController {
 
 	@Autowired
