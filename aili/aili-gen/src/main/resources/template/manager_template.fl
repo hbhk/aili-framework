@@ -5,7 +5,6 @@ import java.util.Map;
 import org.hbhk.aili.orm.server.service.ICommonService;
 import ${entityPackagName};
 /**
- * ${entityName}Service
  * @author  ${authName}
  *
  */

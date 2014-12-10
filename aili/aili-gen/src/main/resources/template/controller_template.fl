@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
  <#assign service =  "${fname[0]?lower_case}${fname[1..]}Service" />
 /**
- * ${entityName}Controller
  * @author  ${authName}
  *
  */
