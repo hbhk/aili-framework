@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.share.util.MyStringUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -22,14 +21,14 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 			return;
 		}
 		HandlerMethod m = (HandlerMethod) handler;
-		RequestMapping requestMapping = m.getBean().getClass()
-				.getAnnotation(RequestMapping.class);
+		//获取模块名
+		String  clsName =m.getBean().getClass().getName();
+		String[] arr = clsName.split("\\.");
+		String moduleName = arr[3];
 		String contextPath = request.getContextPath() + "/";
 		request.setAttribute("base", contextPath);
-		if (requestMapping != null && modelAndView != null
+		if (modelAndView != null
 				&& !StringUtils.isEmpty(modelAndView.getViewName())) {
-			String[] modules = requestMapping.value();
-			String moduleName = modules[0];
 			if (!moduleName.startsWith("/")) {
 				moduleName = "/" + moduleName;
 			}
@@ -39,12 +38,7 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 					viewName = "/" + viewName;
 				}
 				modelAndView.setViewName(moduleName + viewName);
-				// request.setAttribute("images", contextPath
-				// + ResourceRoot.resourcePrefix + "images" + moduleName);
-				// request.setAttribute("scripts", contextPath
-				// + ResourceRoot.resourcePrefix + "scripts" + moduleName);
-				// request.setAttribute("styles", contextPath
-				// + ResourceRoot.resourcePrefix + "styles" + moduleName);
+
 				request.setAttribute("images", contextPath + "images"
 						+ moduleName);
 				request.setAttribute("scripts", contextPath + "scripts"
