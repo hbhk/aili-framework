@@ -10,7 +10,7 @@ public class Constants {
 	
 	public static final String MANAGER_IMPL_TEMPLATE="manager_impl_template.fl";
 	
-	public static final String XML_FILE_START="xml/bs-sql-";
+	public static final String XML_FILE_START="xml/";
 	
 	public static final String DAO_FILE_START="dao/";
 	

@@ -72,7 +72,6 @@ public class MakeModelServiceImpl implements MakeModelService {
 		if (index != -1) {
 			name = name.substring(index + 1);
 		}
-		name = name.replaceAll("Info", "").trim();
 		return name;
 	}
 
@@ -123,7 +122,7 @@ public class MakeModelServiceImpl implements MakeModelService {
 			// 是否发现Column,Joincolumn注解
 			boolean isfindColumn = false;
 			String fieldName = field.getName();
-			String jetName = "${"+field.getName()+"}";
+			String jetName = ":"+field.getName();
 			for (Annotation anno : annos) {
 				if (anno instanceof Id) {
 					mm.setPkName(fieldName);

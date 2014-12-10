@@ -16,7 +16,7 @@ import ${entityPackagName};
 import org.hbhk.${projectName}.${moduleName}.server.service.I${entityName}Service;
 import org.hbhk.${projectName}.${moduleName}.server.dao.I${entityName}Dao;
 import org.hbhk.aili.orm.share.util.UUIDUitl;
- <#assign daovar =  "${entityName[0]?lower_case}${entityName[1..]}Dao" />
+ <#assign daovar =  "${fname[0]?lower_case}${entityName[1..]}Dao" />
 /**
  * ${entityName}Manager
  * @author  ${authName}
@@ -24,7 +24,7 @@ import org.hbhk.aili.orm.share.util.UUIDUitl;
  */
 @Transactional
 @Service 
-public class ${entityName}Service implements I${entityName}Service {
+public class ${fname}Service implements I${fname}Service {
 
 	private  Logger log = LoggerFactory.getLogger(${entityName}Service.class);
 	@Autowired
@@ -36,7 +36,6 @@ public class ${entityName}Service implements I${entityName}Service {
 	 */
 	public ${entityName} save(${entityName} model){
 		model.setCreateTime(new Date());
-		model.setId(UUIDUitl.getUuid());
 		return ${daovar}.save(model);
 	}
 	
@@ -64,18 +63,18 @@ public class ${entityName}Service implements I${entityName}Service {
 	 * 通过id获取${entityName}
 	 * 
 	 */
-	public ${entityName} find${entityName}ById(Long id){
-	
-		return ${daovar}.getByPrimaryKey(id);
+	public ${entityName} findById(Long id){
+		${entityName} model = new ${entityName}();
+		return ${daovar}.getOne(model);
 	}
 
 	/**
 	 * 获取所有${entityName}列表
 	 * @return
 	 */
-	public List<${entityName}> findAll${entityName}List(){
+	public List<${entityName}> findAllList(){
 	
-		return ${daovar}.findAll${entityName}List();
+		return ${daovar}.findAllList();
 	}
 	
 	/**
@@ -83,19 +82,32 @@ public class ${entityName}Service implements I${entityName}Service {
 	 * @param ids
 	 * @return
 	 */
-	public List<${entityName}> find${entityName}ListByIds(List<Long> ids){
+	public List<${entityName}> findListByIds(List<Long> ids){
 	
-		return ${daovar}.find${entityName}ListByIds(ids);
+		return ${daovar}.findListByIds(ids);
 	}
 	
+	<#if lifecycle !="">
+	
 	/**
+	 * 通过ids批量启用或禁用${entityName}
+	 * 设置${lifecycle} =0 或 1
+	 * @param ids
+	 * @return
+	 */
+	public int updateStatusByIds(List<Long> ids,Integer state){
+		return ${daovar}.updateStatusByIds(ids,state);
+	}
+	
+	</#if>
+	
+		/**
 	 * 通过参数map获取${entityName}列表
 	 * @param paraMap
 	 * @return
 	 */
-	public List<${entityName}> getList(Map<String, Object> paraMap){
-	
-		return ${daovar}.find${entityName}ListByQueryMap(paraMap);
+	List<${entityName}> findListByQueryMap(Map<String, Object> paraMap){
+		return ${daovar}.findListByQueryMap(paraMap);
 	}
 	
 	/**
@@ -106,24 +118,9 @@ public class ${entityName}Service implements I${entityName}Service {
 	 * @param sorts 
 	 * @return
 	 */
-	public Pagination<${entityName}> getPagination(Page page,Sort[] sorts,Map<String, Object> paraMap){
-	
-		return ${daovar}.find${entityName}ListByQueryMapWithPage(page,sorts,paraMap);
+	Pagination<${entityName}> findListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap){
+		return ${daovar}.findListByQueryMapWithPage(page,sorts,paraMap);
 	}
 	
-	
-	<#if lifecycle !="">
-	
-	/**
-	 * 通过ids批量启用或禁用${entityName}
-	 * 设置${lifecycle} =0 或 1
-	 * @param ids
-	 * @return
-	 */
-	public int updateStatusByIds(List<String> ids,Integer state){
-		${daovar}.updateStatusByIds(ids,state);
-	}
-	
-	</#if>
 	
 }

@@ -1,6 +1,7 @@
 package org.hbhk.${projectName}.${moduleName}.server.service;
 
 import java.util.List;
+import java.util.Map;
 import org.hbhk.aili.orm.server.service.ICommonService;
 import ${entityPackagName};
 /**
@@ -8,27 +9,27 @@ import ${entityPackagName};
  * @author  ${authName}
  *
  */
-public interface I${entityName}Service extends ICommonService<${entityName}>  {
+public interface I${fname}Service extends ICommonService<${entityName}>  {
 
 	
 	/**
 	 * 通过id获取${entityName}
 	 * 
 	 */
-	${entityName} find${entityName}ById(Long id);
+	${entityName} findById(Long id);
 
 	/**
 	 * 获取所有${entityName}列表
 	 * @return
 	 */
-	List<${entityName}> findAll${entityName}List();
+	List<${entityName}> findAllList();
 	
 	/**
 	 * 通过ids获取${entityName}列表
 	 * @param ids
 	 * @return
 	 */
-	List<${entityName}> find${entityName}ListByIds(List<Long> ids);
+	List<${entityName}> findListByIds(List<Long> ids);
 	
 	<#if lifecycle !="">
 	
@@ -38,8 +39,26 @@ public interface I${entityName}Service extends ICommonService<${entityName}>  {
 	 * @param ids
 	 * @return
 	 */
-	int updateStatusByIds(List<String> ids,Integer status);
+	int updateStatusByIds(List<Long> ids,Integer status);
 	
 	</#if>
+	
+	/**
+	 * 通过参数map获取${entityName}列表
+	 * @param paraMap
+	 * @return
+	 */
+	List<${entityName}> findListByQueryMap(Map<String, Object> paraMap);
+	
+	/**
+	 * 分页获取${entityName}列表
+	 * @param start
+	 * @param size
+	 * @param paraMap
+	 * @param sorts 
+	 * @return
+	 */
+	Pagination<${entityName}> findListByQueryMapWithPage(Page page,Sort[] sorts,Map<String, Object> paraMap);
+	
 	
 }

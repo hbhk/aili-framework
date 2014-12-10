@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <orm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.hbhk.org/orm/sql"
 	xsi:schemaLocation="http://www.hbhk.org/orm/sql orm.xsd">
-	<select id="${entityName}.findAll${entityName}List">
+	<select id="${entityName}.findAllList">
 		<sql>
 			select * from ${tableName} 
 	       		<#if lifecycle !="" && hasDeleteLifecycle>
@@ -9,7 +9,7 @@
 	       		</#if>
 		</sql>
 	</select>
-	<select id="${entityName}.find${entityName}ListByIds">
+	<select id="${entityName}.findListByIds">
 		<sql>
 			select * from ${tableName} where 
 		       		id in (
@@ -19,7 +19,7 @@
 		       		 -1)
 		</sql>
 	</select>
-	<select id="${entityName}.find${entityName}ListByQueryMap">
+	<select id="${entityName}.findListByQueryMap">
 		<sql>
 			select * from ${tableName} where 
 					<#if lifecycle !="" && hasDeleteLifecycle>
@@ -30,35 +30,18 @@
 		       		<#include "xml_template_condition.fl">
 		</sql>
 	</select>
-	<select id="${entityName}.find${entityName}ListByQueryMapWithPage">
+	<select id="${entityName}.findListByQueryMapWithPage">
 		<sql>
 			select * from ${tableName} 
 	       		<#if lifecycle !="" && hasDeleteLifecycle>
 	       			 where ${lifecycle} !=2
 	       		</#if>
+	       		<#include "xml_template_condition.fl">
 		</sql>
 	</select>
 	<#if lifecycle !="">
 	
-	<select id="${entityName}.findAllEffect${entityName}List">
-		<sql>
-			select * from ${tableName} where ${lifecycle}=1
-		</sql>
-	</select>
-	<select id="${entityName}.findEffect${entityName}ListByQueryMap">
-		<sql>
-			select * from ${tableName} where ${lifecycle}=1
-		       		<#include "xml_template_condition.fl">
-		</sql>
-	</select>
-	<select id="${entityName}.findEffect${entityName}ListByQueryMapWithPage">
-		<sql>
-			select * from ${tableName} where ${lifecycle}=1
-		       		<#include "xml_template_condition.fl">
-		</sql>
-	</select>
-	
-	<update id="${entityName}.enableOrDisable${entityName}ByIds">
+	<update id="${entityName}.updateStatusByIds">
 			<sql>
 			update ${tableName}
 		       		set ${lifecycle}=${r'${status}'}

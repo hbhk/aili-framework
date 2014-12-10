@@ -12,18 +12,17 @@ import org.hbhk.aili.orm.share.model.Pagination;
 import ${entityPackagName};
 
 /**
- * ${entityName}Dao
  * @author  ${authName}
  *
  */
-public interface I${entityName}Dao extends GenericEntityDao<${entityName},String>{
+public interface I${fname}Dao extends GenericEntityDao<${entityName},Long>{
 
 	/**
 	 * 获取所有${entityName}列表
 	 * @return
 	 */
 	@NativeQuery(model = ${entityName}.class)
-	List<${entityName}> findAll${entityName}List();
+	List<${entityName}> findAllList();
 	
 	/**
 	 * 通过ids获取${entityName}列表
@@ -31,7 +30,7 @@ public interface I${entityName}Dao extends GenericEntityDao<${entityName},String
 	 * @return
 	 */
 	@NativeQuery(model = ${entityName}.class)
-	List<${entityName}> find${entityName}ListByIds(@QueryParam("ids")List<Long> ids);
+	List<${entityName}> findListByIds(@QueryParam("ids")List<Long> ids);
 	
 	/**
 	 * 通过参数map获取${entityName}列表
@@ -39,7 +38,7 @@ public interface I${entityName}Dao extends GenericEntityDao<${entityName},String
 	 * @return
 	 */
 	@NativeQuery(model = ${entityName}.class)
-	List<${entityName}> find${entityName}ListByQueryMap(@QueryParam Map<String, Object> paraMap);
+	List<${entityName}> findListByQueryMap(@QueryParam Map<String, Object> paraMap);
 	
 	/**
 	 * 分页获取${entityName}列表
@@ -50,7 +49,7 @@ public interface I${entityName}Dao extends GenericEntityDao<${entityName},String
 	 * @return
 	 */
 	@NativeQuery(model = ${entityName}.class)
-	Pagination<${entityName}> find${entityName}ListByQueryMapWithPage(Page page,Sort[] sorts,@QueryParam Map<String, Object> paraMap);
+	Pagination<${entityName}> findListByQueryMapWithPage(Page page,Sort[] sorts,@QueryParam Map<String, Object> paraMap);
 	
 	
 	<#if lifecycle !="">
@@ -62,7 +61,7 @@ public interface I${entityName}Dao extends GenericEntityDao<${entityName},String
 	 * @return
 	 */
 	@NativeUpdate
-	int updateStatusByIds(@QueryParam("ids")List<String> ids,@QueryParam("status")Integer status);
+	int updateStatusByIds(@QueryParam("ids")List<Long> ids,@QueryParam("status")Integer status);
 	
 	</#if>
 	

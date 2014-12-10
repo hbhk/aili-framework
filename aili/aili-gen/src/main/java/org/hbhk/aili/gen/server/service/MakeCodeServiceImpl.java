@@ -15,39 +15,51 @@ public class MakeCodeServiceImpl implements MakeCodeService {
 
 	@Override
 	public void makeDao(MakeModel makeModel, String generateOutDir) {
+		String name =  makeModel.getEntityName();
+		name = name.replaceAll("Info", "").trim();
+		makeModel.setFname(name);
 		BaseFreemarkUtils.generate(queryTemplatePath(Constants.DAO_TEMPLATE),
 				makeModel, generateOutDir + Constants.DAO_FILE_START + "I"
-						+ makeModel.getEntityName() + "Dao.java");
+						+ name+ "Dao.java");
 	}
 
 	@Override
 	public void makeManager(MakeModel makeModel, String generateOutDir) {
+		String name =  makeModel.getEntityName();
+		name = name.replaceAll("Info", "").trim();
+		makeModel.setFname(name);
 		BaseFreemarkUtils.generate(
 				queryTemplatePath(Constants.MANAGER_TEMPLATE),
 				makeModel,
 				generateOutDir + Constants.MANAGER_FILE_START + "I"
-						+ makeModel.getEntityName() + "Service.java");
+						+ name + "Service.java");
 		BaseFreemarkUtils.generate(
 				queryTemplatePath(Constants.MANAGER_IMPL_TEMPLATE),
 				makeModel,
 				generateOutDir + Constants.MANAGER_IMPL_FILE_START
-						+ makeModel.getEntityName() + "Service.java");
+						+name + "Service.java");
 	}
 	
 	public void makeController(MakeModel makeModel, String generateOutDir) {
+		String name =  makeModel.getEntityName();
+		name = name.replaceAll("Info", "").trim();
+		makeModel.setFname(name);
 		BaseFreemarkUtils.generate(
 				queryTemplatePath("controller_template.fl"),
 				makeModel,
 				generateOutDir +"controller/"
-						+ makeModel.getEntityName() + "Controller.java");
+						+ name + "Controller.java");
 	}
 
 	@Override
 	public void makeSqlXml(MakeModel makeModel, String generateOutDir) {
+		String name =  makeModel.getEntityName();
+		name = name.replaceAll("Info", "").trim();
+		makeModel.setFname(name);
 		BaseFreemarkUtils.generate(queryTemplatePath(Constants.XML_TEMPLATE),
 				makeModel, generateOutDir + Constants.XML_FILE_START
-						+ makeModel.getPackagName() + "-"
-						+ makeModel.getEntityName().toLowerCase() + ".xml");
+						+ "orm" + "-"
+						+ name.toLowerCase() + ".xml");
 
 	}
 

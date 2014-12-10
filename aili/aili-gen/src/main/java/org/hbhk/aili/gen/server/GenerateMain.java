@@ -5,18 +5,18 @@ import org.hbhk.aili.gen.server.service.MakeCodeService;
 import org.hbhk.aili.gen.server.service.MakeCodeServiceImpl;
 import org.hbhk.aili.gen.server.service.MakeModelService;
 import org.hbhk.aili.gen.server.service.MakeModelServiceImpl;
-import org.hbhk.aili.gen.server.test.FriendInfo;
+import org.hbhk.aili.gen.server.test.CarInfo;
 
 public class GenerateMain {
 
 	/**
 	 * 生成的实体
 	 */
-	private final Class<?> modelClass = FriendInfo.class;
+	private final Class<?> modelClass = CarInfo.class;
 
-	public static String projectName = "maikkr";
+	public static String projectName = "secretary";
 
-	public static String moduleName = "user";
+	public static String moduleName = "backend";
 	/**
 	 * 作者名
 	 */

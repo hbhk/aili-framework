@@ -14,6 +14,8 @@ public class MakeModel {
 	private String moduleName;
 
 	private String entityPackagName;
+	
+	private  String fname;
 	/**
 	 * 生命周期的字段名
 	 */
@@ -166,5 +168,15 @@ public class MakeModel {
 	public void setEntityPackagName(String entityPackagName) {
 		this.entityPackagName = entityPackagName;
 	}
+
+	public String getFname() {
+		return fname;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	
+	
 
 }
