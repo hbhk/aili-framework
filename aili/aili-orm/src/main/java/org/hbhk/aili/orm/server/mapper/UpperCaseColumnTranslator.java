@@ -1,14 +1,12 @@
 package org.hbhk.aili.orm.server.mapper;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.hbhk.aili.orm.server.annotation.Column;
 import org.hbhk.aili.orm.server.annotation.ColumnTranslator;
+import org.hbhk.aili.orm.share.util.SqlUtil;
 
 public class UpperCaseColumnTranslator implements ColumnTranslator {
 
@@ -26,19 +24,18 @@ public class UpperCaseColumnTranslator implements ColumnTranslator {
 
 	public void setModelClass(Class<?> clazz) {
 		try {
-			BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-			PropertyDescriptor[] propertyDescriptors =
-			    beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor p: propertyDescriptors){
-				if(p.getReadMethod().getAnnotation(Column.class) != null){				
-					columnMap.put(p.getName(), p.getReadMethod().getAnnotation(Column.class).value());
+			Field[] fields = SqlUtil.getColumnFields(clazz);
+			for(Field field: fields){
+				Column col = field.getAnnotation(Column.class);
+				if(col!= null){		
+					String colName = col.value().toLowerCase();
+					columnMap.put(field.getName(),colName);
 				}else{
-					columnMap.put(p.getName(), p.getName().toUpperCase());
+					columnMap.put(field.getName(), field.getName().toLowerCase());
 				}
 			}
-		} catch (IntrospectionException e) {
-			//TODO
-			throw new RuntimeException();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

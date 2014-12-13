@@ -1,9 +1,7 @@
 package org.hbhk.aili.orm.server.mapper;
 
-import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
@@ -19,6 +17,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.hbhk.aili.orm.server.annotation.ColumnTranslator;
 import org.hbhk.aili.orm.server.annotation.Id;
 import org.hbhk.aili.orm.server.annotation.JoinColumn;
+import org.hbhk.aili.orm.share.util.SqlUtil;
 import org.springframework.jdbc.core.RowMapper;
 
 public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
@@ -60,7 +59,7 @@ public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
 			ResultSetMetaData meta = rs.getMetaData();
 
 			for (int i = 1; i <= meta.getColumnCount(); i++) {
-				String name = meta.getColumnLabel(i).toUpperCase();
+				String name = meta.getColumnLabel(i).toLowerCase();
 				if (columnDefinition.containsKey(name)) {
 					String attribute = columnDefinition.get(name);
 					try {
@@ -100,20 +99,18 @@ public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
 			translator = translator == null ? (new UpperCaseColumnTranslator(clazz))
 					: translator;
 			// 获取实体信息
-			BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-			PropertyDescriptor[] propertyDescriptors = beanInfo
-					.getPropertyDescriptors();
+			Field[] fields = SqlUtil.getColumnFields(clazz);
 			if (attributes != null && attributes.length > 0) {
 				Set<String> attributeSet = new HashSet<String>();
 				attributeSet.addAll(Arrays.asList(attributes));
-				for (PropertyDescriptor p : propertyDescriptors) {
-					if (attributeSet.contains(p.getName())) {
-						setAttributeAndColumnDefinition(p, translator);
+				for (Field field : fields) {
+					if (attributeSet.contains(field.getName())) {
+						setAttributeAndColumnDefinition(field, translator);
 					}
 				}
 			} else {
-				for (PropertyDescriptor p : propertyDescriptors) {
-					setAttributeAndColumnDefinition(p, translator);
+				for (Field field : fields) {
+					setAttributeAndColumnDefinition(field, translator);
 				}
 			}
 		} catch (IntrospectionException e) {
@@ -131,30 +128,27 @@ public class CommonBeanRowMapper<T> extends BaseRowMapper<T> {
 		}
 	}
 
-	private void setAttributeAndColumnDefinition(PropertyDescriptor p,
+	private void setAttributeAndColumnDefinition(Field f,
 			ColumnTranslator translator) throws IntrospectionException {
-		if (p.getReadMethod() == null)
-			return;
-		if (p.getReadMethod().getAnnotation(JoinColumn.class) != null) {
+		if (f.getAnnotation(JoinColumn.class) != null) {
 			String subAttr = null;
 			Class<?> subClass = null;
-			BeanInfo joinBeanInfo = Introspector.getBeanInfo(p
-					.getPropertyType());
-			for (PropertyDescriptor p1 : joinBeanInfo.getPropertyDescriptors()) {
-				if (p1.getReadMethod().getAnnotation(Id.class) != null) {
-					subAttr = p1.getName();
-					subClass = p1.getPropertyType();
+			Field[] fields = SqlUtil.getColumnFields(f.getType());
+			for (Field field : fields) {
+				if (field.getAnnotation(Id.class) != null) {
+					subAttr = field.getName();
+					subClass = field.getType();
 					break;
 				}
 			}
-			attributeMap.put(p.getName(), p.getPropertyType());
-			attributeMap.put(p.getName() + "." + subAttr, subClass);
-			columnDefinition.put(translator.toColumnName(p.getName()),
-					p.getName() + "." + subAttr);
+			attributeMap.put(f.getName(), f.getType());
+			attributeMap.put(f.getName() + "." + subAttr, subClass);
+			columnDefinition.put(translator.toColumnName(f.getName()),
+					f.getName() + "." + subAttr);
 		} else {
-			attributeMap.put(p.getName(), p.getPropertyType());
-			columnDefinition.put(translator.toColumnName(p.getName()),
-					p.getName());
+			attributeMap.put(f.getName(), f.getType());
+			columnDefinition.put(translator.toColumnName(f.getName()),
+					f.getName());
 		}
 	}
 
