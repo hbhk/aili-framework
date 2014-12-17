@@ -4,13 +4,13 @@
 <configuration>
 
 	<typeHandlers>
-		<typeHandler handler="org.hbhk.aili.orm.server.handler.BooleanTypeHandler"
+		<typeHandler handler="org.hbhk.aili.mybatis.server.handler.BooleanTypeHandler"
 			javaType="Boolean" jdbcType="CHAR" />
 	</typeHandlers>
 	<plugins>
-		<plugin interceptor="org.hbhk.aili.orm.server.interceptor.OffsetLimitInterceptor">
+		<plugin interceptor="org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor">
 			<property name="dialectClass"
-				value="org.hbhk.aili.orm.server.mybatis.dialect.MySQLDialect" />
+				value="org.hbhk.aili.mybatis.server.dialect.MySQLDialect" />
 		</plugin>
 	</plugins>
 </configuration>
