@@ -22,6 +22,11 @@
 			<artifactId>aili-core</artifactId>
 			<version>${aili-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- ibatis s -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -41,5 +46,11 @@
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
 </project>
