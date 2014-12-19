@@ -10,23 +10,23 @@ public class BeanToMapUtil {
 
 	public static Map<String, Object> convert(Object bean) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(bean == null || map == null){
-			return map;
+		if (bean == null) {
+			throw new RuntimeException("bean对象为空");
 		}
-		Class<?> cls= bean.getClass();
+		Class<?> cls = bean.getClass();
 		Field[] fields = cls.getDeclaredFields();
 		for (Field field : fields) {
-			String name  = field.getName();
-			if("serialVersionUID".equals(name)){
+			String name = field.getName();
+			if ("serialVersionUID".equals(name)) {
 				continue;
 			}
 			Object value = null;
 			try {
 				value = PropertyUtils.getProperty(bean, name);
 			} catch (Exception e) {
-				throw new RuntimeException("获取源对象属性的值出错:",e);
+				throw new RuntimeException("获取源对象属性的值出错:", e);
 			}
-			if(value == null){
+			if (value == null) {
 				continue;
 			}
 			map.put(name, value);
@@ -35,27 +35,30 @@ public class BeanToMapUtil {
 	}
 
 	public static void convert(Object bean, Map<String, Object> map) {
-		if(bean == null || map == null){
-			return ;
+		if (bean == null) {
+			throw new RuntimeException("bean对象为空");
 		}
-		Class<?> cls= bean.getClass();
+		if (map == null) {
+			throw new RuntimeException("map对象为空");
+		}
+		Class<?> cls = bean.getClass();
 		Field[] fields = cls.getDeclaredFields();
 		for (Field field : fields) {
-			String name  = field.getName();
-			if("serialVersionUID".equals(name)){
+			String name = field.getName();
+			if ("serialVersionUID".equals(name)) {
 				continue;
 			}
 			Object value = null;
 			try {
 				value = PropertyUtils.getProperty(bean, name);
 			} catch (Exception e) {
-				throw new RuntimeException("获取源对象属性的值出错:",e);
+				throw new RuntimeException("获取源对象属性的值出错:", e);
 			}
-			if(value == null){
+			if (value == null) {
 				continue;
 			}
 			map.put(name, value);
 		}
-		
+
 	}
 }
