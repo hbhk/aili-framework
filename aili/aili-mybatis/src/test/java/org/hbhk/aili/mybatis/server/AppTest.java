@@ -1,6 +1,7 @@
 package org.hbhk.aili.mybatis.server;
 
 import org.hbhk.aili.mybatis.server.dao.IUserDao;
+import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ public class AppTest {
 	@Test
 	public void test() {
 		try {
-			System.out.println(userDao.get(1l));
+			UserInfo user =  userDao.getById(1l);
+			System.out.println(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

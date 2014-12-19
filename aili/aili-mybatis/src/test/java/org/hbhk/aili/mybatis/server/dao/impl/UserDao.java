@@ -5,8 +5,6 @@ import org.hbhk.aili.mybatis.server.dao.IUserDao;
 import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-@Repository
 public class UserDao extends SqlSessionDaoSupport implements IUserDao {
 
 	@Override
@@ -15,7 +13,7 @@ public class UserDao extends SqlSessionDaoSupport implements IUserDao {
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}
 	@Override
-	public UserInfo get(Long id) {
+	public UserInfo getById(Long id) {
 		UserInfo user = getSqlSession().selectOne("test.getUser");
 		return user;
 	}

@@ -7,10 +7,11 @@
 		<typeHandler handler="org.hbhk.aili.mybatis.server.handler.BooleanTypeHandler"
 			javaType="Boolean" jdbcType="CHAR" />
 	</typeHandlers>
-	<plugins>
+	 <plugins>
 		<plugin interceptor="org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor">
 			<property name="dialectClass"
 				value="org.hbhk.aili.mybatis.server.dialect.MySQLDialect" />
-		</plugin>
+		</plugin> 
+		<plugin interceptor="org.hbhk.aili.mybatis.server.interceptor.SqlInterceptor"></plugin>
 	</plugins>
 </configuration>
