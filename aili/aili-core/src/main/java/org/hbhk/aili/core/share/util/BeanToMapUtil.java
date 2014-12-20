@@ -18,9 +18,6 @@ public class BeanToMapUtil {
 		Field[] fields = cls.getDeclaredFields();
 		for (Field field : fields) {
 			String name = field.getName();
-			if ("serialVersionUID".equals(name)) {
-				continue;
-			}
 			if(Modifier.isStatic(field.getModifiers()) 
 					 || Modifier.isFinal(field.getModifiers())){
 				 continue;  
@@ -50,9 +47,6 @@ public class BeanToMapUtil {
 		Field[] fields = cls.getDeclaredFields();
 		for (Field field : fields) {
 			String name = field.getName();
-			if ("serialVersionUID".equals(name)) {
-				continue;
-			}
 			if(Modifier.isStatic(field.getModifiers()) 
 					 || Modifier.isFinal(field.getModifiers())){
 				 continue;  
