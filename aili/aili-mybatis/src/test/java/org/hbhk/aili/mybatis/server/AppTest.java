@@ -17,8 +17,7 @@ public class AppTest {
 	@Test
 	public void test() {
 		try {
-			UserInfo user =  userDao.getById(1l);
-			System.out.println(user);
+			 userDao.deleteById(1L);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
