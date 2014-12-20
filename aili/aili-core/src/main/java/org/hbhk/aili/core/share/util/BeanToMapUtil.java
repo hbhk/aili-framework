@@ -24,7 +24,8 @@ public class BeanToMapUtil {
 			}
 			Object value = null;
 			try {
-				value = PropertyUtils.getProperty(bean, name);
+				field.setAccessible(true);
+				value = field.get(bean);
 			} catch (Exception e) {
 				throw new RuntimeException("获取源对象属性的值出错:", e);
 			}
@@ -53,7 +54,8 @@ public class BeanToMapUtil {
 			}
 			Object value = null;
 			try {
-				value = PropertyUtils.getProperty(bean, name);
+				field.setAccessible(true);
+				value = field.get(bean);
 			} catch (Exception e) {
 				throw new RuntimeException("获取源对象属性的值出错:", e);
 			}
