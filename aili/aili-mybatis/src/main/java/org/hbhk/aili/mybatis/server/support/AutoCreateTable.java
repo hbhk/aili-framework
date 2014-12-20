@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
 import org.hbhk.aili.mybatis.server.annotation.Column;
-import org.hbhk.aili.mybatis.server.annotation.Tabel;
+import org.hbhk.aili.mybatis.server.annotation.Table;
 import org.hbhk.aili.mybatis.server.handler.INameHandler;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
 import org.springframework.beans.factory.InitializingBean;
@@ -98,10 +98,10 @@ public class AutoCreateTable implements InitializingBean {
 			getAllTableNames();
 			String[] autoTablePaths = autoTablePath.split(",");
 			List<Class<?>> classes = AnnotationScanning.getInstance()
-					.getAnnotatedClasses(Tabel.class, autoTablePaths);
+					.getAnnotatedClasses(Table.class, autoTablePaths);
 			if (classes != null) {
 				for (Class<?> cls : classes) {
-					Tabel tab = cls.getAnnotation(Tabel.class);
+					Table tab = cls.getAnnotation(Table.class);
 					if (tab == null) {
 						continue;
 					}

@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Tabel {
+public @interface Table {
 	String value() ;
 	boolean dynamicInsert() default false;
 	boolean dynamicUpdate() default false;

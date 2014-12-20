@@ -2,9 +2,6 @@ package org.hbhk.aili.mybatis.share.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
-
-import org.hbhk.aili.mybatis.server.annotation.Tabel;
 
 public class BaseInfo implements Serializable {
 	private static final long serialVersionUID = 5009300140634580156L;
@@ -63,33 +60,6 @@ public class BaseInfo implements Serializable {
 		this.status = status;
 	}
 	
-	public String getById(Long id) {
-		String tab = this.getClass().getAnnotation(Tabel.class).value();
-		StringBuilder sql = new StringBuilder();
-		sql.append("select *from ");
-		sql.append(tab);
-		sql.append("where id = #{id}");
-		return sql.toString();
-	}
 	
-	
-	public String deleteById(Long id) {
-		String tab = this.getClass().getAnnotation(Tabel.class).value();
-		StringBuilder sql = new StringBuilder();
-		sql.append("delete from ");
-		sql.append(tab);
-		sql.append("where id = #{id}");
-		return sql.toString();
-	}
-	
-	public String updateStatusById(Map<String, Object> para) {
-		String tab = this.getClass().getAnnotation(Tabel.class).value();
-		StringBuilder sql = new StringBuilder();
-		sql.append("update ");
-		sql.append(tab);
-		sql.append(" set status = #{status} ");
-		sql.append("where id = #{id}");
-		return sql.toString();
-	}
 
 }

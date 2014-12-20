@@ -1,8 +1,8 @@
 package org.hbhk.aili.mybatis.share.model;
 
-import org.hbhk.aili.mybatis.server.annotation.Tabel;
+import org.hbhk.aili.mybatis.server.annotation.Table;
 
-@Tabel("t_aili_user")
+@Table("t_aili_user")
 public class UserInfo extends BaseInfo {
 	private static final long serialVersionUID = 6767860047837579053L;
 

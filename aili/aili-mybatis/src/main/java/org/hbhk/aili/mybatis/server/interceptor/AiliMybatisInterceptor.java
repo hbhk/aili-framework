@@ -1,12 +1,19 @@
 package org.hbhk.aili.mybatis.server.interceptor;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
 import org.apache.ibatis.mapping.ParameterMapping;
+import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -18,15 +25,24 @@ import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlSqlSource;
 
 /**
- * 为ibatis3提供基于方言(Dialect)的分页查询的插件 将拦截Executor.query()方法实现分页方言的插入.
+ * 处理mybatis不支持泛型
  */
-@Intercepts({ @Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
-    RowBounds.class, ResultHandler.class }) })
-public class SqlInterceptor implements Interceptor {
+@Intercepts({ @Signature(type = Executor.class, method = "query", args = {
+		MappedStatement.class, Object.class, RowBounds.class,
+		ResultHandler.class }) })
+public class AiliMybatisInterceptor implements Interceptor {
+
+	public static Class<?> fxType = null;
+	
+	private static  Map<String, Class<?>> modelClass = new ConcurrentHashMap<String, Class<?>>();
 
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
+		String resource = ms.getResource();
+		String className = resource = resource.substring(0,
+				resource.lastIndexOf(".")).replaceAll("/", ".");
+		fxType = getGenericInterfaces(className);
 		Object parameter = queryArgs[1];
 		BoundSql boundSql = ms.getBoundSql(parameter);
 		String sql = boundSql.getSql();
@@ -36,9 +52,21 @@ public class SqlInterceptor implements Interceptor {
 		// 将原有的BoundSql中的MetaParameter复制到新的BoundSql中
 		copyMetaParameters(boundSql, newBoundSql);
 		MappedStatement newMs = copyFromMappedStatement(ms,
-				new BoundSqlSqlSource(newBoundSql));
+				new BoundSqlSqlSource(newBoundSql), fxType);
 		queryArgs[0] = newMs;
 		return invocation.proceed();
+	}
+
+	private Class<?> getGenericInterfaces(String className) throws Exception {
+		if(modelClass.containsKey(className)){
+			return modelClass.get(className);
+		}
+		Class<?> clazz = Class.forName(className);
+		Type[] types = clazz.getGenericInterfaces();
+		ParameterizedType pType = (ParameterizedType) types[0];
+		Class<?> cls = (Class<?>) pType.getActualTypeArguments()[0];
+		modelClass.put(className, cls);
+		return cls;
 	}
 
 	private void copyMetaParameters(BoundSql lhs, BoundSql rhs) {
@@ -57,7 +85,7 @@ public class SqlInterceptor implements Interceptor {
 	 * </p>
 	 */
 	private MappedStatement copyFromMappedStatement(MappedStatement ms,
-			SqlSource newSqlSource) {
+			SqlSource newSqlSource, Class<?> fxType) {
 		Builder builder = new MappedStatement.Builder(ms.getConfiguration(),
 				ms.getId(), newSqlSource, ms.getSqlCommandType());
 
@@ -76,7 +104,14 @@ public class SqlInterceptor implements Interceptor {
 		builder.parameterMap(ms.getParameterMap());
 
 		// setStatementResultMap()
-		builder.resultMaps(ms.getResultMaps());
+		ResultMap resultMap = ms.getResultMaps().get(0);
+		ResultMap.Builder reBuilder = new ResultMap.Builder(
+				ms.getConfiguration(), resultMap.getId(), fxType,
+				resultMap.getResultMappings(), resultMap.getAutoMapping());
+		resultMap = reBuilder.build();
+		List<ResultMap> resultMaps = new ArrayList<ResultMap>();
+		resultMaps.add(resultMap);
+		builder.resultMaps(resultMaps);
 		builder.resultSetType(ms.getResultSetType());
 
 		// setStatementCache()
@@ -89,7 +124,7 @@ public class SqlInterceptor implements Interceptor {
 
 	@Override
 	public Object plugin(Object target) {
-		return  Plugin.wrap(target, this);
+		return Plugin.wrap(target, this);
 	}
 
 	@Override
