@@ -1,6 +1,7 @@
 package org.hbhk.aili.core.share.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,10 @@ public class BeanToMapUtil {
 			String name = field.getName();
 			if ("serialVersionUID".equals(name)) {
 				continue;
+			}
+			if(Modifier.isStatic(field.getModifiers()) 
+					 || Modifier.isFinal(field.getModifiers())){
+				 continue;  
 			}
 			Object value = null;
 			try {
@@ -47,6 +52,10 @@ public class BeanToMapUtil {
 			String name = field.getName();
 			if ("serialVersionUID".equals(name)) {
 				continue;
+			}
+			if(Modifier.isStatic(field.getModifiers()) 
+					 || Modifier.isFinal(field.getModifiers())){
+				 continue;  
 			}
 			Object value = null;
 			try {
