@@ -2,10 +2,10 @@ package org.hbhk.aili.core.share.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import com.atomikos.beans.PropertyUtils;
 
 public class BeanToMapUtil {
 
@@ -15,7 +15,7 @@ public class BeanToMapUtil {
 			throw new RuntimeException("bean对象为空");
 		}
 		Class<?> cls = bean.getClass();
-		Field[] fields = cls.getDeclaredFields();
+		Field[] fields = getColumnFields(cls);
 		for (Field field : fields) {
 			String name = field.getName();
 			if(Modifier.isStatic(field.getModifiers()) 
@@ -45,7 +45,7 @@ public class BeanToMapUtil {
 			throw new RuntimeException("map对象为空");
 		}
 		Class<?> cls = bean.getClass();
-		Field[] fields = cls.getDeclaredFields();
+		Field[] fields = getColumnFields(cls);
 		for (Field field : fields) {
 			String name = field.getName();
 			if(Modifier.isStatic(field.getModifiers()) 
@@ -65,5 +65,21 @@ public class BeanToMapUtil {
 			map.put(name, value);
 		}
 
+	}
+	
+	public static Field[] getColumnFields(Class<?> clazz) {
+		List<Field> list = new ArrayList<Field>();
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			list.add(field);
+		}
+		if (clazz.getSuperclass() != null) {
+			Class<?> superClass = clazz.getSuperclass();
+			fields = superClass.getDeclaredFields();
+			for (Field field : fields) {
+				list.add(field);
+			}
+		}
+		return list.toArray(new Field[] {});
 	}
 }
