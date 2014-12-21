@@ -54,6 +54,8 @@ public class AiliMybatisInterceptor implements Interceptor {
 		MappedStatement newMs = copyFromMappedStatement(ms,
 				new BoundSqlSqlSource(newBoundSql), gnericInterfaceType);
 		queryArgs[0] = newMs;
+		//清除threadLocal数据
+		GnericInterfaceTypeContext.remove();
 		return invocation.proceed();
 	}
 
