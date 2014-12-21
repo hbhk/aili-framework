@@ -5,4 +5,5 @@ import org.hbhk.aili.mybatis.share.model.UserInfo;
 
 public interface IUserDao extends IBaseDao<UserInfo,Long> {
 
+	
 }
