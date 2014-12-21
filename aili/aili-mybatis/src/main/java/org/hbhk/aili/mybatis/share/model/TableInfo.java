@@ -3,6 +3,7 @@ package org.hbhk.aili.mybatis.share.model;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 public class TableInfo implements Serializable {
 
@@ -21,6 +22,8 @@ public class TableInfo implements Serializable {
 	private String table;
 
 	private String pk;
+
+	private Map<String, String> fieldColumnMap;
 
 	public String getColumns() {
 		return columns;
@@ -78,5 +81,12 @@ public class TableInfo implements Serializable {
 		this.pk = pk;
 	}
 
-	
+	public Map<String, String> getFieldColumnMap() {
+		return fieldColumnMap;
+	}
+
+	public void setFieldColumnMap(Map<String, String> fieldColumnMap) {
+		this.fieldColumnMap = fieldColumnMap;
+	}
+
 }

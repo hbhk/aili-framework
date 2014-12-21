@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
@@ -83,7 +84,75 @@ public class MybatisSqlTemplate implements InitializingBean {
 	public String get(Map<String, Object> params) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select *from ");
-		sql.append(getTableName());
+		sql.append(getTableName() +" ");
+		Set<String>  keys = params.keySet();
+		if(keys.size() > 0){
+			TableInfo tableInfo = tabs.get(getKey());
+			String pk = tableInfo.getPk();
+			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
+			sql.append("where ");
+			for (int i = 0; i < keys.size(); i++) {
+				String field = keys.toArray(new String[]{})[i];
+				String col = fieldColumn.get(field);
+				if(StringUtils.isEmpty(col)){
+					continue;
+				}
+				if(field.equals(pk)){
+					sql.append(pk+"=#{"+pk+"}");
+				}else{
+					if(i == 0){
+						sql.append(col+"=#{"+field+"}");
+					}else{
+						sql.append(" and "+col+"=#{"+field+"}");
+					}
+				}
+				
+			}
+		}
+		
+		return sql.toString();
+	}
+	
+	public String getPage(Map<String, Object> params) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select *from ");
+		sql.append(getTableName() +" ");
+		Set<String>  keys = params.keySet();
+		if(keys.size() > 0){
+			TableInfo tableInfo = tabs.get(getKey());
+			String pk = tableInfo.getPk();
+			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
+			sql.append("where ");
+			for (int i = 0; i < keys.size(); i++) {
+				String field = keys.toArray(new String[]{})[i];
+				if("start".equals(field) || "size".equals(field)){
+					continue;
+				}
+				String col = fieldColumn.get(field);
+				if(StringUtils.isEmpty(col)&& !field.equals(pk)){
+					continue;
+				}
+				if(field.equals(pk)){
+					sql.append(pk+"=#{"+pk+"}");
+				}else{
+					if(i == 0){
+						sql.append(col+"=#{"+field+"}");
+					}else{
+						sql.append(" and "+col+"=#{"+field+"}");
+					}
+				}
+				
+			}
+		}
+		Integer start = (Integer) params.get("start");
+		if(start==null){
+			start = 0;
+		}
+		Integer size = (Integer) params.get("size");
+		if(size==null){
+			size = 10;
+		}
+		sql.append(" limit "+start+","+size);
 		return sql.toString();
 	}
 
@@ -120,6 +189,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 					StringBuilder columnFields = new StringBuilder();
 					String pk = SqlUtil.getpriKey(fields);
 					String tabName = tab.getAnnotation(Table.class).value();
+					Map<String, String> fieldColumnMap = new HashMap<String, String>();
 					for (Field field : fields) {
 						Column col = field.getAnnotation(Column.class);
 						String colName = col.value();
@@ -130,6 +200,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 						columnList.add(colName);
 						fieldList.add(fieldName);
 						columnFields.append(colName + ",");
+						fieldColumnMap.put(fieldName, colName);
 					}
 					String columns = columnFields.substring(0,
 							columnFields.length() - 1);
@@ -140,6 +211,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 					tableInfo.setColumns(columns);
 					tableInfo.setTable(tabName);
 					tableInfo.setPk(pk);
+					tableInfo.setFieldColumnMap(fieldColumnMap);
 					tabs.put(tab.getName(), tableInfo);
 
 				}
@@ -154,5 +226,8 @@ public class MybatisSqlTemplate implements InitializingBean {
 
 	private Class<?> getType() {
 		return GnericInterfaceTypeContext.getType();
+	}
+	private String getKey() {
+		return GnericInterfaceTypeContext.getType().getName();
 	}
 }

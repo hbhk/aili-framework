@@ -2,8 +2,11 @@ package org.hbhk.aili.mybatis.server;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.mybatis.server.dao.IUserDao;
 import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
@@ -21,8 +24,32 @@ public class AppTest {
 	@Test
 	public void test() {
 		try {
-			List<UserInfo> user = userDao.get(1L);
-			System.out.println(user.size() + ":" + user.get(0).getName());
+			Map<String, Object> params = new HashMap<String, Object>();
+			UserInfo  query  = new UserInfo();
+			query.setId(1l);
+			query.setName("222");
+			BeanToMapUtil.convert(query, params);
+			
+			List<UserInfo> user = userDao.get(params);
+			System.out.println(user.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Test
+	public void getPagetest() {
+		try {
+			Map<String, Object> params = new HashMap<String, Object>();
+			UserInfo  query  = new UserInfo();
+			query.setId(1l);
+			query.setName("222");
+			BeanToMapUtil.convert(query, params);
+			params.put("start", 0);
+			params.put("size", 5);
+			List<UserInfo> user = userDao.getPage(params);
+			System.out.println(user.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,7 +73,7 @@ public class AppTest {
 		try {
 			UserInfo user = new UserInfo();
 			user.setName("222");
-			user.setId(1l);
+			user.setId(3l);
 			userDao.update(user);
 		} catch (Exception e) {
 			e.printStackTrace();
