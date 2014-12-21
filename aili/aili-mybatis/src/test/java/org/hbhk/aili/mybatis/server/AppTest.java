@@ -49,7 +49,7 @@ public class AppTest {
 			params.put("start", 0);
 			params.put("size", 5);
 			List<UserInfo> user = userDao.getPage(params);
-			System.out.println(user.size());
+			System.out.println(user.size()+""+user.get(0).getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
