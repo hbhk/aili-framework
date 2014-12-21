@@ -46,7 +46,6 @@ public class AiliMybatisInterceptor implements Interceptor {
 		Object parameter = queryArgs[1];
 		BoundSql boundSql = ms.getBoundSql(parameter);
 		String sql = boundSql.getSql();
-		sql = sql + "";
 		BoundSql newBoundSql = new BoundSql(ms.getConfiguration(), sql,
 				boundSql.getParameterMappings(), boundSql.getParameterObject());
 		// 将原有的BoundSql中的MetaParameter复制到新的BoundSql中
