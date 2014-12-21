@@ -94,7 +94,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 			for (int i = 0; i < keys.size(); i++) {
 				String field = keys.toArray(new String[]{})[i];
 				String col = fieldColumn.get(field);
-				if(StringUtils.isEmpty(col)){
+				if(StringUtils.isEmpty(col)&& !field.equals(pk)){
 					continue;
 				}
 				if(field.equals(pk)){

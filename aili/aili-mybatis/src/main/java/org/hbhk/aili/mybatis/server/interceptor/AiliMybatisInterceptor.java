@@ -35,6 +35,11 @@ public class AiliMybatisInterceptor implements Interceptor {
 
 	private static Map<String, Class<?>> modelClass = new ConcurrentHashMap<String, Class<?>>();
 
+	private static List<String>  notModelClass = new ArrayList<String>();
+	static{
+		notModelClass.add("org.hbhk.aili.mybatis.server.support.Pagination");
+		
+	}
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
@@ -86,7 +91,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 	 * </p>
 	 */
 	private MappedStatement copyFromMappedStatement(MappedStatement ms,
-			SqlSource newSqlSource, Class<?> gnericInterfaceType) {
+			SqlSource newSqlSource, Class<?> gnericInterfaceType) throws Exception {
 		Builder builder = new MappedStatement.Builder(ms.getConfiguration(),
 				ms.getId(), newSqlSource, ms.getSqlCommandType());
 
@@ -103,21 +108,22 @@ public class AiliMybatisInterceptor implements Interceptor {
 
 		// setStatementResultMap()
 		builder.parameterMap(ms.getParameterMap());
-
 		// setStatementResultMap()
+		
 		ResultMap resultMap = ms.getResultMaps().get(0);
 		Class<?> type = resultMap.getType();
-		if(type.getName().equals("java.util.List")){
+		if(!notModelClass.contains(type.getName())){
+			ResultMap.Builder reBuilder = new ResultMap.Builder(
+					ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
+					resultMap.getResultMappings(), resultMap.getAutoMapping());
+			resultMap = reBuilder.build();
+			List<ResultMap> resultMaps = new ArrayList<ResultMap>();
+			resultMaps.add(resultMap);
+			builder.resultMaps(resultMaps);
+		}else{
+			builder.resultMaps(ms.getResultMaps());
 		}
-		ResultMap.Builder reBuilder = new ResultMap.Builder(
-				ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
-				resultMap.getResultMappings(), resultMap.getAutoMapping());
-		resultMap = reBuilder.build();
-		List<ResultMap> resultMaps = new ArrayList<ResultMap>();
-		resultMaps.add(resultMap);
-		builder.resultMaps(resultMaps);
 		builder.resultSetType(ms.getResultSetType());
-
 		// setStatementCache()
 		builder.cache(ms.getCache());
 		builder.flushCacheRequired(ms.isFlushCacheRequired());
