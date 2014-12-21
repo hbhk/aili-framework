@@ -22,12 +22,38 @@ public class AppTest {
 	public void test() {
 		try {
 			List<UserInfo> user = userDao.get(1L);
-			System.out.println(user);
+			System.out.println(user.size() + ":" + user.get(0).getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
+	@Test
+	public void insert() {
+		try {
+			UserInfo user = new UserInfo();
+			user.setName("111");
+			userDao.insert(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Test
+	public void update() {
+		try {
+			UserInfo user = new UserInfo();
+			user.setName("222");
+			user.setId(1l);
+			userDao.update(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 
 	public static void main(String args[]) throws Exception {
 		System.out.println(getGenericInterfaces(IUserDao.class));
