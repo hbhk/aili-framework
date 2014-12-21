@@ -21,7 +21,7 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	@SelectProvider(type = MybatisSqlTemplate.class, method = "getById")
 	T getById(@Param("id") PK id);
 	
-	@SelectProvider(type = MybatisSqlTemplate.class, method = "getById")
+	@SelectProvider(type = MybatisSqlTemplate.class, method = "get")
 	List<T> get(@Param("id") PK id);
 
 	@DeleteProvider(type = MybatisSqlTemplate.class, method = "deleteById")

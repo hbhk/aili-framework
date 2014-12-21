@@ -1,8 +1,10 @@
 package org.hbhk.aili.mybatis.server.interceptor;
 
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -23,6 +25,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlSqlSource;
+import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 
 /**
  * 处理mybatis不支持泛型
@@ -32,9 +35,7 @@ import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlS
 		ResultHandler.class }) })
 public class AiliMybatisInterceptor implements Interceptor {
 
-	public static Class<?> fxType = null;
-	
-	private static  Map<String, Class<?>> modelClass = new ConcurrentHashMap<String, Class<?>>();
+	private static Map<String, Class<?>> modelClass = new ConcurrentHashMap<String, Class<?>>();
 
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
@@ -42,7 +43,8 @@ public class AiliMybatisInterceptor implements Interceptor {
 		String resource = ms.getResource();
 		String className = resource = resource.substring(0,
 				resource.lastIndexOf(".")).replaceAll("/", ".");
-		fxType = getGenericInterfaces(className);
+		Class<?> gnericInterfaceType = getGenericInterfaces(className);
+		GnericInterfaceTypeContext.setType(gnericInterfaceType);
 		Object parameter = queryArgs[1];
 		BoundSql boundSql = ms.getBoundSql(parameter);
 		String sql = boundSql.getSql();
@@ -52,13 +54,13 @@ public class AiliMybatisInterceptor implements Interceptor {
 		// 将原有的BoundSql中的MetaParameter复制到新的BoundSql中
 		copyMetaParameters(boundSql, newBoundSql);
 		MappedStatement newMs = copyFromMappedStatement(ms,
-				new BoundSqlSqlSource(newBoundSql), fxType);
+				new BoundSqlSqlSource(newBoundSql), gnericInterfaceType);
 		queryArgs[0] = newMs;
 		return invocation.proceed();
 	}
 
 	private Class<?> getGenericInterfaces(String className) throws Exception {
-		if(modelClass.containsKey(className)){
+		if (modelClass.containsKey(className)) {
 			return modelClass.get(className);
 		}
 		Class<?> clazz = Class.forName(className);
@@ -85,7 +87,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 	 * </p>
 	 */
 	private MappedStatement copyFromMappedStatement(MappedStatement ms,
-			SqlSource newSqlSource, Class<?> fxType) {
+			SqlSource newSqlSource, Class<?> gnericInterfaceType) {
 		Builder builder = new MappedStatement.Builder(ms.getConfiguration(),
 				ms.getId(), newSqlSource, ms.getSqlCommandType());
 
@@ -105,8 +107,11 @@ public class AiliMybatisInterceptor implements Interceptor {
 
 		// setStatementResultMap()
 		ResultMap resultMap = ms.getResultMaps().get(0);
+		Class<?> type = resultMap.getType();
+		if(type.getName().equals("java.util.List")){
+		}
 		ResultMap.Builder reBuilder = new ResultMap.Builder(
-				ms.getConfiguration(), resultMap.getId(), fxType,
+				ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
 				resultMap.getResultMappings(), resultMap.getAutoMapping());
 		resultMap = reBuilder.build();
 		List<ResultMap> resultMaps = new ArrayList<ResultMap>();

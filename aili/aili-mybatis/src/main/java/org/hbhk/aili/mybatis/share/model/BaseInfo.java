@@ -3,13 +3,23 @@ package org.hbhk.aili.mybatis.share.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hbhk.aili.mybatis.server.annotation.Column;
+import org.hbhk.aili.mybatis.server.annotation.Id;
+
 public class BaseInfo implements Serializable {
 	private static final long serialVersionUID = 5009300140634580156L;
+	@Column("id")
+	@Id
 	private Long id;
+	@Column("creatUser")
 	private String creatUser;
+	@Column("createTime")
 	private Date createTime;
+	@Column("updateUser")
 	private String updateUser;
+	@Column("updateTime")
 	private Date updateTime;
+	@Column("status")
 	private Integer status = 1;
 
 	public Long getId() {
