@@ -2,7 +2,7 @@ package org.hbhk.aili.mybatis.server.dao;
 
 import java.util.List;
 
-import org.hbhk.aili.mybatis.share.model.Pagination;
+import org.hbhk.aili.mybatis.server.support.Pagination;
 
 public interface IAiliDao<T, PK> {
 	/**

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.hbhk.aili.mybatis.server.dao.IAiliDao;
-import org.hbhk.aili.mybatis.share.model.Pagination;
+import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 

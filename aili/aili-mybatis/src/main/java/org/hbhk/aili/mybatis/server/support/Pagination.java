@@ -1,4 +1,4 @@
-package org.hbhk.aili.mybatis.share.model;
+package org.hbhk.aili.mybatis.server.support;
 
 import java.io.Serializable;
 import java.util.List;
