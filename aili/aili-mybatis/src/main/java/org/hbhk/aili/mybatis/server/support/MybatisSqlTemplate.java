@@ -36,7 +36,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ");
 		sql.append(tableInfo.getTable() + " (");
-		sql.append(tableInfo.getColumnList() + ") ");
+		sql.append(tableInfo.getColumns() + ") ");
 		sql.append("values(");
 		for (int i = 0; i < fieldList.size(); i++) {
 			String col = fieldList.get(i);
