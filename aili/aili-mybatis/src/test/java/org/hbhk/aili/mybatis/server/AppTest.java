@@ -27,7 +27,7 @@ public class AppTest {
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo  query  = new UserInfo();
 			query.setId(1l);
-			query.setName("222");
+			query.setName("111");
 			BeanToMapUtil.convert(query, params);
 			
 			List<UserInfo> user = userDao.get(params);
