@@ -7,7 +7,7 @@
 		<result column="id" property="id"/>
 		<result column="name" property="name"/>
 	</resultMap>
-	<!-- <select id="getById" parameterType="java.lang.Long" resultType="org.hbhk.aili.mybatis.share.model.UserInfo" >
+	<select id="get" resultType="org.hbhk.aili.mybatis.share.model.UserInfo" >
 		select *from t_aili_user
-	</select> -->
+	</select>
 </mapper>

@@ -13,7 +13,7 @@
 			<property name="dialectClass"
 				value="org.hbhk.aili.mybatis.server.dialect.MySQLDialect" />
 		</plugin>
-		<plugin
-			interceptor="org.hbhk.aili.mybatis.server.interceptor.AiliMybatisInterceptor"></plugin>
+		<!-- <plugin
+			interceptor="org.hbhk.aili.mybatis.server.interceptor.AiliMybatisInterceptor"></plugin> -->
 	</plugins>
 </configuration>

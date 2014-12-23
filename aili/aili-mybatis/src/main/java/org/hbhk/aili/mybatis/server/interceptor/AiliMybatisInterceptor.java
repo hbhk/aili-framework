@@ -14,6 +14,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ResultMap;
+import org.apache.ibatis.mapping.ResultMapping;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -24,6 +25,8 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlSqlSource;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
+import org.hbhk.aili.mybatis.share.util.FieldColumn;
+import org.hbhk.aili.mybatis.share.util.SqlUtil;
 
 /**
  * 处理mybatis不支持泛型
@@ -55,6 +58,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 				boundSql.getParameterMappings(), boundSql.getParameterObject());
 		// 将原有的BoundSql中的MetaParameter复制到新的BoundSql中
 		copyMetaParameters(boundSql, newBoundSql);
+		ms.getResultMaps().get(0).getPropertyResultMappings();
 		MappedStatement newMs = copyFromMappedStatement(ms,
 				new BoundSqlSqlSource(newBoundSql), gnericInterfaceType);
 		queryArgs[0] = newMs;
@@ -113,9 +117,10 @@ public class AiliMybatisInterceptor implements Interceptor {
 		ResultMap resultMap = ms.getResultMaps().get(0);
 		Class<?> type = resultMap.getType();
 		if(!notModelClass.contains(type.getName())){
+			List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
 			ResultMap.Builder reBuilder = new ResultMap.Builder(
 					ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
-					resultMap.getResultMappings(), resultMap.getAutoMapping());
+					resultMappings, resultMap.getAutoMapping());
 			resultMap = reBuilder.build();
 			List<ResultMap> resultMaps = new ArrayList<ResultMap>();
 			resultMaps.add(resultMap);
@@ -140,6 +145,17 @@ public class AiliMybatisInterceptor implements Interceptor {
 	@Override
 	public void setProperties(Properties properties) {
 
+	}
+	
+	private  List<ResultMapping> getResultMapping(Class<?> cls,MappedStatement ms){
+		List<ResultMapping> resultMappings = new ArrayList<ResultMapping>();
+		List<FieldColumn> mappers = SqlUtil.getFieldColumnMap(cls);
+		for (FieldColumn fieldColumn : mappers) {
+			ResultMapping.Builder resultMapping = new ResultMapping.Builder(ms.getConfiguration(),
+					fieldColumn.getField(),fieldColumn.getColumn(),fieldColumn.getJavaType());
+			resultMappings.add(resultMapping.build());
+		}
+		return resultMappings;
 	}
 
 }
