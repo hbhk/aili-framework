@@ -29,7 +29,6 @@ import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.mybatis.share.model.BaseInfo;
 import org.hbhk.aili.mybatis.share.util.FieldColumn;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
-import org.hbhk.aili.mybatis.share.vo.BaseVo;
 
 /**
  * 处理mybatis不支持泛型
@@ -133,17 +132,27 @@ public class AiliMybatisInterceptor implements Interceptor {
 		String methodName = id.substring(id.lastIndexOf(".")+1,id.length());
 		if(!notModelClass.contains(type)){
 			Object instance = type.newInstance();
-			if(dealmethod.contains(methodName)
-				|| instance  instanceof BaseVo 
-				|| instance instanceof BaseInfo){
+			List<ResultMap> resultMaps = new ArrayList<ResultMap>();
+			if(dealmethod.contains(methodName)){
 				List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
+				//处理泛型
 				ResultMap.Builder reBuilder = new ResultMap.Builder(
 						ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
 						resultMappings, resultMap.getAutoMapping());
 				resultMap = reBuilder.build();
-				List<ResultMap> resultMaps = new ArrayList<ResultMap>();
 				resultMaps.add(resultMap);
 				builder.resultMaps(resultMaps);
+			}else {
+				if(instance instanceof BaseInfo){
+					//处理属性和列名不一样的
+					List<ResultMapping> resultMappings= getResultMapping(type, ms);
+					ResultMap.Builder reBuilder = new ResultMap.Builder(
+							ms.getConfiguration(), resultMap.getId(), type,
+							resultMappings, resultMap.getAutoMapping());
+					resultMap = reBuilder.build();
+					resultMaps.add(resultMap);
+					builder.resultMaps(resultMaps);
+				}
 			}
 		}else{
 			builder.resultMaps(ms.getResultMaps());
