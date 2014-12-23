@@ -26,8 +26,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlSqlSource;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 import org.hbhk.aili.mybatis.server.support.Pagination;
+import org.hbhk.aili.mybatis.share.model.BaseInfo;
 import org.hbhk.aili.mybatis.share.util.FieldColumn;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
+import org.hbhk.aili.mybatis.share.vo.BaseVo;
 
 /**
  * 处理mybatis不支持泛型
@@ -129,17 +131,20 @@ public class AiliMybatisInterceptor implements Interceptor {
 		String id = ms.getId();
 		//方法名
 		String methodName = id.substring(id.lastIndexOf(".")+1,id.length());
-		if(dealmethod.contains(methodName)){
-		}
 		if(!notModelClass.contains(type)){
-			List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
-			ResultMap.Builder reBuilder = new ResultMap.Builder(
-					ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
-					resultMappings, resultMap.getAutoMapping());
-			resultMap = reBuilder.build();
-			List<ResultMap> resultMaps = new ArrayList<ResultMap>();
-			resultMaps.add(resultMap);
-			builder.resultMaps(resultMaps);
+			Object instance = type.newInstance();
+			if(dealmethod.contains(methodName)
+				|| instance  instanceof BaseVo 
+				|| instance instanceof BaseInfo){
+				List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
+				ResultMap.Builder reBuilder = new ResultMap.Builder(
+						ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
+						resultMappings, resultMap.getAutoMapping());
+				resultMap = reBuilder.build();
+				List<ResultMap> resultMaps = new ArrayList<ResultMap>();
+				resultMaps.add(resultMap);
+				builder.resultMaps(resultMaps);
+			}
 		}else{
 			builder.resultMaps(ms.getResultMaps());
 		}
