@@ -25,6 +25,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlSqlSource;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
+import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.mybatis.share.util.FieldColumn;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
 
@@ -38,11 +39,20 @@ public class AiliMybatisInterceptor implements Interceptor {
 
 	private static Map<String, Class<?>> modelClass = new ConcurrentHashMap<String, Class<?>>();
 
-	private static List<String>  notModelClass = new ArrayList<String>();
+	private static List<Class<?>>  notModelClass = new ArrayList<Class<?>>();
 	static{
-		notModelClass.add("org.hbhk.aili.mybatis.server.support.Pagination");
+		notModelClass.add(Pagination.class);
 		
 	}
+	private static List<String>  dealmethod = new ArrayList<String>();
+	static{
+		dealmethod.add("get");
+		dealmethod.add("getById");
+		dealmethod.add("getPage");
+		dealmethod.add("deleteById");
+		dealmethod.add("updateStatusById");
+	}
+	
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
@@ -116,7 +126,12 @@ public class AiliMybatisInterceptor implements Interceptor {
 		
 		ResultMap resultMap = ms.getResultMaps().get(0);
 		Class<?> type = resultMap.getType();
-		if(!notModelClass.contains(type.getName())){
+		String id = ms.getId();
+		//方法名
+		String methodName = id.substring(id.lastIndexOf(".")+1,id.length());
+		if(dealmethod.contains(methodName)){
+		}
+		if(!notModelClass.contains(type)){
 			List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
 			ResultMap.Builder reBuilder = new ResultMap.Builder(
 					ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
