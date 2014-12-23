@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
-import org.hbhk.aili.mybatis.share.model.TableInfo;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
