@@ -32,9 +32,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- <bean id="testMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<bean id="testMapper" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-		<property name="mapperInterface" value="org.hbhk.aili.mybatis.server.dao.IUserDao" />
-	</bean> -->
+		<property name="basePackage" value="org.hbhk"></property>
+		<property name="annotationClass" value="org.hbhk.aili.mybatis.server.dao.IBaseDao" />
+	</bean> 
 
 </beans>
