@@ -7,30 +7,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.mybatis.server.dao.IUserDao;
 import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring.xml" })
 public class AppTest {
-	@Autowired
+	
+	private Log  log = LogFactory.getLog(getClass());
+	//@Autowired
 	IUserDao userDao;
 
 	@Test
 	public void test() {
 		try {
+			log.info("1111111111");
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo  query  = new UserInfo();
 			//query.setName("111asdas");
 			BeanToMapUtil.convert(query, params);
 			Long s = System.currentTimeMillis();
-			List<UserInfo> user = userDao.get(params);
+			//List<UserInfo> user = userDao.get(params);
 			Long e = System.currentTimeMillis();
 			//166
 			System.out.println("pppppppppppppp:"+(e-s));
