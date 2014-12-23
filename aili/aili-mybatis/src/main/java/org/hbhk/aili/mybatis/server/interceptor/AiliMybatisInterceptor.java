@@ -131,7 +131,6 @@ public class AiliMybatisInterceptor implements Interceptor {
 		//方法名
 		String methodName = id.substring(id.lastIndexOf(".")+1,id.length());
 		if(!notModelClass.contains(type)){
-			Object instance = type.newInstance();
 			List<ResultMap> resultMaps = new ArrayList<ResultMap>();
 			if(dealmethod.contains(methodName)){
 				List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
@@ -143,6 +142,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 				resultMaps.add(resultMap);
 				builder.resultMaps(resultMaps);
 			}else {
+				Object instance = type.newInstance();
 				if(instance instanceof BaseInfo){
 					//处理属性和列名不一样的
 					List<ResultMapping> resultMappings= getResultMapping(type, ms);
