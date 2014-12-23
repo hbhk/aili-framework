@@ -13,11 +13,16 @@ import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.mybatis.server.dao.IUserDao;
 import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:spring.xml" })
 public class AppTest {
 	
 	private Log  log = LogFactory.getLog(getClass());
-	//@Autowired
+	@Autowired
 	IUserDao userDao;
 
 	@Test
@@ -29,7 +34,7 @@ public class AppTest {
 			//query.setName("111asdas");
 			BeanToMapUtil.convert(query, params);
 			Long s = System.currentTimeMillis();
-			//List<UserInfo> user = userDao.get(params);
+			List<UserInfo> user = userDao.get(params);
 			Long e = System.currentTimeMillis();
 			//166
 			System.out.println("pppppppppppppp:"+(e-s));
