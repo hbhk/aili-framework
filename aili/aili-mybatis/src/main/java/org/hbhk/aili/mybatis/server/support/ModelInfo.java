@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-public class TableInfo implements Serializable {
+public class ModelInfo implements Serializable {
 
 	private static final long serialVersionUID = 2533773647509691060L;
 

@@ -25,12 +25,12 @@ public class MybatisSqlTemplate implements InitializingBean {
 	@Value("${auto.scan.table.packages}")
 	private String autoTablePath;
 
-	private static Map<String, TableInfo> tabs = new HashMap<String, TableInfo>();
+	private static Map<String, ModelInfo> tabs = new HashMap<String, ModelInfo>();
 
 	public String insert(Object obj) {
 		Class<?> cls = obj.getClass();
 		String clsName = cls.getName();
-		TableInfo tableInfo = tabs.get(clsName);
+		ModelInfo tableInfo = tabs.get(clsName);
 		List<String> fieldList = tableInfo.getFieldList();
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ");
@@ -52,7 +52,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 	public String update(Object obj) {
 		Class<?> cls = obj.getClass();
 		String clsName = cls.getName();
-		TableInfo tableInfo = tabs.get(clsName);
+		ModelInfo tableInfo = tabs.get(clsName);
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ");
 		sql.append(tableInfo.getTable() + " set ");
@@ -86,7 +86,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 		sql.append(getTableName() +" ");
 		Set<String>  keys = params.keySet();
 		if(keys.size() > 0){
-			TableInfo tableInfo = tabs.get(getKey());
+			ModelInfo tableInfo = tabs.get(getKey());
 			String pk = tableInfo.getPk();
 			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
 			sql.append("where ");
@@ -118,7 +118,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 		sql.append(getTableName() +" ");
 		Set<String>  keys = params.keySet();
 		if(keys.size() > 0){
-			TableInfo tableInfo = tabs.get(getKey());
+			ModelInfo tableInfo = tabs.get(getKey());
 			String pk = tableInfo.getPk();
 			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
 			sql.append("where ");
@@ -181,7 +181,7 @@ public class MybatisSqlTemplate implements InitializingBean {
 			if (tabClasses != null) {
 				for (Class<?> tab : tabClasses) {
 					Field[] fields = SqlUtil.getColumnFields(tab);
-					TableInfo tableInfo = new TableInfo();
+					ModelInfo tableInfo = new ModelInfo();
 
 					List<String> columnList = new ArrayList<String>();
 					List<String> fieldList = new ArrayList<String>();
