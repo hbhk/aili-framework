@@ -110,6 +110,8 @@ public class AutoCreateTable implements InitializingBean {
 					tableName = nameHandler.getTableName(tableName);
 					if (!exits(tableName)) {
 						createTable(cls, tableName);
+					}else{
+						//select TABLE_NAME,COLUMN_NAME,DATA_TYPE from information_schema.COLUMNS where table_name = 't_aili_uSer' and table_schema = 'hbhk';
 					}
 				}
 			}
