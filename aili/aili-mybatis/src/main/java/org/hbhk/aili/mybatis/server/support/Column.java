@@ -9,7 +9,9 @@ public class Column {
 	private String comment;
 	// 数据库列类型
 	private String dataType;
-
+	
+	private int length;
+	
 	public String getName() {
 		return name;
 	}
@@ -34,6 +36,14 @@ public class Column {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	/*
