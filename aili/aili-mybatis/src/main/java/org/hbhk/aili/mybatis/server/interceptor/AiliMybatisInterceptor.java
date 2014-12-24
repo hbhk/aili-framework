@@ -58,7 +58,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
 		String resource = ms.getResource();
-		String className = resource = resource.substring(0,
+		String className = resource.substring(0,
 				resource.lastIndexOf(".")).replaceAll("/", ".");
 		Class<?> gnericInterfaceType = getGenericInterfaces(className);
 		GnericInterfaceTypeContext.setType(gnericInterfaceType);
