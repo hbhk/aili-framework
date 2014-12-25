@@ -7,7 +7,7 @@ import org.hbhk.aili.mybatis.server.annotation.Table;
 public class UserInfo extends BaseInfo {
 	private static final long serialVersionUID = 6767860047837579053L;
 
-	@Column("name1")
+	@Column("name")
 	private String name;
 
 	public String getName() {
