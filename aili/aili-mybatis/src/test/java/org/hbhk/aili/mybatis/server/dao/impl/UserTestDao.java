@@ -21,4 +21,9 @@ public class UserTestDao extends SqlSessionDaoSupport implements IUserTestDao<Us
 	public List<UserInfo> get(Map<String, Object> params) {
 		return getSqlSession().selectList("org.hbhk.aili.mybatis.server.dao.IUserDao.get");
 	}
+	@Override
+	public UserInfo insert(UserInfo userInfo) {
+		getSqlSession().insert("org.hbhk.aili.mybatis.server.dao.IUserDao.insertUser",userInfo);
+		return userInfo;
+	}
 }

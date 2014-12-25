@@ -1,5 +1,6 @@
 package org.hbhk.aili.mybatis.server;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,10 @@ import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml" })
@@ -38,4 +41,22 @@ public class AppTest1 {
 
 	}
 	
+	@Test
+	//@Rollback(false)
+	@Transactional()
+	public void insert() {
+		try {
+			UserInfo user = new UserInfo();
+			user.setName("hbhk");
+			user.setCreateTime(new Date());
+			user.setUpdateTime(new Date());
+			user.setCreatUser("hbhk");
+			user.setUpdateUser("hbhk");
+			userDao.insert(user);
+			System.out.println(user.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

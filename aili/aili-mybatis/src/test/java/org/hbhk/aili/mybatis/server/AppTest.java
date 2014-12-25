@@ -15,10 +15,13 @@ import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml" })
+@Transactional
 public class AppTest {
 	
 	private Log  log = LogFactory.getLog(getClass());
@@ -64,18 +67,30 @@ public class AppTest {
 	}
 
 	@Test
+	@Rollback(false)
+	@Transactional()
 	public void insert() {
 		try {
-			for (int i = 0; i < 1000; i++) {
-				UserInfo user = new UserInfo();
-				user.setName("hbhk"+i);
-				user.setCreateTime(new Date());
-				user.setUpdateTime(new Date());
-				user.setCreatUser("hbhk"+i);
-				user.setUpdateUser("hbhk"+i);
-				userDao.insert(user);
+//			for (int i = 0; i < 1000; i++) {
+//				UserInfo user = new UserInfo();
+//				user.setName("hbhk"+i);
+//				user.setCreateTime(new Date());
+//				user.setUpdateTime(new Date());
+//				user.setCreatUser("hbhk"+i);
+//				user.setUpdateUser("hbhk"+i);
+//				userDao.insert(user);
+//			}
+			UserInfo user = new UserInfo();
+			user.setName("hbhk");
+			user.setCreateTime(new Date());
+			user.setUpdateTime(new Date());
+			user.setCreatUser("hbhk");
+			user.setUpdateUser("hbhk");
+			userDao.insert(user);
+			System.out.println(user.getId());
+			if(1!=2){
+				throw new RuntimeException();
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
