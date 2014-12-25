@@ -142,16 +142,20 @@ public class AiliMybatisInterceptor implements Interceptor {
 				resultMaps.add(resultMap);
 				builder.resultMaps(resultMaps);
 			}else {
-				Object instance = type.newInstance();
-				if(instance instanceof BaseInfo){
-					//处理属性和列名不一样的
-					List<ResultMapping> resultMappings= getResultMapping(type, ms);
-					ResultMap.Builder reBuilder = new ResultMap.Builder(
-							ms.getConfiguration(), resultMap.getId(), type,
-							resultMappings, resultMap.getAutoMapping());
-					resultMap = reBuilder.build();
-					resultMaps.add(resultMap);
-					builder.resultMaps(resultMaps);
+				if(id.indexOf("!") < 0){
+					Object instance = type.newInstance();
+					if(instance instanceof BaseInfo){
+						//处理属性和列名不一样的
+						List<ResultMapping> resultMappings= getResultMapping(type, ms);
+						ResultMap.Builder reBuilder = new ResultMap.Builder(
+								ms.getConfiguration(), resultMap.getId(), type,
+								resultMappings, resultMap.getAutoMapping());
+						resultMap = reBuilder.build();
+						resultMaps.add(resultMap);
+						builder.resultMaps(resultMaps);
+					}
+				}else{
+					builder.resultMaps(ms.getResultMaps());
 				}
 			}
 		}else{

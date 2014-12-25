@@ -192,9 +192,9 @@ public class MybatisSqlTemplate implements InitializingBean {
 					for (Field field : fields) {
 						Column col = field.getAnnotation(Column.class);
 						String colName = col.value();
-						if(colName.equals(pk)){
-							continue;
-						}
+//						if(colName.equals(pk)){
+//							continue;
+//						}
 						String fieldName = field.getName();
 						columnList.add(colName);
 						fieldList.add(fieldName);
