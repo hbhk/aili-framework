@@ -19,12 +19,13 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml" })
 @Transactional
 public class AppTest {
-	
-	private Log  log = LogFactory.getLog(getClass());
+
+	private Log log = LogFactory.getLog(getClass());
 	@Autowired
 	IUserDao userDao;
 
@@ -33,33 +34,33 @@ public class AppTest {
 		try {
 			log.info("1111111111");
 			Map<String, Object> params = new HashMap<String, Object>();
-			UserInfo  query  = new UserInfo();
-			//query.setName("111asdas");
+			UserInfo query = new UserInfo();
+			// query.setName("111asdas");
 			BeanToMapUtil.convert(query, params);
 			Long s = System.currentTimeMillis();
 			List<UserInfo> user = userDao.get(params);
 			Long e = System.currentTimeMillis();
-			//166
-			System.out.println("pppppppppppppp:"+(e-s));
-			//System.out.println(user.size()+user.get(0).getCreatUser()+user.get(0).getName()+user.get(0).getCreateTime());
+			// 166
+			System.out.println("pppppppppppppp:" + (e - s));
+			// System.out.println(user.size()+user.get(0).getCreatUser()+user.get(0).getName()+user.get(0).getCreateTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	@Test
 	public void getPagetest() {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
-			UserInfo  query  = new UserInfo();
+			UserInfo query = new UserInfo();
 			query.setId(1l);
 			query.setName("222");
 			BeanToMapUtil.convert(query, params);
 			params.put("start", 0);
 			params.put("size", 5);
 			List<UserInfo> user = userDao.getPage(params);
-			System.out.println(user.size()+""+user.get(0).getName());
+			System.out.println(user.size() + "" + user.get(0).getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,33 +71,17 @@ public class AppTest {
 	@Rollback(false)
 	@Transactional()
 	public void insert() {
-		try {
-//			for (int i = 0; i < 1000; i++) {
-//				UserInfo user = new UserInfo();
-//				user.setName("hbhk"+i);
-//				user.setCreateTime(new Date());
-//				user.setUpdateTime(new Date());
-//				user.setCreatUser("hbhk"+i);
-//				user.setUpdateUser("hbhk"+i);
-//				userDao.insert(user);
-//			}
-			UserInfo user = new UserInfo();
-			user.setName("hbhk");
-			user.setCreateTime(new Date());
-			user.setUpdateTime(new Date());
-			user.setCreatUser("hbhk");
-			user.setUpdateUser("hbhk");
-			userDao.insert(user);
-			System.out.println(user.getId());
-			if(1!=2){
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		UserInfo user = new UserInfo();
+		user.setName("hbhk");
+		user.setCreateTime(new Date());
+		user.setUpdateTime(new Date());
+		user.setCreatUser("hbhk");
+		user.setUpdateUser("hbhk");
+		userDao.insert(user);
+		System.out.println(user.getId());
 
 	}
-	
+
 	@Test
 	public void update() {
 		try {
@@ -109,7 +94,6 @@ public class AppTest {
 		}
 
 	}
-
 
 	public static void main(String args[]) throws Exception {
 		System.out.println(getGenericInterfaces(IUserDao.class));
