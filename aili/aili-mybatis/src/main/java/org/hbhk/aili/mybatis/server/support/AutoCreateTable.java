@@ -6,6 +6,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
 @Component
 public class AutoCreateTable implements InitializingBean {
 
@@ -30,6 +33,8 @@ public class AutoCreateTable implements InitializingBean {
 	private INameHandler nameHandler;
 
 	private JdbcTemplate jdbcTemplate;
+
+	private static Map<String, Table> tableCache = new ConcurrentHashMap<String, Table>();
 
 	/**
 	 * 多个包用,分割
@@ -110,9 +115,11 @@ public class AutoCreateTable implements InitializingBean {
 					tableName = nameHandler.getTableName(tableName);
 					if (!exits(tableName)) {
 						createTable(cls, tableName);
-					}else{
-						//select TABLE_NAME,COLUMN_NAME,DATA_TYPE from information_schema.COLUMNS where table_name = 't_aili_uSer' and table_schema = 'hbhk';
-						//比较列没有添加该列
+					} else {
+						// select TABLE_NAME,COLUMN_NAME,DATA_TYPE from
+						// information_schema.COLUMNS where table_name =
+						// 't_aili_uSer' and table_schema = 'hbhk';
+						// 比较列没有添加该列
 					}
 				}
 			}
@@ -129,6 +136,7 @@ public class AutoCreateTable implements InitializingBean {
 			while (rest.next()) {
 				tableNames.add(rest.getString("TABLE_NAME").toLowerCase());
 			}
+			// 根据表名查询
 		} catch (Exception e) {
 			logger.error("查询数据库所有表出错：", e);
 			throw new RuntimeException("查询数据库所有表出错：", e);
@@ -137,4 +145,9 @@ public class AutoCreateTable implements InitializingBean {
 		return tableNames;
 	}
 
+	public static Map<String, Table> getTableMap() {
+		
+		return tableCache;
+
+	}
 }
