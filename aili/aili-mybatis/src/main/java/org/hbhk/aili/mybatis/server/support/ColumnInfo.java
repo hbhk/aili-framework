@@ -1,7 +1,7 @@
 package org.hbhk.aili.mybatis.server.support;
 
 
-public class Column {
+public class ColumnInfo {
 
 	// 列名
 	private String name;

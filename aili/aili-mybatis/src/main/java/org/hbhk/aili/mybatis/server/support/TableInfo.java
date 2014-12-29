@@ -2,14 +2,16 @@ package org.hbhk.aili.mybatis.server.support;
 
 import java.util.List;
 
-public class Table {
+public class TableInfo {
 
 	// 表名
 	private String name;
 	private String comment;
 	private String creator;
-	private Column pk;// 主键字段
-	private List<Column> columnList;
+	private ColumnInfo pk;// 主键字段
+	private List<ColumnInfo> columnList;
+	
+	private List<String> columnStrs;
 
 	public String getName() {
 		return name;
@@ -38,20 +40,29 @@ public class Table {
 		this.creator = creator;
 	}
 
-	public Column getPk() {
+	public ColumnInfo getPk() {
 		return pk;
 	}
 
-	public void setPk(Column pk) {
+	public void setPk(ColumnInfo pk) {
 		this.pk = pk;
 	}
 
-	public List<Column> getColumnList() {
+	public List<ColumnInfo> getColumnList() {
 		return columnList;
 	}
 
-	public void setColumnList(List<Column> columnList) {
+	public void setColumnList(List<ColumnInfo> columnList) {
 		this.columnList = columnList;
 	}
 
+	public List<String> getColumnStrs() {
+		return columnStrs;
+	}
+
+	public void setColumnStrs(List<String> columnStrs) {
+		this.columnStrs = columnStrs;
+	}
+
+	
 }

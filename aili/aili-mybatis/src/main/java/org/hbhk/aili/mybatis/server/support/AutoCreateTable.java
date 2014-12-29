@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
+import org.hbhk.aili.core.share.util.AnnotationScanningUtil;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
 import org.hbhk.aili.mybatis.server.handler.INameHandler;
@@ -34,15 +35,22 @@ public class AutoCreateTable implements InitializingBean {
 
 	private JdbcTemplate jdbcTemplate;
 
-	private static Map<String, Table> tableCache = new ConcurrentHashMap<String, Table>();
+	private static Map<String, TableInfo> tableCache = new ConcurrentHashMap<String, TableInfo>();
+	
+	private static Map<String, TableInfo> dbTableCache = new ConcurrentHashMap<String, TableInfo>();
 
 	/**
 	 * 多个包用,分割
 	 */
 	@Value("${auto.scan.table.packages}")
 	private String autoTablePath;
+	@Value("${scann.package}")
+	private static String  scannPackage;
+	
+	@Value("${table.schema}")
+	private static String tableSchema;
 
-	private List<String> tableNames = new ArrayList<String>();
+	private static List<String> tableNames = new ArrayList<String>();
 
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
@@ -126,8 +134,11 @@ public class AutoCreateTable implements InitializingBean {
 		}
 	}
 
-	public List<String> getAllTableNames() {
+	public  List<String> getAllTableNames() {
 		try {
+			if(tableNames!=null && tableNames.size()>0){
+				return tableNames;
+			}
 			Connection conn = jdbcTemplate.getDataSource().getConnection();
 			DatabaseMetaData dbmd = conn.getMetaData();
 			// 表名列表
@@ -145,8 +156,69 @@ public class AutoCreateTable implements InitializingBean {
 		return tableNames;
 	}
 
-	public static Map<String, Table> getTableMap() {
-		
+	public  Map<String, TableInfo> getTableMap() throws ClassNotFoundException {
+	
+		if(StringUtils.isEmpty(scannPackage)){
+			scannPackage = "org.hbhk.**.model";
+		}
+		String[] scannPackages =scannPackage.split(",");
+		List<Class<?>> tables = AnnotationScanningUtil.getAnnotatedClasses(Table.class, scannPackages);
+		List<String>   tabNames = new ArrayList<String>();
+		if(tables!=null){
+			for (Class<?> cls : tables) {
+				Table tab = cls.getAnnotation(Table.class);
+				String name = tab.value().toLowerCase();
+				tabNames.add(name);
+				TableInfo tableInfo = new TableInfo();
+				tableInfo.setName(name);
+				//获取列
+				Field[] fields = SqlUtil.getColumnFields(cls);
+				List<ColumnInfo> columnList = new ArrayList<ColumnInfo>();
+				List<String> columnStrs =  new ArrayList<String>();
+				for (Field field : fields) {
+					ColumnInfo columnInfo = new ColumnInfo();
+					Column col = field.getAnnotation(Column.class);
+					String  fname = col.value().toLowerCase();
+					String type = col.dbType();
+					int length = col.len();
+					columnInfo.setDataType(type);
+					columnInfo.setLength(length);
+					columnInfo.setName(fname);
+					columnList.add(columnInfo);
+					columnStrs.add(fname);
+				}
+				tableInfo.setColumnList(columnList);
+				tableInfo.setColumnStrs(columnStrs);
+				tableCache.put(name, tableInfo);
+			}
+			StringBuilder sql = new StringBuilder();
+			sql.append("select table_name,column_name,data_type from ");
+			sql.append("information_schema.columns where table_schema = "+tableSchema+" ");
+			sql.append("table_name in (");
+			for (int i = 0; i < tabNames.size(); i++) {
+				String str = tabNames.get(i);
+				if((i+1)==tabNames.size()){
+					sql.append(str+"");
+				}else{
+					sql.append(str+",");
+				}
+			}
+			sql.append(")");
+			
+			List<TableInfo> tableInfos = jdbcTemplate.query(sql.toString(), new TableInfoMapper());
+			List<String>   tabs = new ArrayList<String>();
+			TableInfo tableObj = new TableInfo();
+			for (TableInfo tableInfo : tableInfos) {
+				String tabName = tableInfo.getName();
+				if(!tabs.contains(tabName)){
+					tableObj = tableInfo;
+					dbTableCache.put(tabName, tableObj);
+				}else{
+					tableObj.getColumnList().addAll(tableInfo.getColumnList());
+					tableObj.getColumnStrs().addAll(tableInfo.getColumnStrs());
+				}
+			}
+		}
 		return tableCache;
 
 	}
