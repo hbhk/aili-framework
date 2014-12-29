@@ -36,7 +36,7 @@ public class AutoCreateTable implements InitializingBean {
 	private JdbcTemplate jdbcTemplate;
 
 	private static Map<String, TableInfo> tableCache = new ConcurrentHashMap<String, TableInfo>();
-	
+
 	private static Map<String, TableInfo> dbTableCache = new ConcurrentHashMap<String, TableInfo>();
 
 	/**
@@ -45,8 +45,8 @@ public class AutoCreateTable implements InitializingBean {
 	@Value("${auto.scan.table.packages}")
 	private String autoTablePath;
 	@Value("${scann.package}")
-	private static String  scannPackage;
-	
+	private static String scannPackage;
+
 	@Value("${table.schema}")
 	private static String tableSchema;
 
@@ -108,6 +108,7 @@ public class AutoCreateTable implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		initTableMap();
 		if (StringUtils.isNotEmpty(autoTablePath)) {
 			getAllTableNames();
 			String[] autoTablePaths = autoTablePath.split(",");
@@ -134,9 +135,9 @@ public class AutoCreateTable implements InitializingBean {
 		}
 	}
 
-	public  List<String> getAllTableNames() {
+	public List<String> getAllTableNames() {
 		try {
-			if(tableNames!=null && tableNames.size()>0){
+			if (tableNames != null && tableNames.size() > 0) {
 				return tableNames;
 			}
 			Connection conn = jdbcTemplate.getDataSource().getConnection();
@@ -156,29 +157,30 @@ public class AutoCreateTable implements InitializingBean {
 		return tableNames;
 	}
 
-	public  Map<String, TableInfo> getTableMap() throws ClassNotFoundException {
-	
-		if(StringUtils.isEmpty(scannPackage)){
+	public void initTableMap() throws ClassNotFoundException {
+
+		if (StringUtils.isEmpty(scannPackage)) {
 			scannPackage = "org.hbhk.**.model";
 		}
-		String[] scannPackages =scannPackage.split(",");
-		List<Class<?>> tables = AnnotationScanningUtil.getAnnotatedClasses(Table.class, scannPackages);
-		List<String>   tabNames = new ArrayList<String>();
-		if(tables!=null){
+		String[] scannPackages = scannPackage.split(",");
+		List<Class<?>> tables = AnnotationScanningUtil.getAnnotatedClasses(
+				Table.class, scannPackages);
+		List<String> tabNames = new ArrayList<String>();
+		if (tables != null) {
 			for (Class<?> cls : tables) {
 				Table tab = cls.getAnnotation(Table.class);
 				String name = tab.value().toLowerCase();
 				tabNames.add(name);
 				TableInfo tableInfo = new TableInfo();
 				tableInfo.setName(name);
-				//获取列
+				// 获取列
 				Field[] fields = SqlUtil.getColumnFields(cls);
 				List<ColumnInfo> columnList = new ArrayList<ColumnInfo>();
-				List<String> columnStrs =  new ArrayList<String>();
+				List<String> columnStrs = new ArrayList<String>();
 				for (Field field : fields) {
 					ColumnInfo columnInfo = new ColumnInfo();
 					Column col = field.getAnnotation(Column.class);
-					String  fname = col.value().toLowerCase();
+					String fname = col.value().toLowerCase();
 					String type = col.dbType();
 					int length = col.len();
 					columnInfo.setDataType(type);
@@ -193,33 +195,34 @@ public class AutoCreateTable implements InitializingBean {
 			}
 			StringBuilder sql = new StringBuilder();
 			sql.append("select table_name,column_name,data_type from ");
-			sql.append("information_schema.columns where table_schema = "+tableSchema+" ");
+			sql.append("information_schema.columns where table_schema = "
+					+ tableSchema + " ");
 			sql.append("table_name in (");
 			for (int i = 0; i < tabNames.size(); i++) {
 				String str = tabNames.get(i);
-				if((i+1)==tabNames.size()){
-					sql.append(str+"");
-				}else{
-					sql.append(str+",");
+				if ((i + 1) == tabNames.size()) {
+					sql.append(str + "");
+				} else {
+					sql.append(str + ",");
 				}
 			}
 			sql.append(")");
-			
-			List<TableInfo> tableInfos = jdbcTemplate.query(sql.toString(), new TableInfoMapper());
-			List<String>   tabs = new ArrayList<String>();
+
+			List<TableInfo> tableInfos = jdbcTemplate.query(sql.toString(),
+					new TableInfoMapper());
+			List<String> tabs = new ArrayList<String>();
 			TableInfo tableObj = new TableInfo();
 			for (TableInfo tableInfo : tableInfos) {
 				String tabName = tableInfo.getName();
-				if(!tabs.contains(tabName)){
+				if (!tabs.contains(tabName)) {
 					tableObj = tableInfo;
 					dbTableCache.put(tabName, tableObj);
-				}else{
+				} else {
 					tableObj.getColumnList().addAll(tableInfo.getColumnList());
 					tableObj.getColumnStrs().addAll(tableInfo.getColumnStrs());
 				}
 			}
 		}
-		return tableCache;
 
 	}
 }
