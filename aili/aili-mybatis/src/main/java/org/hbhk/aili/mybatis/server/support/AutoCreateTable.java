@@ -108,7 +108,7 @@ public class AutoCreateTable implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		initTableMap();
+		// initTableMap();
 		if (StringUtils.isNotEmpty(autoTablePath)) {
 			getAllTableNames();
 			String[] autoTablePaths = autoTablePath.split(",");
