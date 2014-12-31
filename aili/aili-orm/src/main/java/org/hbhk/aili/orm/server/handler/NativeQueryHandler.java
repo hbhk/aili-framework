@@ -115,18 +115,21 @@ public class NativeQueryHandler extends AbstractQueryHandler {
 				&& (nativeQuery.alias() == null
 						|| nativeQuery.clazzes() == null
 						|| nativeQuery.alias().length == 0 || nativeQuery
-						.clazzes().length == 0))
+						.clazzes().length == 0)){
 			throw new IllegalArgumentException(
 					"No return type definition found.");
-
+		}
+		
 		if (rowMapper == null
-				&& nativeQuery.alias().length != nativeQuery.clazzes().length)
+				&& nativeQuery.alias().length != nativeQuery.clazzes().length){
 			throw new IllegalArgumentException(
 					"Return alias and class definition are not matched.");
+		}
 
-		if (rowMapper == null)
+		if (rowMapper == null){
 			rowMapper = new MapRowMapper(nativeQuery.alias(),
 					nativeQuery.clazzes());
+		}
 
 		if (sorts != null) {
 			logger.debug("Query need be sorted with :" + Arrays.asList(sorts));
