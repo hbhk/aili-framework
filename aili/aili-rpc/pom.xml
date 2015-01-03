@@ -11,11 +11,9 @@
 	<version>${aili-version}</version>
 	<packaging>jar</packaging>
 
-	<name>aili-nosql</name>
+	<name>aili-rpc</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-version>3.2.2.RELEASE</spring-version>
-		<security-version>3.1.4.RELEASE</security-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -23,13 +21,6 @@
 			<artifactId>aili-core</artifactId>
 			<version>${aili-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-		</dependency>
+
 	</dependencies>
 </project>
