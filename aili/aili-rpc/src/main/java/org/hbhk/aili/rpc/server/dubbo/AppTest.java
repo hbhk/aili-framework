@@ -1,4 +1,4 @@
-package org.hbhk.aili.rpc.server.hessian;
+package org.hbhk.aili.rpc.server.dubbo;
 
 
 public class AppTest {
