@@ -37,6 +37,7 @@
 		<module>aili-support</module>
 		<module>aili-struts-mvc</module>
 		<module>aili-gen</module>
+		<module>aili-rpc</module>
 	</modules>
 
 	<properties>
