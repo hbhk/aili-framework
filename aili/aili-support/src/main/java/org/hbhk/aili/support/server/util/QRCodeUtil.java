@@ -58,7 +58,7 @@ public class QRCodeUtil {
 			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
 					new FileOutputStream(outputPath));
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class QRCodeUtil {
 			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
 					os);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -94,9 +94,9 @@ public class QRCodeUtil {
 			ImageIO.write(genBarcode(text, width, height, iconPath),
 					imgSubfix, new File(outputPath));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (WriterException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -106,9 +106,9 @@ public class QRCodeUtil {
 			ImageIO.write(genBarcode(text, width, height, iconPath),
 					imgSubfix, os);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (WriterException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -136,9 +136,8 @@ public class QRCodeUtil {
 			return result.getText();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 	
 	public static String decodeQRCode(InputStream input) {
@@ -159,9 +158,8 @@ public class QRCodeUtil {
 			return result.getText();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	/**
@@ -180,12 +178,10 @@ public class QRCodeUtil {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.EAN_13, codeWidth, height, null);
-
 			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
 					new FileOutputStream(outputPath));
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -197,12 +193,10 @@ public class QRCodeUtil {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.EAN_13, codeWidth, height, null);
-
 			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
 					os);
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -226,9 +220,8 @@ public class QRCodeUtil {
 			result = new MultiFormatReader().decode(bitmap, null);
 			return result.getText();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 	
 	public static String decodeBar(InputStream input) {
@@ -245,9 +238,8 @@ public class QRCodeUtil {
 			result = new MultiFormatReader().decode(bitmap, null);
 			return result.getText();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	/**
