@@ -36,32 +36,33 @@ public class QRCodeUtil {
 	private static final int IMAGE_HALF_WIDTH = IMAGE_WIDTH / 2;
 	private static final int FRAME_WIDTH = 2;
 
+	public static String imgSubfix = "png";
 	/**
 	 * 生成普通二维码
 	 * 
-	 * @param contents
+	 * @param text
 	 * @param width
 	 * @param height
-	 * @param imgPath
+	 * @param outputPath
 	 */
-	public static void encodePR(String contents, int width, int height,
-			String imgPath) {
+	public static void encodeQRCode(String text, int width, int height,
+			String outputPath) {
 		Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
 		// 指定纠错等级
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 		// 指定编码格式
 		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents,
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.QR_CODE, width, height, hints);
-			MatrixToImageWriter.writeToStream(bitMatrix, "png",
-					new FileOutputStream(imgPath));
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
+					new FileOutputStream(outputPath));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void encodePR(String contents, int width, int height,
+	public static void encodeQRCode(String text, int width, int height,
 			OutputStream os) {
 		Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
 		// 指定纠错等级
@@ -69,9 +70,9 @@ public class QRCodeUtil {
 		// 指定编码格式
 		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents,
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.QR_CODE, width, height, hints);
-			MatrixToImageWriter.writeToStream(bitMatrix, "png",
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
 					os);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,17 +82,17 @@ public class QRCodeUtil {
 	/**
 	 * 生成带图片的二维码
 	 * 
-	 * @param content
+	 * @param text
 	 * @param width
 	 * @param height
-	 * @param srcImagePath
-	 * @param destImagePath
+	 * @param iconPath
+	 * @param outputPath
 	 */
-	public static void encodePR(String content, int width, int height,
-			String srcImagePath, String destImagePath) {
+	public static void encodeQRCode(String text, int width, int height,
+			String iconPath, String outputPath) {
 		try {
-			ImageIO.write(genBarcode(content, width, height, srcImagePath),
-					"png", new File(destImagePath));
+			ImageIO.write(genBarcode(text, width, height, iconPath),
+					imgSubfix, new File(outputPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (WriterException e) {
@@ -99,11 +100,11 @@ public class QRCodeUtil {
 		}
 	}
 	
-	public static void encodePR(String content, int width, int height,
-			String srcImagePath, OutputStream os) {
+	public static void encodeQRCode(String text, int width, int height,
+			String iconPath, OutputStream os) {
 		try {
-			ImageIO.write(genBarcode(content, width, height, srcImagePath),
-					"png", os);
+			ImageIO.write(genBarcode(text, width, height, iconPath),
+					imgSubfix, os);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (WriterException e) {
@@ -114,14 +115,14 @@ public class QRCodeUtil {
 	/**
 	 * 针对二维码进行解析
 	 * 
-	 * @param imgPath
+	 * @param outputPath
 	 * @return
 	 */
-	public static String decodePR(String imgPath) {
+	public static String decodeQRCode(String outputPath) {
 		BufferedImage image = null;
 		Result result = null;
 		try {
-			image = ImageIO.read(new File(imgPath));
+			image = ImageIO.read(new File(outputPath));
 			if (image == null) {
 				System.out.println("the decode image may be not exists.");
 			}
@@ -140,7 +141,7 @@ public class QRCodeUtil {
 		return null;
 	}
 	
-	public static String decodePR(InputStream input) {
+	public static String decodeQRCode(InputStream input) {
 		BufferedImage image = null;
 		Result result = null;
 		try {
@@ -166,38 +167,38 @@ public class QRCodeUtil {
 	/**
 	 * 创建条形码
 	 * 
-	 * @param contents
+	 * @param text
 	 * @param width
 	 * @param height
-	 * @param imgPath
+	 * @param outputPath
 	 */
-	public static void encodeBar(String contents, int width, int height,
-			String imgPath) {
+	public static void encodeBar(String text, int width, int height,
+			String outputPath) {
 		// 条形码的最小宽度
 		int codeWidth = 98;
 		codeWidth = Math.max(codeWidth, width);
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents,
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.EAN_13, codeWidth, height, null);
 
-			MatrixToImageWriter.writeToStream(bitMatrix, "png",
-					new FileOutputStream(imgPath));
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
+					new FileOutputStream(outputPath));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void encodeBar(String contents, int width, int height,
+	public static void encodeBar(String text, int width, int height,
 			OutputStream os) {
 		// 条形码的最小宽度
 		int codeWidth = 98;
 		codeWidth = Math.max(codeWidth, width);
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents,
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.EAN_13, codeWidth, height, null);
 
-			MatrixToImageWriter.writeToStream(bitMatrix, "png",
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
 					os);
 
 		} catch (Exception e) {
@@ -208,14 +209,14 @@ public class QRCodeUtil {
 	/**
 	 * 针对条形码进行解析
 	 * 
-	 * @param imgPath
+	 * @param outputPath
 	 * @return
 	 */
-	public static String decodeBar(String imgPath) {
+	public static String decodeBar(String outputPath) {
 		BufferedImage image = null;
 		Result result = null;
 		try {
-			image = ImageIO.read(new File(imgPath));
+			image = ImageIO.read(new File(outputPath));
 			if (image == null) {
 				System.out.println("the decode image may be not exit.");
 			}
@@ -307,19 +308,19 @@ public class QRCodeUtil {
 	/**
 	 * 产生带有图片的二维码缓冲图像
 	 * 
-	 * @param content
+	 * @param text
 	 * @param width
 	 * @param height
-	 * @param srcImagePath
+	 * @param iconPath
 	 * @return
 	 * @throws WriterException
 	 * @throws IOException
 	 */
-	private static BufferedImage genBarcode(String content, int width,
-			int height, String srcImagePath) throws WriterException,
+	private static BufferedImage genBarcode(String text, int width,
+			int height, String iconPath) throws WriterException,
 			IOException {
 		// 读取源图像
-		BufferedImage scaleImage = scale(srcImagePath, IMAGE_WIDTH,
+		BufferedImage scaleImage = scale(iconPath, IMAGE_WIDTH,
 				IMAGE_HEIGHT, true);
 		int[][] srcPixels = new int[IMAGE_WIDTH][IMAGE_HEIGHT];
 		for (int i = 0; i < scaleImage.getWidth(); i++) {
@@ -333,7 +334,7 @@ public class QRCodeUtil {
 		hint.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 		// 生成二维码
 		MultiFormatWriter mutiWriter = new MultiFormatWriter();
-		BitMatrix matrix = mutiWriter.encode(content, BarcodeFormat.QR_CODE,
+		BitMatrix matrix = mutiWriter.encode(text, BarcodeFormat.QR_CODE,
 				width, height, hint);
 
 		// 二维矩阵转为一维像素数组
