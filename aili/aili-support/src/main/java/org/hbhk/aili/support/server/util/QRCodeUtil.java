@@ -36,7 +36,7 @@ public class QRCodeUtil {
 	private static final int IMAGE_HALF_WIDTH = IMAGE_WIDTH / 2;
 	private static final int FRAME_WIDTH = 2;
 
-	public static String imgSubfix = "png";
+	public static String imgSubffix = "png";
 	/**
 	 * 生成普通二维码
 	 * 
@@ -55,7 +55,7 @@ public class QRCodeUtil {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.QR_CODE, width, height, hints);
-			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubffix,
 					new FileOutputStream(outputPath));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -72,7 +72,7 @@ public class QRCodeUtil {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.QR_CODE, width, height, hints);
-			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubffix,
 					os);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -92,7 +92,7 @@ public class QRCodeUtil {
 			String iconPath, String outputPath) {
 		try {
 			ImageIO.write(genBarcode(text, width, height, iconPath),
-					imgSubfix, new File(outputPath));
+					imgSubffix, new File(outputPath));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (WriterException e) {
@@ -104,7 +104,7 @@ public class QRCodeUtil {
 			String iconPath, OutputStream os) {
 		try {
 			ImageIO.write(genBarcode(text, width, height, iconPath),
-					imgSubfix, os);
+					imgSubffix, os);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (WriterException e) {
@@ -178,7 +178,7 @@ public class QRCodeUtil {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.EAN_13, codeWidth, height, null);
-			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubffix,
 					new FileOutputStream(outputPath));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -193,7 +193,7 @@ public class QRCodeUtil {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
 					BarcodeFormat.EAN_13, codeWidth, height, null);
-			MatrixToImageWriter.writeToStream(bitMatrix, imgSubfix,
+			MatrixToImageWriter.writeToStream(bitMatrix, imgSubffix,
 					os);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
