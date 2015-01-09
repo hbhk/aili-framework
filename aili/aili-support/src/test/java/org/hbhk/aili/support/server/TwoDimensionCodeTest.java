@@ -4,9 +4,7 @@ import org.hbhk.aili.support.server.util.QRCodeUtil;
 public class TwoDimensionCodeTest {
 	public static void main(String[] args) {
         String imgPath = "d:/pr1.png";
-        String contents = "你好,李四! welcome to zxing!"
-                + "\n李四的博客[http://my.oschina.net/cloudcoder]"
-                + "\nEmail[xxx@163.com]";
+        String contents = "你好,hbhk! welcome to zxing!";
         // 普通二维码的生成与解析
         QRCodeUtil.encodePR(contents, 300, 300, imgPath);
         System.out.println("生成二维码成功");
