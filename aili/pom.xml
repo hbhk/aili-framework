@@ -481,26 +481,24 @@
 				<artifactId>spymemcached-provider</artifactId>
 				<version>${memcached-version}</version>
 			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-site</artifactId>
-				<version>1.1.2</version>
-			</dependency>
 			<!-- logback s -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
 				<version>1.1.2</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-access</artifactId>
 				<version>1.1.2</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>1.1.2</version>
+				<scope>test</scope>
 			</dependency>
 			<!-- logback e -->
 		</dependencies>
