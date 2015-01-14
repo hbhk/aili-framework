@@ -1,28 +1,27 @@
 package org.hbhk.aili.job.server;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.hbhk.aili.job.share.pojo.QuartzInfo;
 import org.hbhk.aili.job.share.pojo.QuartzMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class QuartzDao {
-	private NamedParameterJdbcTemplate jdbcTemplate;
-	
-	private DataSource dataSource;
+public class QuartzDao implements Serializable{
+	private static final long serialVersionUID = -8029787415482077780L;
 
-	@Resource
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
 	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(this.dataSource);
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	/**
@@ -35,10 +34,10 @@ public class QuartzDao {
 				+ ",QRTZ_JOB_DETAILS.DESCRIPTION  DESCRIPTION from QRTZ_TRIGGERS inner join QRTZ_JOB_DETAILS "
 				+ " on QRTZ_TRIGGERS.JOB_NAME = QRTZ_JOB_DETAILS.JOB_NAME";
 		if(StringUtils.isNotEmpty(jobName)){
-			sql=sql+" WHERE QRTZ_JOB_DETAILS.JOB_NAME = '"+jobName+"'"+" order by start_time";
+			sql=sql+" WHERE QRTZ_JOB_DETAILS.JOB_NAME = ?"+" order by start_time";
 		}else{
 			sql =sql+" order by start_time";
 		}
-		return jdbcTemplate.query(sql,new HashMap<String, String>(), new QuartzMapper());
+		return jdbcTemplate.query(sql,new Object[]{jobName}, new QuartzMapper());
 	}
 }

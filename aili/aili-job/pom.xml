@@ -20,6 +20,11 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
+		<dependency>
+			<artifactId>slf4j-api</artifactId>
+			<groupId>org.slf4j</groupId>
+			<version>1.7.5</version>
+		</dependency>
 		<!-- spring begin -->
 		<dependency>
 			<groupId>org.springframework</groupId>

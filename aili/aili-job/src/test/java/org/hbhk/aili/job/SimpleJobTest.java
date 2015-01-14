@@ -7,7 +7,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.job.server.QuartzService;
 import org.junit.Test;
-import org.quartz.Job;
 import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -32,11 +31,8 @@ public class SimpleJobTest {
 			String description = "description";
 			String cronPattern = "0/10 * * * * ?";
 			try {
-				Class<?> jobclass = Class
-						.forName("org.hbhk.aili.job.ParseModelJob");
-				Job jobInstance = (Job) jobclass.newInstance();
-//				quartzService.addParseModelJob(jobName, topicIds, description,
-//						cronPattern, jobInstance);
+				quartzService.addParseModelJob(jobName, topicIds, description,
+						cronPattern, ParseModelJob.class);
 
 			} catch (Exception e) {
 				e.printStackTrace();

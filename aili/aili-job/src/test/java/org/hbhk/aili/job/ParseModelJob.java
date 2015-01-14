@@ -1,5 +1,7 @@
 package org.hbhk.aili.job;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -13,6 +15,13 @@ public class ParseModelJob implements Job {
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
 		logger.info("这里输进任务处理的内容");
+		try {
+			TimeUnit.SECONDS.sleep(3);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("aaaaaaaaaaaaaa");
 	}
 
 }

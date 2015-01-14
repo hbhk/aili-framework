@@ -1,5 +1,6 @@
 package org.hbhk.aili.job.server;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QuartzService {
+public class QuartzService implements Serializable {
 
+	private static final long serialVersionUID = 8865813382190577271L;
+	
 	private static final Logger logger = Logger.getLogger(QuartzService.class);
 	@Autowired
 	private QuartzDao quartzDao;
@@ -36,17 +39,47 @@ public class QuartzService {
 	/**
 	 * 增加定时任务
 	 */
-	public void addParseModelJob(String jobName, List<String> topicIds,
-			String description, String cronPattern, Job job)
-			throws SchedulerException {
+	public void addParseModelJob(String jobName,List<String> topicIds,
+			String description, String cronPattern, Class<?> jobCls)
+			throws Exception {
 		// 初始化JobDetail
 		JobDataMap dataMap = new JobDataMap();
 		dataMap.put("PARSE_MODEL_TOPIC_KEY", topicIds);
 		dataMap.put("JOB_LOG_KEY", new StringBuilder());
 		dataMap.put("CREATE_JOB_TIME_KEY",DateFormatUtils.ISO_DATETIME_FORMAT.format(new Date()));
-		JobDetail jobDetail = JobBuilder.newJob(job.getClass())
+		Job jobInstance = (Job) jobCls.newInstance();
+		JobDetail jobDetail = JobBuilder.newJob(jobInstance.getClass())
 				//job名称 分组名称
 				.withIdentity(jobName, Scheduler.DEFAULT_GROUP)
+				.withDescription(description).usingJobData(dataMap).build();
+		// JobDetailBean jobDetail = new JobDetailBean();
+		// 初始化CronTrigger
+		logger.info("cronPattern:"+cronPattern);
+		CronTrigger trigger = TriggerBuilder.newTrigger()
+				//触发名称 分组名称
+				.withIdentity(jobName + "_trigger")//, Scheduler.DEFAULT_GROUP
+				.forJob(jobDetail)
+				.withSchedule(CronScheduleBuilder.cronSchedule(cronPattern))
+				.build();
+		// 添加cornjob
+		quartzScheduler.scheduleJob(jobDetail, trigger);
+	}
+	
+	/**
+	 * 增加定时任务
+	 */
+	public void addParseModelJob(String jobName, String group,List<String> topicIds,
+			String description, String cronPattern, Class<?> jobCls)
+			throws Exception {
+		// 初始化JobDetail
+		JobDataMap dataMap = new JobDataMap();
+		dataMap.put("PARSE_MODEL_TOPIC_KEY", topicIds);
+		dataMap.put("JOB_LOG_KEY", new StringBuilder());
+		dataMap.put("CREATE_JOB_TIME_KEY",DateFormatUtils.ISO_DATETIME_FORMAT.format(new Date()));
+		Job jobInstance = (Job) jobCls.newInstance();
+		JobDetail jobDetail = JobBuilder.newJob(jobInstance.getClass())
+				//job名称 分组名称
+				.withIdentity(jobName,group)
 				.withDescription(description).usingJobData(dataMap).build();
 		// JobDetailBean jobDetail = new JobDetailBean();
 		// 初始化CronTrigger
@@ -65,6 +98,13 @@ public class QuartzService {
 	 */
 	public void deleteJob(String jobName) throws SchedulerException {
 		quartzScheduler.deleteJob(new JobKey(jobName, Scheduler.DEFAULT_GROUP));
+	}
+	
+	/**
+	 * 删除定时任务
+	 */
+	public void deleteJob(String jobName,String group) throws SchedulerException {
+		quartzScheduler.deleteJob(new JobKey(jobName, group));
 	}
 
 }
