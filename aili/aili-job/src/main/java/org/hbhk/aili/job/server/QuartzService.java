@@ -40,7 +40,7 @@ public class QuartzService implements Serializable {
 	 * 增加定时任务
 	 */
 	public void addParseModelJob(String jobName,List<String> topicIds,
-			String description, String cronPattern, Class<?> jobCls)
+			String description, String cronPattern, Class<? extends Job> jobCls)
 			throws Exception {
 		// 初始化JobDetail
 		JobDataMap dataMap = new JobDataMap();
@@ -69,7 +69,7 @@ public class QuartzService implements Serializable {
 	 * 增加定时任务
 	 */
 	public void addParseModelJob(String jobName, String group,List<String> topicIds,
-			String description, String cronPattern, Class<?> jobCls)
+			String description, String cronPattern, Class<? extends Job> jobCls)
 			throws Exception {
 		// 初始化JobDetail
 		JobDataMap dataMap = new JobDataMap();
