@@ -1,13 +1,14 @@
 package org.hbhk.aili.test.server.job;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 public class ParseModelJob implements Job {
 
-	private static final Logger logger = Logger.getLogger(ParseModelJob.class);
+	private static final Log logger = LogFactory.getLog(ParseModelJob.class);
 
 	@Override
 	public void execute(JobExecutionContext context)
