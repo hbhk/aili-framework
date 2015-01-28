@@ -11,10 +11,8 @@ public class HBHKConsumer implements Runnable {
 				new String[] { "applicationConsumer.xml" });
 		context.start();
 		IProcessData processData = (IProcessData) context
-				.getBean("processData"); // get
-											// service
-		// proxy
-		String hello = processData.deal("hello"); // do invoke!
+				.getBean("processData"); 
+		String hello = processData.deal("hello"); 
 		System.out.println(Thread.currentThread().getName() + " " + hello);
 	}
 
