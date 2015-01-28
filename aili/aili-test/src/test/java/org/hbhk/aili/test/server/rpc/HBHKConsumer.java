@@ -1,5 +1,6 @@
 package org.hbhk.aili.test.server.rpc;
 
+import org.hbhk.aili.rpc.server.dubbo.IProcessData;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class HBHKConsumer implements Runnable {

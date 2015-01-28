@@ -15,5 +15,5 @@
 	<dubbo:consumer timeout="5000" />
 	<!-- which service to consume? -->
 	<dubbo:reference id="processData"
-		interface="org.hbhk.aili.test.server.rpc.IProcessData" />
+		interface="org.hbhk.aili.rpc.server.dubbo.IProcessData" />
 </beans> 
