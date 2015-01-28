@@ -24,7 +24,7 @@
 
 	<!-- Default Protocol -->
 	<!-- <dubbo:protocol server="netty" /> -->
-
+ 	<!-- <dubbo:protocol name="dubbo" port="20880"  /> -->
 	<!-- designate implementation -->
 	<bean id="processData" class="org.hbhk.aili.rpc.server.dubbo.ProcessData" />
 
