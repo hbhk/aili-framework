@@ -38,6 +38,7 @@
 		<module>aili-struts-mvc</module>
 		<module>aili-gen</module>
 		<module>aili-rpc</module>
+		<module>aili-search</module>
 	</modules>
 
 	<properties>
