@@ -43,22 +43,8 @@ public class Receiver implements Runnable {
 			session = connection.createSession(Boolean.FALSE,
 					Session.AUTO_ACKNOWLEDGE);
 			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
-			destination = session.createQueue("hbhk-req?consumer.exclusive=true");
-			consumer = session.createConsumer(destination);
-//			consumer.setMessageListener(new MessageListener() {
-//				public void onMessage(Message message) {
-//					if (null != message) {
-//						TextMessage tmsg = (TextMessage) message;
-//						try {
-//							System.out.println(Thread.currentThread().getName()
-//									+ " 收到消息" + tmsg.getText());
-//						} catch (JMSException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//					
-//				}
-//			});
+			destination = session.createQueue("hbhk-req");
+			consumer = session.createConsumer(destination,"serviceCode='hbhk-code1'");
 			while (true) {
 				// 设置接收者接收消息的时间，为了便于测试，这里谁定为100s
 				TimeUnit.SECONDS.sleep(1);
@@ -68,9 +54,6 @@ public class Receiver implements Runnable {
 					System.out.println(Thread.currentThread().getName()
 							+ " 收到消息" + message.getText());
 				}
-				// else {
-				// break;
-				// }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
