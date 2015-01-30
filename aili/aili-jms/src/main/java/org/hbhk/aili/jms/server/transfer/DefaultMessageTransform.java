@@ -10,7 +10,6 @@ public class DefaultMessageTransform implements IMessageTransform<Object> {
 	@Override
 	public Object toMessage(String str) throws ConvertException,
 			UnsupportedEncodingException {
-		//JsonUtil.parseJson(str, parametrized);
 		return str;
 	}
 
