@@ -57,9 +57,20 @@
 							/> <property name="resConvertor" ref="userResponsetConvertor" /> -->
 						<!-- 接受监听 -->
 						<property name="processor" ref="userListener" />
-						<property name="requestQueue" value="hbhk-req"></property>
 						<!-- 响应队列 -->
 						<property name="responseQueue" value="hbhk-res" />
+						<!-- 状态队列 -->
+						<property name="esbStatusQueue" value="hbhk-status" />
+					</bean>
+				</entry>
+				<entry key="hbhk_code2">
+					<bean class="org.hbhk.aili.jms.server.definition.ServiceConfiguration">
+						<!-- 请求转换 响应转换 <property name="reqConvertor" ref="userRequestConvertor" 
+							/> <property name="resConvertor" ref="userResponsetConvertor" /> -->
+						<!-- 接受监听 -->
+						<property name="processor" ref="userListener1" />
+						<!-- 响应队列 -->
+						<property name="responseQueue" value="hbhk-res1" />
 						<!-- 状态队列 -->
 						<property name="esbStatusQueue" value="hbhk-status" />
 					</bean>
@@ -78,8 +89,19 @@
 		<property name="messageListener" ref="serverListener" />
 		<property name="connectionFactory" ref="jmsFactory" />
 		<property name="messageSelector"
-			value="serviceCode in ('hbhk_code1','hbhk_code2')" />
+			value="serviceCode in ('hbhk_code1')" />
+	</bean>
+	<bean id="serverContainer1"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="concurrentConsumers" value="8" />
+		<property name="destinationName" value="hbhk-req1" />
+		<property name="transactionManager" ref="jmsTransactionManager" />
+		<property name="messageListener" ref="serverListener" />
+		<property name="connectionFactory" ref="jmsFactory" />
+		<property name="messageSelector"
+			value="serviceCode in ('hbhk_code2')" />
 	</bean>
 	<bean id="userListener" class="org.hbhk.aili.jms.server.UserListener" />
+	<bean id="userListener1" class="org.hbhk.aili.jms.server.UserListener1" />
 
 </beans>

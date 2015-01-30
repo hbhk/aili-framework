@@ -33,7 +33,7 @@ public class Sender {
 			session = connection.createSession(Boolean.TRUE,
 					Session.DUPS_OK_ACKNOWLEDGE);
 			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
-			destination = session.createQueue("hbhk-req");
+			destination = session.createQueue("hbhk-req1");
 			// 得到消息生成者【发送者】
 			producer = session.createProducer(destination);
 			// 设置不持久化，此处学习，实际根据项目决定
@@ -59,7 +59,7 @@ public class Sender {
 					+ i);
 			// 发送消息到目的地方
 			TimeUnit.MILLISECONDS.sleep(300);
-			message.setStringProperty("serviceCode","hbhk_code1");
+			message.setStringProperty("serviceCode","hbhk_code2");
 			System.out.println("发送消息：" + "ActiveMq 发送的消息" + i);
 			producer.send(message);
 		}
