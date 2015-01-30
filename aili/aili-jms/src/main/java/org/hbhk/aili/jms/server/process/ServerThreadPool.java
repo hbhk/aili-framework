@@ -16,6 +16,7 @@ import javax.jms.TextMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.jms.server.definition.Configuration;
+import org.hbhk.aili.jms.server.transfer.DefaultMessageTransform;
 import org.hbhk.aili.jms.server.transfer.IMessageTransform;
 import org.hbhk.aili.jms.share.ex.ConvertException;
 import org.hbhk.aili.jms.share.ex.JmsBusinessException;
@@ -71,8 +72,8 @@ public class ServerThreadPool {
 	
 	private void flowProcess(ServiceMessage message){
 		ESBHeader header = message.getHeader();
-		String responseQueue = Configuration.getServiceConfigMap().get(header.getBackServiceCode()).getResponseQueue();
-		String statusQueue = Configuration.getServiceConfigMap().get(header.getBackServiceCode()).getEsbStatusQueue();
+		String responseQueue = Configuration.getServiceConfigMap().get(header.getServiceCode()).getResponseQueue();
+		String statusQueue = Configuration.getServiceConfigMap().get(header.getServiceCode()).getEsbStatusQueue();
 		// 已接收
 		sendStatus(statusQueue,Constant.STATUS_302);
 		try {
@@ -92,9 +93,12 @@ public class ServerThreadPool {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ServiceMessage businessProcess(ServiceMessage message) throws ConvertException{
 		ESBHeader header = message.getHeader();
-		String serviceCode = header.getBackServiceCode();
+		String serviceCode = header.getServiceCode();
 		header.setResponseId(UUID.randomUUID().toString());
 		IMessageTransform requestTransform = Configuration.getServiceConfigMap().get(serviceCode).getReqConvertor();
+		if(requestTransform == null){
+			requestTransform = new DefaultMessageTransform();
+		}
 		Object requestObj = null;
 		try {
 			requestObj = requestTransform.toMessage(message.getBody());

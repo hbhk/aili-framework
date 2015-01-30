@@ -35,7 +35,7 @@ public class ESBHeader {
 	private String esbServiceCode;
 	
 	/** The back service code. */
-	private String backServiceCode;
+	private String serviceCode;
 	
 	/** The message format. */
 	private String messageFormat;
@@ -250,19 +250,6 @@ public class ESBHeader {
 	 * 
 	 * @return value
 	 */
-	public String getBackServiceCode() {
-		return backServiceCode;
-	}
-
-	/**
-	 * 服务提供端提供给ESB的服务编码.
-	 * 
-	 * @param backServiceCode
-	 *            the new back service code
-	 */
-	public void setBackServiceCode(String backServiceCode) {
-		this.backServiceCode = backServiceCode;
-	}
 
 	/**
 	 * 消息格式，如SOAP，XML，JSON，Binary等，这些格式可扩展.
@@ -271,6 +258,14 @@ public class ESBHeader {
 	 */
 	public String getMessageFormat() {
 		return messageFormat;
+	}
+
+	public String getServiceCode() {
+		return serviceCode;
+	}
+
+	public void setServiceCode(String serviceCode) {
+		this.serviceCode = serviceCode;
 	}
 
 	/**

@@ -20,13 +20,15 @@ public class HeaderUtils {
 	 */
 	public static ESBHeader fillServiceHeader(Message message) throws JMSException {
 		ESBHeader header = new ESBHeader();
-		header.setBackServiceCode(message.getStringProperty(ServiceHeader.BACK_SERVICE_CODE));
+		header.setServiceCode(message.getStringProperty(ServiceHeader.BACK_SERVICE_CODE));
 		header.setBusinessDesc1(message.getStringProperty(ServiceHeader.BUSINESS_DESC1));
 		header.setBusinessDesc2(message.getStringProperty(ServiceHeader.BUSINESS_DESC2));
 		header.setBusinessDesc3(message.getStringProperty(ServiceHeader.BUSINESS_DESC3));
 		header.setBusinessId(message.getStringProperty(ServiceHeader.BUSINESS_ID));
 		header.setEsbServiceCode(message.getStringProperty(ServiceHeader.ESB_SERVICE_CODE));
-		header.setExchangePattern(message.getIntProperty(ServiceHeader.EXCHANGE_PATTERN));
+		if(message.propertyExists(ServiceHeader.EXCHANGE_PATTERN)){
+			header.setExchangePattern(message.getIntProperty(ServiceHeader.EXCHANGE_PATTERN));
+		}
 		header.setMessageFormat(message.getStringProperty(ServiceHeader.MESSAGE_FORMAT));
 		header.setRequestId(message.getStringProperty(ServiceHeader.REQUEST_ID));
 		header.setResponseId(message.getStringProperty(ServiceHeader.RESPONSE_ID));
@@ -64,8 +66,8 @@ public class HeaderUtils {
 		if (esbHeader.getResultCode() != null) {
 			outMessage.setIntProperty(ServiceHeader.RESULT_CODE, esbHeader.getResultCode());
 		}
-		if (esbHeader.getBackServiceCode() != null) {
-			outMessage.setStringProperty(ServiceHeader.BACK_SERVICE_CODE, esbHeader.getBackServiceCode());
+		if (esbHeader.getServiceCode() != null) {
+			outMessage.setStringProperty(ServiceHeader.BACK_SERVICE_CODE, esbHeader.getServiceCode());
 		}
 		if (esbHeader.getTargetSystem() != null) {
 			outMessage.setStringProperty(ServiceHeader.TARGET_SYSTEM, esbHeader.getTargetSystem());

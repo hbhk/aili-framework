@@ -4,10 +4,10 @@ import org.hbhk.aili.jms.server.process.IProcess;
 
 public class UserListener implements IProcess {
 
-
 	@Override
 	public Object process(Object req) {
-		return null;
+		System.out.println(req);
+		return req;
 	}
 
 }

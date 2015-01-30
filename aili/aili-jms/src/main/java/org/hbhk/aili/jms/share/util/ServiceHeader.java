@@ -58,7 +58,7 @@ public class ServiceHeader {
 	/**
 	 * The Constant BACK_SERVICE_CODE .
 	 */
-	public static final String BACK_SERVICE_CODE = "backServiceCode"; // 后端服务编码
+	public static final String BACK_SERVICE_CODE = "serviceCode"; // 后端服务编码
 	// 同步+异步
 	// 服务提供端提供给ESB的服务编码
 	/**

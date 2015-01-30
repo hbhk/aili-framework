@@ -18,27 +18,50 @@
 			http://www.springframework.org/schema/util
 			http://www.springframework.org/schema/util/spring-util.xsd
 			">
+	<bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+		destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="tcp://127.0.0.1:61616" />
+			</bean>
+		</property>
+		<property name="maxConnections" value="100"></property>
+	</bean>
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref local="jmsFactory" />
+		</property>
+		<property name="defaultDestinationName" value="hbhk-req" />
+		<!-- 区别它采用的模式为false是p2p为true是订阅 -->
+		<property name="pubSubDomain" value="false" />
+	</bean>
+	<bean id="jmsTransactionManager"
+		class="org.springframework.jms.connection.JmsTransactionManager">
+		<property name="connectionFactory" ref="jmsFactory" />
+	</bean>
+
 	<bean id="serverListener" class="org.hbhk.aili.jms.server.listener.ServerListener" />
 	
-	<bean id="serverThreadPool" class="org.hbhk.aili.jms.server.process.ServerThreadPool"/>
-	
+	<bean id="serverThreadPool" class="org.hbhk.aili.jms.server.process.ServerThreadPool" >
+		<property name="jmsTemplate" ref="jmsTemplate"/>
+	</bean>
+
 	<bean id="configuration" class="org.hbhk.aili.jms.server.definition.Configuration"
 		scope="singleton" lazy-init="false">
 		<property name="serviceConfigMap">
 			<map>
-				<!--配置需要接受消息的 监听-->
-				<entry key="WDGH_ESB2WDGH_WDGH_SYNC_DEPARTMENT">
+				<!--配置需要接受消息的 监听 -->
+				<entry key="hbhk_code1">
 					<bean class="org.hbhk.aili.jms.server.definition.ServiceConfiguration">
-						<!--请求转换  -->
-						<property name="reqConvertor" ref="userRequestConvertor" />
-						<!--响应转换-->
-						<property name="resConvertor" ref="userResponsetConvertor" />
+						<!-- 请求转换 响应转换 <property name="reqConvertor" ref="userRequestConvertor" 
+							/> <property name="resConvertor" ref="userResponsetConvertor" /> -->
 						<!-- 接受监听 -->
 						<property name="processor" ref="userListener" />
+						<property name="requestQueue" value="hbhk-req"></property>
 						<!-- 响应队列 -->
-						<property name="responseQueue" value="RQ_WDGH_RESPONSE_COM_OUT" />
+						<property name="responseQueue" value="hbhk-res" />
 						<!-- 状态队列 -->
-						<property name="esbStatusQueue" value="RQ_ESB_STATUS" />
+						<property name="esbStatusQueue" value="hbhk-status" />
 					</bean>
 				</entry>
 			</map>
@@ -50,14 +73,13 @@
 	<bean id="serverContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="concurrentConsumers" value="8" />
-		<property name="destinationName" value="QU_WDGH_REQUEST_COM_IN" />
+		<property name="destinationName" value="hbhk-req" />
 		<property name="transactionManager" ref="jmsTransactionManager" />
 		<property name="messageListener" ref="serverListener" />
-		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="connectionFactory" ref="jmsFactory" />
 		<property name="messageSelector"
-			value="backServiceCode 
-		in ('WDGH_ESB2WDGH_WDGH_SYNC_ROLE','WDGH_ESB2WDGH_WDGH_SYNC_DEPARTMENT')" />
+			value="serviceCode in ('hbhk_code1','hbhk_code2')" />
 	</bean>
-
+	<bean id="userListener" class="org.hbhk.aili.jms.server.UserListener" />
 
 </beans>
