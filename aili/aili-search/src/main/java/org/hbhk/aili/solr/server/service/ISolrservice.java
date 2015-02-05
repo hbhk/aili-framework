@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.SolrParams;
-import org.hbhk.aili.solr.server.service.impl.SolrBase;
+import org.hbhk.aili.solr.share.model.SolrBase;
 
 public interface ISolrservice<T extends SolrBase> {
 

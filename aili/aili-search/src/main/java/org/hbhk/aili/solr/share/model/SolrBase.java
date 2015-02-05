@@ -1,4 +1,4 @@
-package org.hbhk.aili.solr.server.service.impl;
+package org.hbhk.aili.solr.share.model;
 
 import java.io.Serializable;
 

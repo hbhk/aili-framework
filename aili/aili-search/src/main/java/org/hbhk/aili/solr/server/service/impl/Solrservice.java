@@ -12,6 +12,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.params.SolrParams;
 import org.hbhk.aili.solr.server.service.ISolrCallback;
 import org.hbhk.aili.solr.server.service.ISolrservice;
+import org.hbhk.aili.solr.share.model.SolrBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
