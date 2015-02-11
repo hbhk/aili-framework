@@ -8,9 +8,9 @@ import org.hbhk.aili.jms.share.util.JsonUtil;
 public class DefaultMessageTransform implements IMessageTransform<Object> {
 
 	@Override
-	public Object toMessage(String str) throws ConvertException,
+	public Object toMessage(String str,Class<?> cls) throws ConvertException,
 			UnsupportedEncodingException {
-		return str;
+		return JsonUtil.parseJson(str, cls);
 	}
 
 	@Override

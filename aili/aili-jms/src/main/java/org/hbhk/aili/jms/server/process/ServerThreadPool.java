@@ -23,6 +23,7 @@ import org.hbhk.aili.jms.share.ex.JmsBusinessException;
 import org.hbhk.aili.jms.share.pojo.ESBHeader;
 import org.hbhk.aili.jms.share.pojo.ServiceMessage;
 import org.hbhk.aili.jms.share.util.Constant;
+import org.hbhk.aili.jms.share.util.GenericsUtils;
 import org.hbhk.aili.jms.share.util.HeaderUtils;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -100,19 +101,22 @@ public class ServerThreadPool {
 			requestTransform = new DefaultMessageTransform();
 		}
 		Object requestObj = null;
-		try {
-			requestObj = requestTransform.toMessage(message.getBody());
-		} catch (ConvertException e1) {
-			throw e1;
-		} catch (UnsupportedEncodingException e) {
-			logger.error("error", e);
-		}
-		// 调用服务端自己编写的处理类来处理请求
 		IProcess process = Configuration.getServiceConfigMap().get(serviceCode).getProcessor();
+		// 调用服务端自己编写的处理类来处理请求
 		if (process == null) {
 			// 空处理
 			throw new ConvertException("serviceCode:"+serviceCode+"未配置对应的实例");
 		}
+		try {
+			Class<?> type =GenericsUtils.getSuperInterfaceGenricType(process.getClass());
+			requestObj = requestTransform.toMessage(message.getBody(),type);
+		} catch (ConvertException e1) {
+			throw e1;
+		} catch (UnsupportedEncodingException e) {
+			System.out.println(e);
+			logger.error("error", e);
+		}
+		
 		Object response = null;
 		try {
 			response = process.process(requestObj);

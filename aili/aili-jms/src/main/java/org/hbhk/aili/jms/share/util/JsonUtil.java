@@ -38,19 +38,21 @@ public abstract class JsonUtil {
 			return null;
 		}
 		try {
+			if(parametrized.isAssignableFrom(String.class)){
+				return (T) json;
+			}
 			return (T) mapper.readValue(json, parametrized);
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T toJson(Object obj){
+	public static String toJson(Object obj){
 		if (obj == null) {
 			return null;
 		}
 		try {
-			return (T) mapper.writeValueAsString(obj);
+			return  mapper.writeValueAsString(obj);
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}

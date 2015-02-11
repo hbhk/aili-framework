@@ -10,7 +10,7 @@ public interface IMessageTransform<T> {
 	/**
 	 * 把字符串转换为POJO.
 	 */
-	T toMessage(String string) throws ConvertException, UnsupportedEncodingException;
+	T toMessage(String string,Class<?> cls) throws ConvertException, UnsupportedEncodingException;
 
 	
 	/**
