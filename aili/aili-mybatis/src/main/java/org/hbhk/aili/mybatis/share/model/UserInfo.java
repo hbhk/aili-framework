@@ -3,7 +3,7 @@ package org.hbhk.aili.mybatis.share.model;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
 
-@Table("t_aili_user")
+@Table(value="t_aili_user",dynamicInsert =true,dynamicUpdate=true)
 public class UserInfo extends BaseInfo {
 	private static final long serialVersionUID = 6767860047837579053L;
 

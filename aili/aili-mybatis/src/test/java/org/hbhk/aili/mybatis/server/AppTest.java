@@ -71,15 +71,20 @@ public class AppTest {
 	@Rollback(false)
 	@Transactional()
 	public void insert() {
-		UserInfo user = new UserInfo();
-		user.setName("hbhk");
-		user.setCreateTime(new Date());
-		user.setUpdateTime(new Date());
-		user.setCreatUser("hbhk");
-		user.setUpdateUser("hbhk");
-		userDao.insert(user);
-		System.out.println(user.getId());
+		try {
+			UserInfo user = new UserInfo();
+			user.setName("hbhk");
+			user.setCreateTime(new Date());
+			user.setUpdateTime(new Date());
+			user.setCreatUser("hbhk");
+			//user.setUpdateUser("hbhk");
+			userDao.insert(user);
+			System.out.println(user.getId());
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
 	}
 
 	@Test

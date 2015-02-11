@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
 import org.hbhk.aili.mybatis.server.annotation.Column;
@@ -30,22 +31,64 @@ public class MybatisSqlTemplate implements InitializingBean {
 	public String insert(Object obj) {
 		Class<?> cls = obj.getClass();
 		String clsName = cls.getName();
-		ModelInfo tableInfo = tabs.get(clsName);
-		List<String> fieldList = tableInfo.getFieldList();
+		Table table = cls.getAnnotation(Table.class);
+		boolean dynamicInsert = table.dynamicInsert();
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into ");
-		sql.append(tableInfo.getTable() + " (");
-		sql.append(tableInfo.getColumns() + ") ");
-		sql.append("values(");
-		for (int i = 0; i < fieldList.size(); i++) {
-			String col = fieldList.get(i);
-			if ((i + 1) == fieldList.size()) {
-				sql.append("#{"+col+"}");
-			} else {
-				sql.append("#{"+col+"},");
+		ModelInfo tableInfo = tabs.get(clsName);
+		if(dynamicInsert){
+			//动态插入
+			Field[] fields = tableInfo.getColumnFields();
+			sql.append("insert into ");
+			sql.append(tableInfo.getTable() + " (");
+			String pk = tableInfo.getPk();
+			sql.append(pk+",");
+			StringBuilder args = new StringBuilder();
+			args.append("(");
+			args.append("#{"+pk+"},");
+			for (int i = 0; i < fields.length; i++) {
+				Field field = fields[i];
+				String name = field.getName();
+				Object value = null;
+				try {
+					value = PropertyUtils.getProperty(obj, name);
+				} catch (Exception e) {
+					throw new RuntimeException("获取属性值错误:", e);
+				}
+				if (value == null) {
+					continue;
+				}
+				Column col = field.getAnnotation(Column.class);
+				String columnName = col.value();
+				if (StringUtils.isEmpty(columnName)) {
+					continue;
+				}
+				sql.append(columnName);
+				args.append("#{"+columnName+"}");
+				sql.append(",");
+				args.append(",");
 			}
+			sql.deleteCharAt(sql.length() - 1);
+			args.deleteCharAt(args.length() - 1);
+			args.append(")");
+			sql.append(")");
+			sql.append(" values ");
+			sql.append(args);
+		}else{
+			List<String> fieldList = tableInfo.getFieldList();
+			sql.append("insert into ");
+			sql.append(tableInfo.getTable() + " (");
+			sql.append(tableInfo.getColumns() + ") ");
+			sql.append("values(");
+			for (int i = 0; i < fieldList.size(); i++) {
+				String col = fieldList.get(i);
+				if ((i + 1) == fieldList.size()) {
+					sql.append("#{"+col+"}");
+				} else {
+					sql.append("#{"+col+"},");
+				}
+			}
+			sql.append(")");
 		}
-		sql.append(")");
 		return sql.toString();
 	}
 
@@ -54,21 +97,56 @@ public class MybatisSqlTemplate implements InitializingBean {
 		String clsName = cls.getName();
 		ModelInfo tableInfo = tabs.get(clsName);
 		StringBuilder sql = new StringBuilder();
-		sql.append("update ");
-		sql.append(tableInfo.getTable() + " set ");
-		List<String> fieldList = tableInfo.getFieldList();
-		List<String> columnList = tableInfo.getColumnList();
-		String pk = tableInfo.getPk();
-		for (int i = 0; i < fieldList.size(); i++) {
-			String field = fieldList.get(i);
-			String col = columnList.get(i);
-			if ((i + 1) == fieldList.size()) {
-				sql.append(col+"=#{"+field+"}");
-			} else {
-				sql.append(col+"=#{"+field+"},");
+		Table table = cls.getAnnotation(Table.class);
+		boolean dynamicUpdate = table.dynamicUpdate();
+		if(dynamicUpdate){
+			//动态更新
+			sql.append("update ");
+			sql.append(tableInfo.getTable() + " set ");
+			Field[] fields = tableInfo.getColumnFields();
+			String pk = tableInfo.getPk();
+			for (Field field : fields) {
+				String name = field.getName();
+				Object value = null;
+				try {
+					value = PropertyUtils.getProperty(obj, name);
+				} catch (Exception e) {
+					throw new RuntimeException("获取属性值错误:", e);
+				}
+				if (value == null) {
+					continue;
+				}
+				Column col = field.getAnnotation(Column.class);
+				String columnName = col.value();
+				if (StringUtils.isEmpty(columnName)) {
+					continue;
+				}
+				if (!pk.equalsIgnoreCase(columnName)) {
+					sql.append(columnName);
+					sql.append(" = ");
+					sql.append("#{"+columnName+"}");
+					sql.append(",");
+				} 
 			}
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" where "+pk+"=#{"+pk+"}");
+		}else{
+			sql.append("update ");
+			sql.append(tableInfo.getTable() + " set ");
+			List<String> fieldList = tableInfo.getFieldList();
+			List<String> columnList = tableInfo.getColumnList();
+			String pk = tableInfo.getPk();
+			for (int i = 0; i < fieldList.size(); i++) {
+				String field = fieldList.get(i);
+				String col = columnList.get(i);
+				if ((i + 1) == fieldList.size()) {
+					sql.append(col+"=#{"+field+"}");
+				} else {
+					sql.append(col+"=#{"+field+"},");
+				}
+			}
+			sql.append(" where "+pk+"=#{"+pk+"}");
 		}
-		sql.append(" where "+pk+"=#{id}");
 		return sql.toString();
 	}
 
