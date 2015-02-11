@@ -253,6 +253,43 @@ public class DynamicSqlTemplate implements InitializingBean {
 		sql.append(" limit "+start+","+size);
 		return sql.toString();
 	}
+	
+	public String getPageTotalCount(Map<String, Object> params) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select count(*) from ");
+		sql.append(getTableName() +" ");
+		Set<String>  keys = params.keySet();
+		if(keys.size() > 0){
+			ModelInfo tableInfo = tabs.get(getKey());
+			String pk = tableInfo.getPk();
+			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
+			sql.append("where ");
+			int num = 0;
+			for (int i = 0; i < keys.size(); i++) {
+				String field = keys.toArray(new String[]{})[i];
+				if("start".equals(field) || "size".equals(field)){
+					continue;
+				}
+				String col = fieldColumn.get(field);
+				if(StringUtils.isEmpty(col)&& !field.equals(pk)){
+					continue;
+				}
+				if(field.equals(pk)){
+					sql.append(pk+"=#{"+pk+"}");
+				}else{
+					if(num == 0){
+						sql.append(col+"=#{"+field+"}");
+						num++;
+					}else{
+						sql.append(" and "+col+"=#{"+field+"}");
+						num++;
+					}
+				}
+				
+			}
+		}
+		return sql.toString();
+	}
 
 	public String deleteById(Map<String, Object> params) {
 		StringBuilder sql = new StringBuilder();
