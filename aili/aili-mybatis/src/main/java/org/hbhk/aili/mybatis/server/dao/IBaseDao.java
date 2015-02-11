@@ -34,7 +34,7 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	 * @return
 	 */
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPage")
-	List<T> getPage(Map<String, Object> params);
+	List<T> getPage(Map<String, Object> params, @Param("start")int start, @Param("size")int size);
 
 	@DeleteProvider(type = DynamicSqlTemplate.class, method = "deleteById")
 	int deleteById(@Param("id") PK id);
