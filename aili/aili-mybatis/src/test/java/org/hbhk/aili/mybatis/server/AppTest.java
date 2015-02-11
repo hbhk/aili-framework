@@ -54,13 +54,27 @@ public class AppTest {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo query = new UserInfo();
-			query.setId(1l);
-			query.setName("222");
+			//query.setId(1l);
+			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
-			params.put("start", 0);
-			params.put("size", 5);
-			List<UserInfo> user = userDao.getPage(params);
+			List<UserInfo> user = userDao.getPage(params,2,2);
 			System.out.println(user.size() + "" + user.get(0).getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Test
+	public void getPagetestCount() {
+		try {
+			Map<String, Object> params = new HashMap<String, Object>();
+			UserInfo query = new UserInfo();
+			//query.setId(1l);
+			query.setName("hbhk");
+			BeanToMapUtil.convert(query, params);
+			int user = userDao.getPageTotalCount(params);
+			System.out.println(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,7 +82,7 @@ public class AppTest {
 	}
 
 	@Test
-	@Rollback(false)
+	@Rollback(true)
 	@Transactional()
 	public void insert() {
 		try {
