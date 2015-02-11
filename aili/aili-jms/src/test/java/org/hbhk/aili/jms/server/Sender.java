@@ -11,6 +11,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.hbhk.aili.jms.share.util.JsonUtil;
 
 public class Sender {
 	private static final int SEND_NUMBER = 20;
@@ -55,10 +56,13 @@ public class Sender {
 	public static void sendMessage(Session session, MessageProducer producer)
 			throws Exception {
 		for (int i = 1; i <= SEND_NUMBER; i++) {
-			TextMessage message = session.createTextMessage("消息"
-					+ i);
+			UserInfo user = new UserInfo();
+			user.setId(""+i);
+			
+			TextMessage message = session.createTextMessage(JsonUtil.toJson(user));
 			// 发送消息到目的地方
 			//TimeUnit.MILLISECONDS.sleep(30);
+			
 			message.setStringProperty("serviceCode","hbhk_code1");
 			System.out.println("发送消息：" + "ActiveMq 发送的消息" + i);
 			producer.send(message);
