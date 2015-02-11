@@ -10,21 +10,21 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.StatementType;
-import org.hbhk.aili.mybatis.server.support.MybatisSqlTemplate;
+import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.share.model.BaseInfo;
 public interface IBaseDao<T extends BaseInfo, PK> {
 
-	@InsertProvider(type = MybatisSqlTemplate.class, method = "insert")
+	@InsertProvider(type = DynamicSqlTemplate.class, method = "insert")
 	@SelectKey(statement={"select last_insert_id() as id"},keyProperty="id",before =false,resultType=Long.class,statementType = StatementType.STATEMENT)
 	int insert(T t);
 
-	@UpdateProvider(type = MybatisSqlTemplate.class, method = "update")
+	@UpdateProvider(type = DynamicSqlTemplate.class, method = "update")
 	int update(T t);
 
-	@SelectProvider(type = MybatisSqlTemplate.class, method = "getById")
+	@SelectProvider(type = DynamicSqlTemplate.class, method = "getById")
 	T getById(@Param("id") PK id);
 	
-	@SelectProvider(type = MybatisSqlTemplate.class, method = "get")
+	@SelectProvider(type = DynamicSqlTemplate.class, method = "get")
 	List<T> get(Map<String, Object> params);
 	
 	/**
@@ -33,13 +33,13 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	 * @param params
 	 * @return
 	 */
-	@SelectProvider(type = MybatisSqlTemplate.class, method = "getPage")
+	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPage")
 	List<T> getPage(Map<String, Object> params);
 
-	@DeleteProvider(type = MybatisSqlTemplate.class, method = "deleteById")
+	@DeleteProvider(type = DynamicSqlTemplate.class, method = "deleteById")
 	int deleteById(@Param("id") PK id);
 
-	@UpdateProvider(type = MybatisSqlTemplate.class, method = "updateStatusById")
+	@UpdateProvider(type = DynamicSqlTemplate.class, method = "updateStatusById")
 	int updateStatusById(@Param("id") PK id, @Param("status") int status);
 
 }

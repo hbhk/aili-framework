@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MybatisSqlTemplate implements InitializingBean {
+public class DynamicSqlTemplate implements InitializingBean {
 
 	/**
 	 * 多个包用,分割
