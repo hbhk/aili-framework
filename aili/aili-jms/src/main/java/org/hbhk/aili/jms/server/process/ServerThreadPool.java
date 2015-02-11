@@ -13,6 +13,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.jms.server.definition.Configuration;
@@ -76,7 +77,9 @@ public class ServerThreadPool {
 		String responseQueue = Configuration.getServiceConfigMap().get(header.getServiceCode()).getResponseQueue();
 		String statusQueue = Configuration.getServiceConfigMap().get(header.getServiceCode()).getEsbStatusQueue();
 		// 已接收
-		sendStatus(statusQueue,Constant.STATUS_302);
+		if(StringUtils.isNotEmpty(statusQueue)){
+			sendStatus(statusQueue,Constant.STATUS_302);
+		}
 		try {
 			// 业务逻辑
 			message = businessProcess(message);
@@ -88,7 +91,9 @@ public class ServerThreadPool {
 		// 发送响应
 		sendResponse(responseQueue,message);
 		// 发送完响应
-		sendStatus(statusQueue,Constant.STATUS_308);
+		if(StringUtils.isNotEmpty(statusQueue)){
+			sendStatus(statusQueue,Constant.STATUS_308);
+		}
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
