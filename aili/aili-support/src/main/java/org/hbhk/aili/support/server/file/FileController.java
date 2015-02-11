@@ -1,9 +1,8 @@
-package org.hbhk.aili.support.server.controller;
+package org.hbhk.aili.support.server.file;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hbhk.aili.support.server.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

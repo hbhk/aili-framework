@@ -1,11 +1,11 @@
-package org.hbhk.aili.support.server.service.impl;
+package org.hbhk.aili.support.server.file.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.hbhk.aili.core.share.util.ReSizeImageUtil;
 import org.hbhk.aili.core.share.util.SpringIOUtils;
-import org.hbhk.aili.support.server.service.IFileService;
+import org.hbhk.aili.support.server.file.IFileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

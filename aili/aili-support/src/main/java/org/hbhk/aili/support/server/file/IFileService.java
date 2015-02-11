@@ -1,4 +1,4 @@
-package org.hbhk.aili.support.server.service;
+package org.hbhk.aili.support.server.file;
 
 import java.io.IOException;
 import java.io.InputStream;
