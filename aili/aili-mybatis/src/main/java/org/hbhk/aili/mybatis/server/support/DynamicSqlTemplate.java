@@ -190,18 +190,37 @@ public class DynamicSqlTemplate implements InitializingBean {
 		return sql.toString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String getPage(Map<String, Object> params) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select *from ");
 		sql.append(getTableName() +" ");
 		Set<String>  keys = params.keySet();
-		if(keys.size() > 0){
+		Map<String, Object> newParams =new HashMap<String, Object>(); 
+		for (String key : keys) {
+		    if(key.startsWith("param")){
+				continue;
+			}
+		    Object obj = params.get(key);
+		    if(obj instanceof Map){
+			  Map<String, Object> map = (Map<String, Object>) obj;
+			  for (String interKey : map.keySet()) {
+				  newParams.put(interKey, map.get(interKey));
+			}
+		   }else{
+			   newParams.put(key, obj);
+		   }
+		}
+		Set<String>  newKeys = newParams.keySet();
+		params.putAll(newParams);
+		if(newKeys.size() > 0){
 			ModelInfo tableInfo = tabs.get(getKey());
 			String pk = tableInfo.getPk();
 			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
 			sql.append("where ");
-			for (int i = 0; i < keys.size(); i++) {
-				String field = keys.toArray(new String[]{})[i];
+			int num = 0;
+			for (int i = 0; i < newKeys.size(); i++) {
+				String field = newKeys.toArray(new String[]{})[i];
 				if("start".equals(field) || "size".equals(field)){
 					continue;
 				}
@@ -212,21 +231,23 @@ public class DynamicSqlTemplate implements InitializingBean {
 				if(field.equals(pk)){
 					sql.append(pk+"=#{"+pk+"}");
 				}else{
-					if(i == 0){
+					if(num == 0){
 						sql.append(col+"=#{"+field+"}");
+						num++;
 					}else{
 						sql.append(" and "+col+"=#{"+field+"}");
+						num++;
 					}
 				}
 				
 			}
 		}
-		Integer start = (Integer) params.get("start");
-		if(start==null){
+		Integer start = (Integer) newParams.get("start");
+		if(start == null){
 			start = 0;
 		}
-		Integer size = (Integer) params.get("size");
-		if(size==null){
+		Integer size = (Integer) newParams.get("size");
+		if(size == null){
 			size = 10;
 		}
 		sql.append(" limit "+start+","+size);
