@@ -117,7 +117,7 @@ public class ServerThreadPool {
 		// 调用服务端自己编写的处理类来处理请求
 		if (process == null) {
 			// 空处理
-			throw new ConvertException("serviceCode:"+serviceCode+"未配置对应的实例");
+			throw new RuntimeException("serviceCode:"+serviceCode+"未配置对应的实例");
 		}
 		try {
 			Class<?> type =GenericsUtils.getSuperInterfaceGenricType(process.getClass());
