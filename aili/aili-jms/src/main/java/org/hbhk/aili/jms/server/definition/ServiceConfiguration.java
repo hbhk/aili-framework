@@ -13,7 +13,7 @@ public class ServiceConfiguration {
 	private IMessageTransform resConvertor;
 	
 	/** The processor. */
-	private IProcess processor;//处理类
+	private IProcess<?> processor;//处理类
 	
 	/** The call back process. */
 	private ICallBackProcess callBackProcess;//回调处理类
@@ -68,11 +68,11 @@ public class ServiceConfiguration {
 		this.resConvertor = resConvertor;
 	}
 
-	public IProcess getProcessor() {
+	public IProcess<?> getProcessor() {
 		return processor;
 	}
 
-	public void setProcessor(IProcess processor) {
+	public void setProcessor(IProcess<?> processor) {
 		this.processor = processor;
 	}
 
