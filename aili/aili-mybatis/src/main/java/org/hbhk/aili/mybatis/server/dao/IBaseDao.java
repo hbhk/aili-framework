@@ -15,7 +15,8 @@ import org.hbhk.aili.mybatis.share.model.BaseInfo;
 public interface IBaseDao<T extends BaseInfo, PK> {
 
 	@InsertProvider(type = DynamicSqlTemplate.class, method = "insert")
-	@SelectKey(statement={"select last_insert_id() as id"},keyProperty="id",before =false,resultType=Long.class,statementType = StatementType.STATEMENT)
+	@SelectKey(statement={"select last_insert_id() as id"},keyProperty="id",before =false,
+	resultType=Long.class,statementType = StatementType.STATEMENT)
 	int insert(T t);
 
 	@UpdateProvider(type = DynamicSqlTemplate.class, method = "update")
@@ -28,13 +29,21 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	List<T> get(Map<String, Object> params);
 	
 	/**
-	 * params 必须要包含start size 参数并指定数值,
-	 * 如果没有默认 0 10
-	 * @param params
-	 * @return
+	 * 
+	* @author 何波
+	* @Description: 分页查询对应数据
+	* @param params
+	* @param start
+	* @param size
+	* @return   
+	* List<T>   
+	* @throws
 	 */
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPage")
 	List<T> getPage(Map<String, Object> params, @Param("start")int start, @Param("size")int size);
+	
+	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPageTotalCount")
+	int getPageTotalCount(Map<String, Object> params);
 
 	@DeleteProvider(type = DynamicSqlTemplate.class, method = "deleteById")
 	int deleteById(@Param("id") PK id);

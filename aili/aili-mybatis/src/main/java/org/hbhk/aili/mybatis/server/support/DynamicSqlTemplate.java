@@ -267,9 +267,6 @@ public class DynamicSqlTemplate implements InitializingBean {
 			int num = 0;
 			for (int i = 0; i < keys.size(); i++) {
 				String field = keys.toArray(new String[]{})[i];
-				if("start".equals(field) || "size".equals(field)){
-					continue;
-				}
 				String col = fieldColumn.get(field);
 				if(StringUtils.isEmpty(col)&& !field.equals(pk)){
 					continue;

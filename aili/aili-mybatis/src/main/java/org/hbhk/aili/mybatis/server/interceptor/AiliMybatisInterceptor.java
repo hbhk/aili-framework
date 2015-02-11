@@ -143,8 +143,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 				builder.resultMaps(resultMaps);
 			}else {
 				if(id.indexOf("!") < 0){
-					Object instance = type.newInstance();
-					if(instance instanceof BaseInfo){
+					if(type.isAssignableFrom(BaseInfo.class)){
 						//处理属性和列名不一样的
 						List<ResultMapping> resultMappings= getResultMapping(type, ms);
 						ResultMap.Builder reBuilder = new ResultMap.Builder(
@@ -153,6 +152,8 @@ public class AiliMybatisInterceptor implements Interceptor {
 						resultMap = reBuilder.build();
 						resultMaps.add(resultMap);
 						builder.resultMaps(resultMaps);
+					}else{
+						builder.resultMaps(ms.getResultMaps());
 					}
 				}else{
 					builder.resultMaps(ms.getResultMaps());
