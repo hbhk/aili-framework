@@ -85,8 +85,9 @@ public class ServerThreadPool {
 			logger.info("调用业务处理开始");
 			message = businessProcess(message);
 			logger.info("调用业务处理结束");
-		} catch (ConvertException e) {
+		} catch (Exception e) {
 			logger.error("error", e);
+			throw new RuntimeException(e);
 		}
 		// 业务逻辑处理完成
 		if(StringUtils.isNotEmpty(statusQueue)){
@@ -103,7 +104,7 @@ public class ServerThreadPool {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private ServiceMessage businessProcess(ServiceMessage message) throws ConvertException{
+	private ServiceMessage businessProcess(ServiceMessage message) throws Exception{
 		ESBHeader header = message.getHeader();
 		String serviceCode = header.getServiceCode();
 		header.setResponseId(UUID.randomUUID().toString());
@@ -122,10 +123,11 @@ public class ServerThreadPool {
 			Class<?> type =GenericsUtils.getSuperInterfaceGenricType(process.getClass());
 			requestObj = transformer.toMessage(message.getBody(),type);
 		} catch (ConvertException e1) {
+			logger.error("error", e1);
 			throw e1;
 		} catch (UnsupportedEncodingException e) {
-			System.out.println(e);
 			logger.error("error", e);
+			throw e;
 		}
 		
 		Object response = null;
@@ -141,6 +143,7 @@ public class ServerThreadPool {
 		try {
 			responseStr = transformer.fromMessage(response);
 		} catch (ConvertException e) {
+			logger.error("error", e);
 			throw e;
 		}
 		header.setResultCode(1);//成功
