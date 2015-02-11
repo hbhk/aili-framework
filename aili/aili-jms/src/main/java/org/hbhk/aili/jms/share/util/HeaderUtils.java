@@ -74,7 +74,11 @@ public class HeaderUtils {
 		}
 		outMessage.setStringProperty(ServiceHeader.ESB_SERVICE_CODE, esbHeader.getEsbServiceCode());
 		outMessage.setStringProperty(ServiceHeader.MESSAGE_FORMAT, esbHeader.getMessageFormat());
-		outMessage.setIntProperty(ServiceHeader.EXCHANGE_PATTERN, esbHeader.getExchangePattern());
+		if (esbHeader.getExchangePattern() != null) {
+			outMessage.setIntProperty(ServiceHeader.EXCHANGE_PATTERN, esbHeader.getExchangePattern());
+		}else{
+			outMessage.setIntProperty(ServiceHeader.EXCHANGE_PATTERN, 1);
+		}
 		if (esbHeader.getAuthentication() != null) {
 			outMessage.setStringProperty(ServiceHeader.USERNAME, esbHeader.getAuthentication().getUsername());
 			outMessage.setStringProperty(ServiceHeader.PASSWORD, esbHeader.getAuthentication().getPassword());

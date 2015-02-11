@@ -87,7 +87,9 @@ public class ServerThreadPool {
 			logger.error("error", e);
 		}
 		// 业务逻辑处理完成
-		sendStatus(statusQueue,Constant.STATUS_305);
+		if(StringUtils.isNotEmpty(statusQueue)){
+			sendStatus(statusQueue,Constant.STATUS_305);
+		}
 		// 发送响应
 		sendResponse(responseQueue,message);
 		// 发送完响应
@@ -101,9 +103,9 @@ public class ServerThreadPool {
 		ESBHeader header = message.getHeader();
 		String serviceCode = header.getServiceCode();
 		header.setResponseId(UUID.randomUUID().toString());
-		IMessageTransform requestTransform = Configuration.getServiceConfigMap().get(serviceCode).getReqConvertor();
-		if(requestTransform == null){
-			requestTransform = new DefaultMessageTransform();
+		IMessageTransform transformer = Configuration.getServiceConfigMap().get(serviceCode).getReqConvertor();
+		if(transformer == null){
+			transformer = new DefaultMessageTransform();
 		}
 		Object requestObj = null;
 		IProcess process = Configuration.getServiceConfigMap().get(serviceCode).getProcessor();
@@ -114,7 +116,7 @@ public class ServerThreadPool {
 		}
 		try {
 			Class<?> type =GenericsUtils.getSuperInterfaceGenricType(process.getClass());
-			requestObj = requestTransform.toMessage(message.getBody(),type);
+			requestObj = transformer.toMessage(message.getBody(),type);
 		} catch (ConvertException e1) {
 			throw e1;
 		} catch (UnsupportedEncodingException e) {
@@ -131,10 +133,9 @@ public class ServerThreadPool {
 		if(response == null) {
 			return new ServiceMessage(header, null);
 		}
-		IMessageTransform responseTransform = Configuration.getServiceConfigMap().get(serviceCode).getResConvertor();
 		String responseStr = null;
 		try {
-			responseStr = responseTransform.fromMessage(response);
+			responseStr = transformer.fromMessage(response);
 		} catch (ConvertException e) {
 			throw e;
 		}
