@@ -22,6 +22,11 @@ public class DefaultSender {
 	// 队列名称
 	private String queueName;
 
+	public DefaultSender() {
+	}
+	public DefaultSender(String queueName) {
+		this.queueName = queueName;
+	}
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
 		this.jmsTemplate = jmsTemplate;
 	}
