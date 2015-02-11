@@ -15,7 +15,7 @@ public class Receiver implements Runnable {
 
 	public static void main(String[] args) {
 		Receiver r = new Receiver();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			Thread t = new Thread(r);
 			t.start();
 		}
@@ -40,19 +40,21 @@ public class Receiver implements Runnable {
 			// 启动
 			connection.start();
 			// 获取操作连接
-			session = connection.createSession(Boolean.FALSE,
+			session = connection.createSession(true,
 					Session.AUTO_ACKNOWLEDGE);
 			// 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
+			//?consumer.exclusive=true
 			destination = session.createQueue("hbhk-req");
-			consumer = session.createConsumer(destination,"serviceCode='hbhk-code1'");
+			//,"serviceCode='hbhk-code1'"
+			consumer = session.createConsumer(destination);
 			while (true) {
 				// 设置接收者接收消息的时间，为了便于测试，这里谁定为100s
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.SECONDS.sleep(10);
 				TextMessage message = (TextMessage) consumer.receive(1000);
 				if (null != message) {
-					System.out.println("服务编码:"+message.getStringProperty("serviceCode"));
+					//System.out.println("服务编码:"+message.getStringProperty("serviceCode"));
 					System.out.println(Thread.currentThread().getName()
-							+ " 收到消息" + message.getText());
+							+ " 收到消息:" + message.getText());
 				}
 			}
 		} catch (Exception e) {

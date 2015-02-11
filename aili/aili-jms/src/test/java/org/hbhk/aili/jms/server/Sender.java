@@ -13,7 +13,7 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class Sender {
-	private static final int SEND_NUMBER = 10;
+	private static final int SEND_NUMBER = 20;
 
 	public static void main(String[] args) {
 		// ConnectionFactory ：连接工厂，JMS 用它创建连接
@@ -55,10 +55,10 @@ public class Sender {
 	public static void sendMessage(Session session, MessageProducer producer)
 			throws Exception {
 		for (int i = 1; i <= SEND_NUMBER; i++) {
-			TextMessage message = session.createTextMessage("ActiveMq 发送的消息 serviceCode"
+			TextMessage message = session.createTextMessage("消息"
 					+ i);
 			// 发送消息到目的地方
-			TimeUnit.MILLISECONDS.sleep(300);
+			//TimeUnit.MILLISECONDS.sleep(30);
 			message.setStringProperty("serviceCode","hbhk_code1");
 			System.out.println("发送消息：" + "ActiveMq 发送的消息" + i);
 			producer.send(message);
