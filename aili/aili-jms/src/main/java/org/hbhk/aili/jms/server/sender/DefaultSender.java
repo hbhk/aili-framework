@@ -38,7 +38,7 @@ public class DefaultSender {
 	public void sendJms(final ESBHeader esbHeader,final String body){
 		// 队列名称为空，抛异常
 		if(StringUtils.isEmpty(queueName)){
-			throw new IllegalArgumentException("队列名称不能为空");
+			throw new NullPointerException("队列名称不能为空");
 		}
 		// 发送异步消息
 		jmsTemplate.send(queueName, new MessageCreator() {
