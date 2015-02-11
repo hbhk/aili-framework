@@ -24,8 +24,9 @@ public class DefaultSender {
 
 	public DefaultSender() {
 	}
-	public DefaultSender(String queueName) {
+	public DefaultSender(String queueName,JmsTemplate jmsTemplate) {
 		this.queueName = queueName;
+		this.jmsTemplate = jmsTemplate;
 	}
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
 		this.jmsTemplate = jmsTemplate;
