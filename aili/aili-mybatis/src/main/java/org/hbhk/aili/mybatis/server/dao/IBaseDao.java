@@ -33,8 +33,8 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	* @author 何波
 	* @Description: 分页查询对应数据
 	* @param params
-	* @param start
-	* @param size
+	* @param pageNum
+	* @param pageSize
 	* @return   
 	* List<T>   
 	* @throws
