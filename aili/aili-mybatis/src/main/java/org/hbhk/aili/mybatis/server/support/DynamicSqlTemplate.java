@@ -242,15 +242,19 @@ public class DynamicSqlTemplate implements InitializingBean {
 				
 			}
 		}
-		Integer start = (Integer) newParams.get("start");
-		if(start == null){
-			start = 0;
+		Integer pageNum = (Integer) newParams.get("pageNum");
+		if(pageNum == null || pageNum <= 0 ){
+			pageNum = 1;
 		}
-		Integer size = (Integer) newParams.get("size");
-		if(size == null){
-			size = 10;
+		Integer pageSize = (Integer) newParams.get("pageSize");
+		if(pageSize == null){
+			pageSize = 10;
 		}
-		sql.append(" limit "+start+","+size);
+		int start = 0;
+		if(pageNum > 0){
+			start = (pageSize-1)*pageNum;
+		}
+		sql.append(" limit "+start+","+pageSize);
 		return sql.toString();
 	}
 	

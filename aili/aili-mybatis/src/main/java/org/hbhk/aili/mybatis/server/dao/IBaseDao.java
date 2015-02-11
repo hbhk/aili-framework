@@ -40,7 +40,7 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	* @throws
 	 */
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPage")
-	List<T> getPage(Map<String, Object> params, @Param("start")int start, @Param("size")int size);
+	List<T> getPage(Map<String, Object> params, @Param("pageNum")int pageNum, @Param("pageSize")int pageSize);
 	
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPageTotalCount")
 	int getPageTotalCount(Map<String, Object> params);
