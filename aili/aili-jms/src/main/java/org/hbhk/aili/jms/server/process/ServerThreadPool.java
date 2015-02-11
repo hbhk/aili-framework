@@ -81,8 +81,10 @@ public class ServerThreadPool {
 			sendStatus(statusQueue,Constant.STATUS_302);
 		}
 		try {
-			// 业务逻辑
+			// 调用业务处理
+			logger.info("调用业务处理开始");
 			message = businessProcess(message);
+			logger.info("调用业务处理结束");
 		} catch (ConvertException e) {
 			logger.error("error", e);
 		}
@@ -91,7 +93,9 @@ public class ServerThreadPool {
 			sendStatus(statusQueue,Constant.STATUS_305);
 		}
 		// 发送响应
+		logger.info("发送响应开始");
 		sendResponse(responseQueue,message);
+		logger.info("发送响应结束");
 		// 发送完响应
 		if(StringUtils.isNotEmpty(statusQueue)){
 			sendStatus(statusQueue,Constant.STATUS_308);
