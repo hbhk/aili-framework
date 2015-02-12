@@ -58,8 +58,6 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 			}
 
 		}
-
-		super.postHandle(request, response, handler, modelAndView);
 	}
 
 	private boolean filter(String viewName) {
