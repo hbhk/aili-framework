@@ -53,8 +53,7 @@
 				<!--配置需要接受消息的 监听 -->
 				<entry key="hbhk_code1">
 					<bean class="org.hbhk.aili.jms.server.definition.ServiceConfiguration">
-						<!-- 请求转换 响应转换 <property name="reqConvertor" ref="userRequestConvertor" 
-							/> <property name="resConvertor" ref="userResponsetConvertor" /> -->
+						<!-- 请求转换 响应转换  <property name="messageConvertor" ref="messageConvertor" />-->
 						<!-- 接受监听 -->
 						<property name="processor" ref="userListener" />
 						<!-- 响应队列 -->
@@ -65,8 +64,6 @@
 				</entry>
 				<entry key="hbhk_code2">
 					<bean class="org.hbhk.aili.jms.server.definition.ServiceConfiguration">
-						<!-- 请求转换 响应转换 <property name="reqConvertor" ref="userRequestConvertor" 
-							/> <property name="resConvertor" ref="userResponsetConvertor" /> -->
 						<!-- 接受监听 -->
 						<property name="processor" ref="userListener1" />
 						<!-- 响应队列 -->
