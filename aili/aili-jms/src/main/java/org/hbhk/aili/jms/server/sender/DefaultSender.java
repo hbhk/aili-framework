@@ -8,36 +8,35 @@ import javax.jms.TextMessage;
 import org.apache.commons.lang.StringUtils;
 import org.hbhk.aili.jms.share.pojo.ESBHeader;
 import org.hbhk.aili.jms.share.util.HeaderUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.stereotype.Component;
 
 /**
  * 发送JMS异步消息基类
  */
+@Component
 public class DefaultSender {
 
 	// jms模板
+	@Autowired(required = false)
 	private JmsTemplate jmsTemplate;
-	
-	// 队列名称
-	private String queueName;
 
 	public DefaultSender() {
 	}
-	public DefaultSender(String queueName,JmsTemplate jmsTemplate) {
-		this.queueName = queueName;
-		this.jmsTemplate = jmsTemplate;
-	}
+
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
 		this.jmsTemplate = jmsTemplate;
 	}
-	
+
 	/**
 	 * 发送JMS异步消息
 	 */
-	public void sendJms(final ESBHeader esbHeader,final String body){
+	public void sendJms(String queueName, final ESBHeader esbHeader,
+			final String body) {
 		// 队列名称为空，抛异常
-		if(StringUtils.isEmpty(queueName)){
+		if (StringUtils.isEmpty(queueName)) {
 			throw new NullPointerException("队列名称不能为空");
 		}
 		// 发送异步消息
@@ -53,14 +52,4 @@ public class DefaultSender {
 		});
 	}
 
-	public String getQueueName() {
-		return queueName;
-	}
-
-	public void setQueueName(String queueName) {
-		this.queueName = queueName;
-	}
-	
-	
-	
 }
