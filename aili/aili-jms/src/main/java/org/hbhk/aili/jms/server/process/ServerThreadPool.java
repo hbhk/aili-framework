@@ -1,6 +1,5 @@
 package org.hbhk.aili.jms.server.process;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
