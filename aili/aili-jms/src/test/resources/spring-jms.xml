@@ -87,11 +87,11 @@
 		<property name="connectionFactory" ref="jmsFactory" />
 		<property name="messageSelector" value="serviceCode in ('hbhk_code1')" />
 		<!-- 设置固定的线程数 -->
-		<property name="concurrentConsumers" value="6"></property>
+		<!-- 	<property name="concurrentConsumers" value="6"></property> -->
 		<!-- 设置动态的线程数 -->
 		<property name="concurrency" value="2-9"></property>
 		<!-- 设置最大的线程数 -->
-		<property name="maxConcurrentConsumers" value="15"></property>
+		<!-- <property name="maxConcurrentConsumers" value="15"></property> -->
 	</bean>
 	<bean id="serverContainer1"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
