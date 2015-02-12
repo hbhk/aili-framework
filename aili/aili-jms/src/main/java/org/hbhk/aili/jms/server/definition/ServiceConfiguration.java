@@ -1,8 +1,8 @@
 package org.hbhk.aili.jms.server.definition;
 
+import org.hbhk.aili.jms.server.convertor.IMessageConvertor;
 import org.hbhk.aili.jms.server.process.ICallBackProcess;
 import org.hbhk.aili.jms.server.process.IProcess;
-import org.hbhk.aili.jms.server.transfer.IMessageConvertor;
 
 public class ServiceConfiguration {
 

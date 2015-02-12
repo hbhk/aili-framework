@@ -1,4 +1,4 @@
-package org.hbhk.aili.jms.server.transfer;
+package org.hbhk.aili.jms.server.convertor;
 
 import org.hbhk.aili.jms.share.ex.ConvertException;
 
