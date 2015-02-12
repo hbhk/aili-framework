@@ -127,11 +127,7 @@ public class ServerThreadPool {
 		} catch (ConvertException e1) {
 			logger.error("error", e1);
 			throw e1;
-		} catch (UnsupportedEncodingException e) {
-			logger.error("error", e);
-			throw e;
 		}
-		
 		Object response = null;
 		try {
 			response = process.process(requestObj);
