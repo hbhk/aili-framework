@@ -132,6 +132,7 @@ public class ServerThreadPool {
 		try {
 			response = process.process(requestObj);
 		} catch (JmsBusinessException e) {
+			logger.error("error", e);
 			throw e;
 		}
 		if(response == null) {
