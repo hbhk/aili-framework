@@ -81,11 +81,15 @@ public class ServerThreadPool {
 		if(StringUtils.isNotEmpty(statusQueue)){
 			sendStatus(statusQueue,Constant.STATUS_302);
 		}
+		String info="";
+		if(logger.isInfoEnabled()){
+			 info = "线程("+Thread.currentThread().getName()+")处理-->";
+		}
 		try {
 			// 调用业务处理
-			logger.info("调用业务处理开始");
+			logger.info(info+"调用业务处理开始");
 			message = businessProcess(message);
-			logger.info("调用业务处理结束");
+			logger.info(info+"调用业务处理结束");
 		} catch (Exception e) {
 			logger.error("error", e);
 			throw new RuntimeException(e);
@@ -96,9 +100,9 @@ public class ServerThreadPool {
 		}
 		if(StringUtils.isNotEmpty(responseQueue)){
 			// 发送响应
-			logger.info("发送响应开始");
+			logger.info(info+"发送响应开始");
 			sendResponse(responseQueue,message);
-			logger.info("发送响应结束");
+			logger.info(info+"发送响应结束");
 		}
 		// 发送完响应
 		if(StringUtils.isNotEmpty(statusQueue)){
@@ -111,7 +115,7 @@ public class ServerThreadPool {
 		ESBHeader header = message.getHeader();
 		String serviceCode = header.getServiceCode();
 		header.setResponseId(UUID.randomUUID().toString());
-		IMessageConvertor transformer = Configuration.getServiceConfigMap().get(serviceCode).getReqConvertor();
+		IMessageConvertor transformer = Configuration.getServiceConfigMap().get(serviceCode).getMessageConvertor();
 		if(transformer == null){
 			transformer = new DefaultMessageConvertor();
 		}

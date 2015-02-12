@@ -6,11 +6,7 @@ import org.hbhk.aili.jms.server.transfer.IMessageConvertor;
 
 public class ServiceConfiguration {
 
-	@SuppressWarnings("rawtypes")
-	private IMessageConvertor reqConvertor;
-	
-	@SuppressWarnings("rawtypes")
-	private IMessageConvertor resConvertor;
+	private IMessageConvertor<?> messageConvertor;
 	
 	/** The processor. */
 	private IProcess<?> processor;//处理类
@@ -48,24 +44,13 @@ public class ServiceConfiguration {
 		this.responseQueue = responseQueue;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public IMessageConvertor getReqConvertor() {
-		return reqConvertor;
+
+	public IMessageConvertor<?> getMessageConvertor() {
+		return messageConvertor;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public void setReqConvertor(IMessageConvertor reqConvertor) {
-		this.reqConvertor = reqConvertor;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public IMessageConvertor getResConvertor() {
-		return resConvertor;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void setResConvertor(IMessageConvertor resConvertor) {
-		this.resConvertor = resConvertor;
+	public void setMessageConvertor(IMessageConvertor<?> messageConvertor) {
+		this.messageConvertor = messageConvertor;
 	}
 
 	public IProcess<?> getProcessor() {
