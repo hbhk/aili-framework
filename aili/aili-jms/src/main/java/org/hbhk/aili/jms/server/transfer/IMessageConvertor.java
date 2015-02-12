@@ -2,7 +2,7 @@ package org.hbhk.aili.jms.server.transfer;
 
 import org.hbhk.aili.jms.share.ex.ConvertException;
 
-public interface IMessageTransform<T> {
+public interface IMessageConvertor<T> {
 
 	/**
 	 * 把字符串转换为POJO.

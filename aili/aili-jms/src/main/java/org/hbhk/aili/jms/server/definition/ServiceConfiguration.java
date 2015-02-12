@@ -2,15 +2,15 @@ package org.hbhk.aili.jms.server.definition;
 
 import org.hbhk.aili.jms.server.process.ICallBackProcess;
 import org.hbhk.aili.jms.server.process.IProcess;
-import org.hbhk.aili.jms.server.transfer.IMessageTransform;
+import org.hbhk.aili.jms.server.transfer.IMessageConvertor;
 
 public class ServiceConfiguration {
 
 	@SuppressWarnings("rawtypes")
-	private IMessageTransform reqConvertor;
+	private IMessageConvertor reqConvertor;
 	
 	@SuppressWarnings("rawtypes")
-	private IMessageTransform resConvertor;
+	private IMessageConvertor resConvertor;
 	
 	/** The processor. */
 	private IProcess<?> processor;//处理类
@@ -49,22 +49,22 @@ public class ServiceConfiguration {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public IMessageTransform getReqConvertor() {
+	public IMessageConvertor getReqConvertor() {
 		return reqConvertor;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void setReqConvertor(IMessageTransform reqConvertor) {
+	public void setReqConvertor(IMessageConvertor reqConvertor) {
 		this.reqConvertor = reqConvertor;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public IMessageTransform getResConvertor() {
+	public IMessageConvertor getResConvertor() {
 		return resConvertor;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void setResConvertor(IMessageTransform resConvertor) {
+	public void setResConvertor(IMessageConvertor resConvertor) {
 		this.resConvertor = resConvertor;
 	}
 

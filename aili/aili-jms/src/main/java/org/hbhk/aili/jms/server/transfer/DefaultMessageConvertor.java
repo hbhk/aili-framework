@@ -2,11 +2,13 @@ package org.hbhk.aili.jms.server.transfer;
 
 import org.hbhk.aili.jms.share.ex.ConvertException;
 import org.hbhk.aili.jms.share.util.JsonUtil;
+import org.springframework.stereotype.Component;
 
-public class DefaultMessageTransform implements IMessageTransform<Object> {
+@Component("messageConvertor")
+public class DefaultMessageConvertor<T> implements IMessageConvertor<T> {
 
 	@Override
-	public Object toMessage(String str,Class<?> cls) throws ConvertException {
+	public T toMessage(String str, Class<?> cls) throws ConvertException {
 		return JsonUtil.parseJson(str, cls);
 	}
 

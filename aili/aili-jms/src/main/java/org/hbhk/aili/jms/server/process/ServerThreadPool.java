@@ -16,8 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.jms.server.definition.Configuration;
-import org.hbhk.aili.jms.server.transfer.DefaultMessageTransform;
-import org.hbhk.aili.jms.server.transfer.IMessageTransform;
+import org.hbhk.aili.jms.server.transfer.DefaultMessageConvertor;
+import org.hbhk.aili.jms.server.transfer.IMessageConvertor;
 import org.hbhk.aili.jms.share.ex.ConvertException;
 import org.hbhk.aili.jms.share.ex.JmsBusinessException;
 import org.hbhk.aili.jms.share.pojo.ESBHeader;
@@ -25,9 +25,11 @@ import org.hbhk.aili.jms.share.pojo.ServiceMessage;
 import org.hbhk.aili.jms.share.util.Constant;
 import org.hbhk.aili.jms.share.util.GenericsUtils;
 import org.hbhk.aili.jms.share.util.HeaderUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
-
+import org.springframework.stereotype.Component;
+@Component
 public class ServerThreadPool {
 
 	/** The Constant CORE_POOL_SIZE. */
@@ -47,7 +49,7 @@ public class ServerThreadPool {
 
 	/** The executor. */
 	private ExecutorService executor;
-	
+	@Autowired(required=false)
 	private JmsTemplate jmsTemplate;
 	private static final Log logger = LogFactory.getLog(ServerThreadPool.class);
 	/**
@@ -109,9 +111,9 @@ public class ServerThreadPool {
 		ESBHeader header = message.getHeader();
 		String serviceCode = header.getServiceCode();
 		header.setResponseId(UUID.randomUUID().toString());
-		IMessageTransform transformer = Configuration.getServiceConfigMap().get(serviceCode).getReqConvertor();
+		IMessageConvertor transformer = Configuration.getServiceConfigMap().get(serviceCode).getReqConvertor();
 		if(transformer == null){
-			transformer = new DefaultMessageTransform();
+			transformer = new DefaultMessageConvertor();
 		}
 		Object requestObj = null;
 		IProcess process = Configuration.getServiceConfigMap().get(serviceCode).getProcessor();
