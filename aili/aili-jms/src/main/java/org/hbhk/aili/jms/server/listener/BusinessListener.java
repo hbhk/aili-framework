@@ -17,8 +17,9 @@ import org.springframework.stereotype.Component;
  * 消息监听基类
  */
 @Component
-public class ServerListener implements MessageListener {
-	private Log log = LogFactory.getLog(getClass()); 
+public class BusinessListener implements MessageListener {
+	private Log log = LogFactory.getLog(getClass());
+
 	@Override
 	public void onMessage(Message message) {
 		ESBHeader header;

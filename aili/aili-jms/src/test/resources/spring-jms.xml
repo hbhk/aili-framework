@@ -40,7 +40,7 @@
 		<property name="connectionFactory" ref="jmsFactory" />
 	</bean>
 
-	<bean id="serverListener" class="org.hbhk.aili.jms.server.listener.ServerListener" />
+	<bean id="serverListener" class="org.hbhk.aili.jms.server.listener.BusinessListener" />
 
 	<bean id="serverThreadPool" class="org.hbhk.aili.jms.server.process.ServerThreadPool">
 		<property name="jmsTemplate" ref="jmsTemplate" />
