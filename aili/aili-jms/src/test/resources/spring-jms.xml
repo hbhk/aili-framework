@@ -41,9 +41,9 @@
 	</bean>
 
 	<bean id="serverListener" class="org.hbhk.aili.jms.server.listener.ServerListener" />
-	
-	<bean id="serverThreadPool" class="org.hbhk.aili.jms.server.process.ServerThreadPool" >
-		<property name="jmsTemplate" ref="jmsTemplate"/>
+
+	<bean id="serverThreadPool" class="org.hbhk.aili.jms.server.process.ServerThreadPool">
+		<property name="jmsTemplate" ref="jmsTemplate" />
 	</bean>
 
 	<bean id="configuration" class="org.hbhk.aili.jms.server.definition.Configuration"
@@ -53,7 +53,8 @@
 				<!--配置需要接受消息的 监听 -->
 				<entry key="hbhk_code1">
 					<bean class="org.hbhk.aili.jms.server.definition.ServiceConfiguration">
-						<!-- 请求转换 响应转换  <property name="messageConvertor" ref="messageConvertor" />-->
+						<!-- 请求转换 响应转换 <property name="messageConvertor" ref="messageConvertor" 
+							/> -->
 						<!-- 接受监听 -->
 						<property name="processor" ref="userListener" />
 						<!-- 响应队列 -->
@@ -80,13 +81,17 @@
 	<!-- 服务端接收请求 -->
 	<bean id="serverContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-		<property name="concurrentConsumers" value="8" />
 		<property name="destinationName" value="hbhk-req" />
 		<property name="transactionManager" ref="jmsTransactionManager" />
 		<property name="messageListener" ref="serverListener" />
 		<property name="connectionFactory" ref="jmsFactory" />
-		<property name="messageSelector"
-			value="serviceCode in ('hbhk_code1')" />
+		<property name="messageSelector" value="serviceCode in ('hbhk_code1')" />
+		<!-- 设置固定的线程数 -->
+		<property name="concurrentConsumers" value="6"></property>
+		<!-- 设置动态的线程数 -->
+		<property name="concurrency" value="2-9"></property>
+		<!-- 设置最大的线程数 -->
+		<property name="maxConcurrentConsumers" value="15"></property>
 	</bean>
 	<bean id="serverContainer1"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
@@ -95,8 +100,7 @@
 		<property name="transactionManager" ref="jmsTransactionManager" />
 		<property name="messageListener" ref="serverListener" />
 		<property name="connectionFactory" ref="jmsFactory" />
-		<property name="messageSelector"
-			value="serviceCode in ('hbhk_code2')" />
+		<property name="messageSelector" value="serviceCode in ('hbhk_code2')" />
 	</bean>
 	<bean id="userListener" class="org.hbhk.aili.jms.server.UserListener" />
 	<bean id="userListener1" class="org.hbhk.aili.jms.server.UserListener1" />
