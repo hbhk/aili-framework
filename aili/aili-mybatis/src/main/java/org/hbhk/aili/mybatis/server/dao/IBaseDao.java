@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.StatementType;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
+import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.mybatis.share.model.BaseInfo;
 public interface IBaseDao<T extends BaseInfo, PK> {
 
@@ -44,7 +45,10 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPageTotalCount")
 	int getPageTotalCount(Map<String, Object> params);
+	
+	Pagination<T> getPagination(Map<String, Object> params, @Param("pageNum")int pageNum, @Param("pageSize")int pageSize);
 
+	
 	@DeleteProvider(type = DynamicSqlTemplate.class, method = "deleteById")
 	int deleteById(@Param("id") PK id);
 

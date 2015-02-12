@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现 namespace必须和接口的类路径一样 -->
+<mapper namespace="org.hbhk.aili.mybatis.server.dao.IUserDao">
+	<!-- findById必须和接口中的方法名一样 返回一个User 就是刚才的别名 如果不弄别名要连类路径一起写 麻烦 -->
+	<select id="getPagination" parameterType="HashMap" resultType="org.hbhk.aili.mybatis.share.model.UserInfo">
+		select* from t_aili_user 
+	</select>
+</mapper>  

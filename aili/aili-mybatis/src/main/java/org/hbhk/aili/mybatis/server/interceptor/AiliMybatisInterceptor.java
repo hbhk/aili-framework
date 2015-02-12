@@ -52,14 +52,15 @@ public class AiliMybatisInterceptor implements Interceptor {
 		dealmethod.add("getPage");
 		dealmethod.add("deleteById");
 		dealmethod.add("updateStatusById");
+		dealmethod.add("getPagination");
 	}
 	
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
-		String resource = ms.getResource();
-		String className = resource.substring(0,
-				resource.lastIndexOf(".")).replaceAll("/", ".");
+		String id = ms.getId();
+		String className = id.substring(0,id.lastIndexOf(".")); 
+		String methodName = id.substring(id.lastIndexOf(".")+1,id.length()); 
 		Class<?> gnericInterfaceType = getGenericInterfaces(className);
 		GnericInterfaceTypeContext.setType(gnericInterfaceType);
 		Object parameter = queryArgs[1];
@@ -75,7 +76,15 @@ public class AiliMybatisInterceptor implements Interceptor {
 		queryArgs[0] = newMs;
 		//清除threadLocal数据
 		GnericInterfaceTypeContext.remove();
-		return invocation.proceed();
+		//解决分页一种方式,不再aop里面再调用查询
+		if(methodName.equals("getPagination")){
+			List<Object> items = (List<Object>) invocation.proceed();
+			Pagination pagination = new Pagination();
+			pagination.setItems(items);
+			return pagination;
+		}else{
+			return invocation.proceed();
+		}
 	}
 
 	private Class<?> getGenericInterfaces(String className) throws Exception {
