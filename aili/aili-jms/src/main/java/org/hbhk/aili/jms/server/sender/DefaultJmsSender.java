@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 /**
  * 发送JMS异步消息基类
  */
-@Component
-public class DefaultSender {
+@Component("jmsSender")
+public class DefaultJmsSender implements IJmsSender {
 
 	// jms模板
 	@Autowired(required = false)
 	private JmsTemplate jmsTemplate;
 
-	public DefaultSender() {
+	public DefaultJmsSender() {
 	}
 
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
