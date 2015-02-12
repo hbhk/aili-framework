@@ -11,10 +11,12 @@ import org.hbhk.aili.jms.server.definition.Configuration;
 import org.hbhk.aili.jms.share.pojo.ESBHeader;
 import org.hbhk.aili.jms.share.pojo.ServiceMessage;
 import org.hbhk.aili.jms.share.util.HeaderUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 消息监听基类
  */
+@Component
 public class ServerListener implements MessageListener {
 	private Log log = LogFactory.getLog(getClass()); 
 	@Override
