@@ -31,9 +31,9 @@
 		<property name="connectionFactory">
 			<ref local="jmsFactory" />
 		</property>
-		<property name="defaultDestinationName" value="hbhk-req" />
+		<!-- <property name="defaultDestinationName" value="hbhk-req" /> -->
 		<!-- 区别它采用的模式为false是p2p为true是订阅 -->
-		<property name="pubSubDomain" value="false" />
+		<!-- <property name="pubSubDomain" value="false" /> -->
 	</bean>
 	<bean id="jmsTransactionManager"
 		class="org.springframework.jms.connection.JmsTransactionManager">
