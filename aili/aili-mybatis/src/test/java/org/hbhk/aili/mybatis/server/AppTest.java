@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.mybatis.server.dao.IUserDao;
+import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.mybatis.share.model.UserInfo;
 import org.junit.Test;
@@ -92,8 +93,11 @@ public class AppTest {
 			//query.setId(1l);
 			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
-			Pagination<UserInfo> user = userDao.getPagination(params,2,2);
-			System.out.println(user.getItems());
+			Page page  = new Page();
+			page.setPageNum(2);
+			page.setPageSize(20);
+			Pagination<UserInfo> user = userDao.getPagination(params,page);
+			System.out.println(user.getDatas());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
