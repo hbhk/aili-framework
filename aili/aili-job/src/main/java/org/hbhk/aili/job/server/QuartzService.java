@@ -1,6 +1,5 @@
 package org.hbhk.aili.job.server;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QuartzService implements Serializable {
+public class QuartzService implements IQuartzService {
 
-	private static final long serialVersionUID = 8865813382190577271L;
 	
 	private static final Logger logger = Logger.getLogger(QuartzService.class);
 	@Autowired

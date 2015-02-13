@@ -1,6 +1,5 @@
 package org.hbhk.aili.job.server;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -14,8 +13,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class QuartzDao implements Serializable{
-	private static final long serialVersionUID = -8029787415482077780L;
+public class QuartzDao implements IQuartzDao{
 
 	private JdbcTemplate jdbcTemplate;
 
