@@ -6,8 +6,8 @@ import java.rmi.registry.LocateRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Program {
-	public static final Logger log = LoggerFactory.getLogger(Program.class);
+public class RmiServer {
+	public static final Logger log = LoggerFactory.getLogger(RmiServer.class);
 
 	public static void main(String[] args) {
 		try {
