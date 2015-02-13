@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.job.server.QuartzService;
+import org.hbhk.aili.job.server.JobService;
 import org.junit.Test;
 import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationContext;
@@ -22,7 +22,7 @@ public class SimpleJobTest {
 			ApplicationContext context = new ClassPathXmlApplicationContext(
 					"classpath:job/jobContext.xml");
 
-			QuartzService quartzService = (QuartzService) context
+			JobService quartzService = (JobService) context
 					.getBean("quartzService");
 			String jobName = "jobName";
 			List<String> topicIds = new ArrayList<String>();
@@ -50,7 +50,7 @@ public class SimpleJobTest {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:job/jobContext.xml");
 
-		QuartzService quartzService = (QuartzService) context
+		JobService quartzService = (JobService) context
 				.getBean("quartzService");
 		quartzService.deleteJob("jobName");
 	}
@@ -59,7 +59,7 @@ public class SimpleJobTest {
 			ApplicationContext context = new ClassPathXmlApplicationContext(
 					"classpath:job/jobContext.xml");
 
-			QuartzService quartzService = (QuartzService) context
+			JobService quartzService = (JobService) context
 					.getBean("quartzService");
 			System.out.println(quartzService);
 			//Thread.sleep(20000);

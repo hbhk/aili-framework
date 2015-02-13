@@ -1,6 +1,6 @@
 package org.hbhk.aili.job;
 
-import org.hbhk.aili.job.server.QuartzService;
+import org.hbhk.aili.job.server.JobService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,7 +12,7 @@ public class SimpleJobTest1 {
 			ApplicationContext context = new ClassPathXmlApplicationContext(
 					"classpath:job/jobContext1.xml");
 
-			QuartzService quartzService = (QuartzService) context
+			JobService quartzService = (JobService) context
 					.getBean("quartzService");
 			System.out.println(quartzService);
 			//Thread.sleep(20000);

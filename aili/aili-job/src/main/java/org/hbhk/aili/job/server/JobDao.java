@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class QuartzDao implements IQuartzDao{
+public class JobDao implements IJobDao{
 
 	private JdbcTemplate jdbcTemplate;
 

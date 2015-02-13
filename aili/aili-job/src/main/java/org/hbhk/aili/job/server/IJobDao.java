@@ -5,7 +5,7 @@ import java.util.List;
 import org.hbhk.aili.job.share.pojo.QuartzInfo;
 
 
-public interface IQuartzDao {
+public interface IJobDao {
 
 	/**
 	 * 查找所有的定时任务

@@ -5,7 +5,7 @@ import java.util.List;
 import org.quartz.Job;
 import org.quartz.SchedulerException;
 
-public interface IQuartzService  {
+public interface IJobService  {
 
 	/**
 	 * 增加定时任务

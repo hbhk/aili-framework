@@ -20,12 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QuartzService implements IQuartzService {
+public class JobService implements IJobService {
 
 	
-	private static final Logger logger = Logger.getLogger(QuartzService.class);
+	private static final Logger logger = Logger.getLogger(JobService.class);
 	@Autowired
-	private QuartzDao quartzDao;
+	private JobDao quartzDao;
     @Autowired
 	private Scheduler quartzScheduler; // quartzScheduler
 	/**
