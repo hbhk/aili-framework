@@ -4,6 +4,9 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--这块等于dao接口的实现 namespace必须和接口的类路径一样 -->
 <mapper namespace="org.hbhk.aili.mybatis.server.dao.IUserDao">
+	<resultMap type="org.hbhk.aili.mybatis.server.UserInfo1" id="u1">
+		<result column="" property=""/>
+	</resultMap>
 	<!-- findById必须和接口中的方法名一样 返回一个User 就是刚才的别名 如果不弄别名要连类路径一起写 麻烦 -->
 	<select id="getPagination1" parameterType="HashMap"
 		resultType="org.hbhk.aili.mybatis.server.UserInfo1">
