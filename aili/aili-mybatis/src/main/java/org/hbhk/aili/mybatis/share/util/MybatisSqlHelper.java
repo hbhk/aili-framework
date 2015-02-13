@@ -1,6 +1,7 @@
 package org.hbhk.aili.mybatis.share.util;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +128,17 @@ public class MybatisSqlHelper {
 		return getNamespaceSql(session, fullMapperMethodName, params);
 	}
 
+	public static String getSql(SqlSession session, String namespace,
+			Object params) {
+		params = wrapCollection(params);
+		Configuration configuration = session.getConfiguration();
+		MappedStatement mappedStatement = configuration
+				.getMappedStatement(namespace);
+		BoundSql boundSql = mappedStatement.getBoundSql(params);
+		String sql = boundSql.getSql();
+		return sql;
+		
+	}
 	/**
 	 * 通过命名空间方式获取sql
 	 * 
@@ -186,6 +198,43 @@ public class MybatisSqlHelper {
 		}
 		return sql;
 	}
+	
+	public static Object[] getParams(SqlSession session, String namespace,
+			Object params) {
+		params = wrapCollection(params);
+		Configuration configuration = session.getConfiguration();
+		MappedStatement mappedStatement = configuration
+				.getMappedStatement(namespace);
+		TypeHandlerRegistry typeHandlerRegistry = mappedStatement
+				.getConfiguration().getTypeHandlerRegistry();
+		BoundSql boundSql = mappedStatement.getBoundSql(params);
+		List<ParameterMapping> parameterMappings = boundSql
+				.getParameterMappings();
+		List<Object> list = new ArrayList<Object>();
+		if (parameterMappings != null) {
+			for (int i = 0; i < parameterMappings.size(); i++) {
+				ParameterMapping parameterMapping = parameterMappings.get(i);
+				if (parameterMapping.getMode() != ParameterMode.OUT) {
+					Object value;
+					String propertyName = parameterMapping.getProperty();
+					if (boundSql.hasAdditionalParameter(propertyName)) {
+						value = boundSql.getAdditionalParameter(propertyName);
+					} else if (params == null) {
+						value = null;
+					} else if (typeHandlerRegistry.hasTypeHandler(params
+							.getClass())) {
+						value = params;
+					} else {
+						MetaObject metaObject = configuration
+								.newMetaObject(params);
+						value = metaObject.getValue(propertyName);
+					}
+					list.add(value);
+				}
+			}
+		}
+		return list.toArray();
+	}
 
 	/**
 	 * 根据类型替换参数 仅作为数字和字符串两种类型进行处理，需要特殊处理的可以继续完善这里
@@ -223,11 +272,9 @@ public class MybatisSqlHelper {
 
 			default:
 				strValue = "'" + strValue + "'";
-
 			}
 		} else if (Number.class.isAssignableFrom(javaType)) {
 			// 不加单引号
-
 		} else {
 			strValue = "'" + strValue + "'";
 		}

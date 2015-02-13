@@ -78,16 +78,8 @@ public class AiliMybatisInterceptor implements Interceptor {
 		//清除threadLocal数据
 		GnericInterfaceTypeContext.remove();
 		//解决分页一种方式,不再aop里面再调用查询
-		if(methodName.equals("getPagination")){
-			//List<Object> items = (List<Object>) invocation.proceed();
-			//Pagination<Object> pagination = new Pagination<Object>();
-			//pagination.setItems(items);
-			Object obj = new Object();
-			List<Object> list = new ArrayList<Object>();
-			return list;
-		}else{
-			return invocation.proceed();
-		}
+		return invocation.proceed();
+		
 	}
 
 	private Class<?> getGenericInterfaces(String className) throws Exception {

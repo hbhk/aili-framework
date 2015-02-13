@@ -73,10 +73,10 @@ public abstract class AiliDaoSupport<T, PK> extends SqlSessionDaoSupport
 
 	@Override
 	public Pagination<T> getAllByPage(Pagination<T> page) {
-		RowBounds rowBounds = new RowBounds(page.getStart(), page.getSize());
+		RowBounds rowBounds = new RowBounds(page.getPageNum(), page.getPageSize());
 		List<T> datas = getSqlSession().selectList(getNamespace() + OP_GETALL,
 				rowBounds);
-		page.setItems(datas);
+		page.setDatas(datas);
 		return page;
 	}
 
