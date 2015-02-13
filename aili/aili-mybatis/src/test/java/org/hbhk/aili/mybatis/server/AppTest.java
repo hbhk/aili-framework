@@ -49,7 +49,25 @@ public class AppTest {
 		}
 
 	}
+	@Test
+	public void testById() {
+		try {
+			log.info("1111111111");
+			Map<String, Object> params = new HashMap<String, Object>();
+			UserInfo query = new UserInfo();
+			// query.setName("111asdas");
+			BeanToMapUtil.convert(query, params);
+			Long s = System.currentTimeMillis();
+			UserInfo user = userDao.getById(1L);
+			Long e = System.currentTimeMillis();
+			// 166
+			System.out.println("pppppppppppppp:" + (e - s)+":"+user.getName());
+			// System.out.println(user.size()+user.get(0).getCreatUser()+user.get(0).getName()+user.get(0).getCreateTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+	}
 	@Test
 	public void getPagetest() {
 		try {
@@ -75,6 +93,7 @@ public class AppTest {
 			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
 			Pagination<UserInfo> user = userDao.getPagination(params,2,2);
+			System.out.println(user.getItems());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

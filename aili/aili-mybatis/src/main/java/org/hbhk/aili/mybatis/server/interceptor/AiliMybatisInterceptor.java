@@ -55,6 +55,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 		dealmethod.add("getPagination");
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
@@ -78,10 +79,12 @@ public class AiliMybatisInterceptor implements Interceptor {
 		GnericInterfaceTypeContext.remove();
 		//解决分页一种方式,不再aop里面再调用查询
 		if(methodName.equals("getPagination")){
-			List<Object> items = (List<Object>) invocation.proceed();
-			Pagination pagination = new Pagination();
-			pagination.setItems(items);
-			return pagination;
+			//List<Object> items = (List<Object>) invocation.proceed();
+			//Pagination<Object> pagination = new Pagination<Object>();
+			//pagination.setItems(items);
+			Object obj = new Object();
+			List<Object> list = new ArrayList<Object>();
+			return list;
 		}else{
 			return invocation.proceed();
 		}

@@ -21,7 +21,7 @@
 	<context:component-scan base-package="org.hbhk.aili.mybatis.server" />
 	<!-- 开启事务注解驱动 -->
 	<tx:annotation-driven />
-
+	<aop:aspectj-autoproxy />
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	<bean id="dataSource" destroy-method="close"
 		class="org.apache.commons.dbcp.BasicDataSource">
@@ -40,11 +40,11 @@
 		<property name="mapperLocations" value="classpath*:orm/*.xml" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<mybatis:scan base-package="org.hbhk.**.server.dao"/>
-	<!-- <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- <mybatis:scan base-package="org.hbhk.**.server.dao"/> -->
+	 <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.hbhk.**.server.dao"></property>
 		<property name="markerInterface" value="org.hbhk.aili.mybatis.server.dao.IBaseDao" />
-	</bean> -->
+	</bean>
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
