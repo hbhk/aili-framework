@@ -115,8 +115,8 @@ public class AppTest {
 			Page page  = new Page();
 			page.setPageNum(2);
 			page.setPageSize(2);
-			Pagination<UserInfo> user = userDao.getPagination1(params,page);
-			for (UserInfo iterable_element : user.getDatas()) {
+			Pagination<UserInfo1> user = userDao.getPagination1(params,page);
+			for (UserInfo1 iterable_element : user.getDatas()) {
 				System.out.println("id:"+iterable_element.getId());
 			}
 		} catch (Exception e) {

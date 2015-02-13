@@ -3,6 +3,7 @@ package org.hbhk.aili.mybatis.server.dao;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.SelectProvider;
+import org.hbhk.aili.mybatis.server.UserInfo1;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
@@ -33,7 +34,7 @@ public interface IUserDao extends  IBaseDao<UserInfo, Long> {
 	* Pagination<UserInfo>   
 	* @throws
 	 */
-	Pagination<UserInfo> getPagination1(Map<String, Object> params, Page page);
+	Pagination<UserInfo1> getPagination1(Map<String, Object> params, Page page);
 
 	
 }
