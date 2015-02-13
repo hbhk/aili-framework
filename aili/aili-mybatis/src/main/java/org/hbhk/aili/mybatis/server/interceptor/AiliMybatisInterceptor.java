@@ -42,8 +42,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 
 	private static List<Class<?>>  notModelClass = new ArrayList<Class<?>>();
 	static{
-		notModelClass.add(Pagination.class);
-		
+		//notModelClass.add(Pagination.class);
 	}
 	private static List<String>  dealmethod = new ArrayList<String>();
 	static{
@@ -52,10 +51,8 @@ public class AiliMybatisInterceptor implements Interceptor {
 		dealmethod.add("getPage");
 		dealmethod.add("deleteById");
 		dealmethod.add("updateStatusById");
-		dealmethod.add("getPagination");
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] queryArgs = invocation.getArgs();
 		MappedStatement ms = (MappedStatement) queryArgs[0];
@@ -76,7 +73,9 @@ public class AiliMybatisInterceptor implements Interceptor {
 				new BoundSqlSqlSource(newBoundSql), gnericInterfaceType);
 		queryArgs[0] = newMs;
 		//清除threadLocal数据
-		GnericInterfaceTypeContext.remove();
+		if(dealmethod.contains(methodName)){
+			GnericInterfaceTypeContext.remove();
+		}
 		//解决分页一种方式,不再aop里面再调用查询
 		return invocation.proceed();
 		
@@ -147,11 +146,11 @@ public class AiliMybatisInterceptor implements Interceptor {
 				builder.resultMaps(resultMaps);
 			}else {
 				if(id.indexOf("!") < 0){
-					if(type.isAssignableFrom(BaseInfo.class)){
+					if(type.isAssignableFrom(BaseInfo.class) || type.isAssignableFrom(Pagination.class)){
 						//处理属性和列名不一样的
-						List<ResultMapping> resultMappings= getResultMapping(type, ms);
+						List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
 						ResultMap.Builder reBuilder = new ResultMap.Builder(
-								ms.getConfiguration(), resultMap.getId(), type,
+								ms.getConfiguration(), resultMap.getId(), gnericInterfaceType,
 								resultMappings, resultMap.getAutoMapping());
 						resultMap = reBuilder.build();
 						resultMaps.add(resultMap);

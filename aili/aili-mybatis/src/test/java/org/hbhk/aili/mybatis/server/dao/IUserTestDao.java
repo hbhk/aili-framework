@@ -11,4 +11,5 @@ public interface IUserTestDao<T> {
 	List<T> get(Map<String, Object> params);
 	
 	UserInfo insert(UserInfo user);
+	
 }

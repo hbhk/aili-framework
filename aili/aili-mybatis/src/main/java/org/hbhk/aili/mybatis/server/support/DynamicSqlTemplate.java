@@ -258,6 +258,61 @@ public class DynamicSqlTemplate implements InitializingBean {
 		return sql.toString();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public String getPagination(Map<String, Object> params) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select *from ");
+		sql.append(getTableName() +" ");
+		Set<String>  keys = params.keySet();
+		Map<String, Object> newParams =new HashMap<String, Object>(); 
+		for (String key : keys) {
+		    if(key.startsWith("param")){
+				continue;
+			}
+		    Object obj = params.get(key);
+		    if(obj instanceof Map){
+			  Map<String, Object> map = (Map<String, Object>) obj;
+			  for (String interKey : map.keySet()) {
+				  newParams.put(interKey, map.get(interKey));
+			}
+		   }else{
+			   newParams.put(key, obj);
+		   }
+		}
+		Set<String>  newKeys = newParams.keySet();
+		params.putAll(newParams);
+		if(newKeys.size() > 0){
+			ModelInfo tableInfo = tabs.get(getKey());
+			String pk = tableInfo.getPk();
+			Map<String, String> fieldColumn = tableInfo.getFieldColumnMap();
+			sql.append("where ");
+			int num = 0;
+			for (int i = 0; i < newKeys.size(); i++) {
+				String field = newKeys.toArray(new String[]{})[i];
+				if("start".equals(field) || "size".equals(field)){
+					continue;
+				}
+				String col = fieldColumn.get(field);
+				if(StringUtils.isEmpty(col)&& !field.equals(pk)){
+					continue;
+				}
+				if(field.equals(pk)){
+					sql.append(pk+"=#{"+pk+"}");
+				}else{
+					if(num == 0){
+						sql.append(col+"=#{"+field+"}");
+						num++;
+					}else{
+						sql.append(" and "+col+"=#{"+field+"}");
+						num++;
+					}
+				}
+				
+			}
+		}
+		return sql.toString();
+	}
+	
 	public String getPageTotalCount(Map<String, Object> params) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select count(*) from ");

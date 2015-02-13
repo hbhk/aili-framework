@@ -51,4 +51,5 @@ public interface IBaseDao<T extends BaseInfo, PK> {
 	@UpdateProvider(type = DynamicSqlTemplate.class, method = "updateStatusById")
 	int updateStatusById(@Param("id") PK id, @Param("status") int status);
 
+
 }

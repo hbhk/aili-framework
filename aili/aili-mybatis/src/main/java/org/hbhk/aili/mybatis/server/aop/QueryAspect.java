@@ -1,6 +1,8 @@
 package org.hbhk.aili.mybatis.server.aop;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.mybatis.share.util.MybatisSqlHelper;
@@ -53,7 +56,10 @@ public class QueryAspect implements Ordered {
 		Method method = ms.getMethod();
 		Class<?> rt = method.getReturnType();
 		if(rt.isAssignableFrom(Pagination.class)){
+			Class<?> cls = method.getDeclaringClass();
 			String clsName =  method.getDeclaringClass().getName();
+			Class<?> gnericInterfaceType = getGenericInterfaces(cls);
+			GnericInterfaceTypeContext.setType(gnericInterfaceType);
 			String methodName = method.getName();
 			Pagination<Object> pagination = new Pagination<Object>();
 			Object[] args = pjp.getArgs();
@@ -82,6 +88,20 @@ public class QueryAspect implements Ordered {
 			return obj;
 		}
 		
+	}
+	
+	private Class<?> getGenericInterfaces(Class<?> clazz) throws Exception {
+		Type[] types = clazz.getGenericInterfaces();
+		ParameterizedType pType = null;
+		if(types.length==0){
+			//pType = clazz.;
+			return clazz;
+		}else{
+			pType = (ParameterizedType) types[0];
+		}
+	
+		Class<?> cls = (Class<?>) pType.getActualTypeArguments()[0];
+		return cls;
 	}
 	
 	private int getCount(String sql , Object[] args){
