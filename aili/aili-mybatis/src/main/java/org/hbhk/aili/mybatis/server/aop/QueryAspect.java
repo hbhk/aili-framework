@@ -39,7 +39,7 @@ public class QueryAspect implements Ordered, InitializingBean {
 			Pagination<Object> pagination = new Pagination<Object>();
 			Object[] args = pjp.getArgs();
 			String statement = clsName+"."+methodName;
-			List<Object> list = sqlSessionFactory.openSession().selectList("org.hbhk.aili.mybatis.server.dao.IUserDao.getPagination", "");
+			List<Object> list = sqlSessionFactory.openSession().selectList(statement, "");
 			pagination.setItems(list);
 			return pagination;
 		}else{
