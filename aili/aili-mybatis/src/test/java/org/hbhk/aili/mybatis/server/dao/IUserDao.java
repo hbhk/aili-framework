@@ -26,7 +26,7 @@ public interface IUserDao extends  IBaseDao<UserInfo, Long> {
 	/**
 	 * 
 	* @author 何波
-	* @Description: 编写对mapper映射文件
+	* @Description: 编写对应mapper映射文件
 	* @param params
 	* @param page
 	* @return   
