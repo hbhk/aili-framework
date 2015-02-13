@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
-import org.hbhk.aili.job.share.pojo.QuartzInfo;
+import org.hbhk.aili.job.share.pojo.JobInfo;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
@@ -31,7 +31,7 @@ public class JobService implements IJobService {
 	/**
 	 * 查询所有定时任务信息
 	 */
-	public List<QuartzInfo> getQuartzJobList(String jobName) {
+	public List<JobInfo> getQuartzJobList(String jobName) {
 		return quartzDao.selectAllQuartJob(jobName);
 	}
 	/**

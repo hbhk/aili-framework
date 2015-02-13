@@ -2,7 +2,7 @@ package org.hbhk.aili.job.server;
 
 import java.util.List;
 
-import org.hbhk.aili.job.share.pojo.QuartzInfo;
+import org.hbhk.aili.job.share.pojo.JobInfo;
 
 
 public interface IJobDao {
@@ -11,5 +11,5 @@ public interface IJobDao {
 	 * 查找所有的定时任务
 	 * @return
 	 */
-	public List<QuartzInfo> selectAllQuartJob(String jobName) ;
+	public List<JobInfo> selectAllQuartJob(String jobName) ;
 }
