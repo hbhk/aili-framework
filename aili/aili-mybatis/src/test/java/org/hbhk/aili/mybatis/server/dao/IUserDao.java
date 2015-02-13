@@ -23,10 +23,17 @@ public interface IUserDao extends  IBaseDao<UserInfo, Long> {
 	 */
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPagination")
 	Pagination<UserInfo> getPagination(Map<String, Object> params, Page page);
-	
+	/**
+	 * 
+	* @author 何波
+	* @Description: 编写对mapper映射文件
+	* @param params
+	* @param page
+	* @return   
+	* Pagination<UserInfo>   
+	* @throws
+	 */
 	Pagination<UserInfo> getPagination1(Map<String, Object> params, Page page);
 
 	
-
-
 }

@@ -105,6 +105,27 @@ public class AppTest {
 	}
 	
 	@Test
+	public void getPagetest2() {
+		try {
+			Map<String, Object> params = new HashMap<String, Object>();
+			UserInfo query = new UserInfo();
+			//query.setId(1l);
+			query.setName("hbhk");
+			BeanToMapUtil.convert(query, params);
+			Page page  = new Page();
+			page.setPageNum(2);
+			page.setPageSize(2);
+			Pagination<UserInfo> user = userDao.getPagination1(params,page);
+			for (UserInfo iterable_element : user.getDatas()) {
+				System.out.println("id:"+iterable_element.getId());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Test
 	public void getPagetestCount() {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
