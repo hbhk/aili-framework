@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -18,6 +19,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
@@ -58,8 +60,14 @@ public class QueryAspect implements Ordered {
 		if(rt.isAssignableFrom(Pagination.class)){
 			Class<?> cls = method.getDeclaringClass();
 			String clsName =  method.getDeclaringClass().getName();
-			Class<?> gnericInterfaceType = getGenericInterfaces(cls);
-			GnericInterfaceTypeContext.setType(gnericInterfaceType);
+			SelectProvider selectProvider = method.getAnnotation(SelectProvider.class);
+			if(selectProvider !=null){
+				Class<?> type =  selectProvider.type();
+				if(type.equals(DynamicSqlTemplate.class)){
+					Class<?> gnericInterfaceType = getGenericInterfaces(cls);
+					GnericInterfaceTypeContext.setType(gnericInterfaceType);
+				}
+			}
 			String methodName = method.getName();
 			Pagination<Object> pagination = new Pagination<Object>();
 			Object[] args = pjp.getArgs();
@@ -82,6 +90,9 @@ public class QueryAspect implements Ordered {
 			pagination.setTotalPages(totalPages);
 			pagination.setPageNum(page.getPageNum());
 			pagination.setPageSize(page.getPageSize());
+			if(selectProvider !=null){
+				GnericInterfaceTypeContext.remove();
+			}
 			return pagination;
 		}else{
 			Object obj = pjp.proceed(pjp.getArgs());
