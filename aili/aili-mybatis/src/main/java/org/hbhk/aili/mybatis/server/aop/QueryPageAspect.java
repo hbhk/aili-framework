@@ -35,9 +35,9 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class QueryAspect implements Ordered {
+public class QueryPageAspect implements Ordered {
 
-	protected static final Logger logger = LoggerFactory.getLogger(QueryAspect.class);
+	protected static final Logger logger = LoggerFactory.getLogger(QueryPageAspect.class);
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 	
