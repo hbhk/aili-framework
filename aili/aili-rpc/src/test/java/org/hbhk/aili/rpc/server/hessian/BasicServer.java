@@ -9,10 +9,10 @@ public class BasicServer {
 	public static final Logger log = LoggerFactory.getLogger(BasicServer.class);
 
 	public static void main(String[] args) throws Exception {
-		String url = "http://www.caucho.com/hessian/test/basic";
+		String url = "http://localhost/hessian/test/basic";
 
 		HessianProxyFactory factory = new HessianProxyFactory();
-		Basic basic = (Basic) factory.create(Basic.class, url);
+		IBasic basic = (IBasic) factory.create(IBasic.class, url);
 
 		System.out.println("Hello: " + basic.hello("ss"));
 	}
