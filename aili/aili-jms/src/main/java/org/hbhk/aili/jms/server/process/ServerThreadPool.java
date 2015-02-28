@@ -92,7 +92,7 @@ public class ServerThreadPool {
 			logger.info(info+"调用业务处理结束");
 		} catch (Exception e) {
 			logger.error("error", e);
-			throw new RuntimeException(e);
+			//throw new RuntimeException(e);
 		}
 		// 业务逻辑处理完成
 		if(StringUtils.isNotEmpty(statusQueue)){
