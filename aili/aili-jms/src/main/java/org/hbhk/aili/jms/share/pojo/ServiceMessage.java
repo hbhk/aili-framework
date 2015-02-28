@@ -3,7 +3,7 @@ package org.hbhk.aili.jms.share.pojo;
 public class ServiceMessage {
 	// 头信息
 	/** The header. */
-	private ESBHeader header;
+	private JmsHeader header;
 
 	// 消息体
 	/** The body. */
@@ -24,7 +24,7 @@ public class ServiceMessage {
 	 * @author HuangHua
 	 * @date 2012-12-21 上午10:11:57
 	 */
-	public ServiceMessage(ESBHeader header, String body) {
+	public ServiceMessage(JmsHeader header, String body) {
 		super();
 		this.header = header;
 		this.body = body;
@@ -35,7 +35,7 @@ public class ServiceMessage {
 	 * 
 	 * @return the header
 	 */
-	public ESBHeader getHeader() {
+	public JmsHeader getHeader() {
 		return header;
 	}
 
@@ -45,7 +45,7 @@ public class ServiceMessage {
 	 * @param header
 	 *            the new header
 	 */
-	public void setHeader(ESBHeader header) {
+	public void setHeader(JmsHeader header) {
 		this.header = header;
 	}
 

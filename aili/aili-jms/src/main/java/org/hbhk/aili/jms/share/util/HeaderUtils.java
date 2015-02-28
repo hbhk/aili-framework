@@ -4,7 +4,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
-import org.hbhk.aili.jms.share.pojo.ESBHeader;
+import org.hbhk.aili.jms.share.pojo.JmsHeader;
 import org.hbhk.aili.jms.share.pojo.StatusInfo;
 
 public class HeaderUtils {
@@ -18,8 +18,8 @@ public class HeaderUtils {
 	 * @throws JMSException
 	 *             the jMS exception
 	 */
-	public static ESBHeader fillServiceHeader(Message message) throws JMSException {
-		ESBHeader header = new ESBHeader();
+	public static JmsHeader fillServiceHeader(Message message) throws JMSException {
+		JmsHeader header = new JmsHeader();
 		header.setServiceCode(message.getStringProperty(ServiceHeader.BACK_SERVICE_CODE));
 		header.setBusinessDesc1(message.getStringProperty(ServiceHeader.BUSINESS_DESC1));
 		header.setBusinessDesc2(message.getStringProperty(ServiceHeader.BUSINESS_DESC2));
@@ -52,7 +52,7 @@ public class HeaderUtils {
 	 * @throws JMSException
 	 *             the jMS exception
 	 */
-	public static void header2JMSProperties(ESBHeader esbHeader, TextMessage outMessage) throws JMSException {
+	public static void header2JMSProperties(JmsHeader esbHeader, TextMessage outMessage) throws JMSException {
 		outMessage.setStringProperty(ServiceHeader.VERSION, esbHeader.getVersion());
 		outMessage.setStringProperty(ServiceHeader.BUSINESS_ID, esbHeader.getBusinessId());
 		outMessage.setStringProperty(ServiceHeader.BUSINESS_DESC1, esbHeader.getBusinessDesc1());

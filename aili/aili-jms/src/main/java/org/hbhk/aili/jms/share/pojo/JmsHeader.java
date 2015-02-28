@@ -2,7 +2,7 @@ package org.hbhk.aili.jms.share.pojo;
 
 import org.hbhk.aili.jms.share.ex.ESBIllegalArgumentException;
 
-public class ESBHeader {
+public class JmsHeader {
 	
 	/** The version. */
 	private String version;

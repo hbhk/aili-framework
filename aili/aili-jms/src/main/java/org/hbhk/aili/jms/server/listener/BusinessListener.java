@@ -7,7 +7,7 @@ import javax.jms.TextMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.jms.server.definition.Configuration;
-import org.hbhk.aili.jms.share.pojo.ESBHeader;
+import org.hbhk.aili.jms.share.pojo.JmsHeader;
 import org.hbhk.aili.jms.share.pojo.ServiceMessage;
 import org.hbhk.aili.jms.share.util.HeaderUtils;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class BusinessListener implements MessageListener {
 	@Override
 	public void onMessage(Message message) {
 		try {
-			ESBHeader header = HeaderUtils.fillServiceHeader(message);
+			JmsHeader header = HeaderUtils.fillServiceHeader(message);
 			String body = ((TextMessage) message).getText();
 			ServiceMessage serviceMessage = new ServiceMessage(header, body);
 			Configuration.getServerThreadPool().process(serviceMessage);

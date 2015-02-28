@@ -1,7 +1,7 @@
 package org.hbhk.aili.jms.server.sender;
 
-import org.hbhk.aili.jms.share.pojo.ESBHeader;
+import org.hbhk.aili.jms.share.pojo.JmsHeader;
 
 public interface IJmsSender {
-	void sendJms(String queueName, ESBHeader esbHeader, final String body);
+	void sendJms(String queueName, JmsHeader esbHeader, final String body);
 }

@@ -6,7 +6,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.commons.lang.StringUtils;
-import org.hbhk.aili.jms.share.pojo.ESBHeader;
+import org.hbhk.aili.jms.share.pojo.JmsHeader;
 import org.hbhk.aili.jms.share.util.HeaderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -33,7 +33,7 @@ public class DefaultJmsSender implements IJmsSender {
 	/**
 	 * 发送JMS异步消息
 	 */
-	public void sendJms(String queueName, final ESBHeader esbHeader,
+	public void sendJms(String queueName, final JmsHeader esbHeader,
 			final String body) {
 		// 队列名称为空，抛异常
 		if (StringUtils.isEmpty(queueName)) {

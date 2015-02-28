@@ -20,7 +20,7 @@ import org.hbhk.aili.jms.server.convertor.IMessageConvertor;
 import org.hbhk.aili.jms.server.definition.Configuration;
 import org.hbhk.aili.jms.share.ex.ConvertException;
 import org.hbhk.aili.jms.share.ex.JmsBusinessException;
-import org.hbhk.aili.jms.share.pojo.ESBHeader;
+import org.hbhk.aili.jms.share.pojo.JmsHeader;
 import org.hbhk.aili.jms.share.pojo.ServiceMessage;
 import org.hbhk.aili.jms.share.util.Constant;
 import org.hbhk.aili.jms.share.util.GenericsUtils;
@@ -74,7 +74,7 @@ public class ServerThreadPool {
 	}
 	
 	private void flowProcess(ServiceMessage message){
-		ESBHeader header = message.getHeader();
+		JmsHeader header = message.getHeader();
 		String responseQueue = Configuration.getServiceConfigMap().get(header.getServiceCode()).getResponseQueue();
 		String statusQueue = Configuration.getServiceConfigMap().get(header.getServiceCode()).getEsbStatusQueue();
 		// 已接收
@@ -120,7 +120,7 @@ public class ServerThreadPool {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ServiceMessage businessProcess(ServiceMessage message) throws Exception{
-		ESBHeader header = message.getHeader();
+		JmsHeader header = message.getHeader();
 		String serviceCode = header.getServiceCode();
 		header.setResponseId(UUID.randomUUID().toString());
 		IMessageConvertor transformer = Configuration.getServiceConfigMap().get(serviceCode).getMessageConvertor();
