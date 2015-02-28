@@ -93,6 +93,14 @@ public class ServerThreadPool {
 		} catch (Exception e) {
 			logger.error("error", e);
 			//throw new RuntimeException(e);
+			if(StringUtils.isNotEmpty(responseQueue)){
+				// 发送响应
+				logger.info(info+"发送响应开始");
+				header.setResultCode(0);
+				sendResponse(responseQueue,message);
+				logger.info(info+"发送响应结束");
+			}
+			return;
 		}
 		// 业务逻辑处理完成
 		if(StringUtils.isNotEmpty(statusQueue)){
