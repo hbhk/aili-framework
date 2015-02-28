@@ -1,6 +1,5 @@
 package org.hbhk.aili.jms.server.listener;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -28,7 +27,7 @@ public class BusinessListener implements MessageListener {
 			String body = ((TextMessage) message).getText();
 			ServiceMessage serviceMessage = new ServiceMessage(header, body);
 			Configuration.getServerThreadPool().process(serviceMessage);
-		} catch (JMSException e) {
+		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 	}
