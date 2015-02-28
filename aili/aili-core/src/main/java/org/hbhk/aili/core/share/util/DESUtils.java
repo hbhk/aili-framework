@@ -9,6 +9,7 @@ import javax.crypto.KeyGenerator;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+@SuppressWarnings("restriction")
 public class DESUtils {
 
 	private static Key key;
