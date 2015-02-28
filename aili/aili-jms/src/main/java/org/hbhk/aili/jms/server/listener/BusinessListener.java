@@ -21,9 +21,8 @@ public class BusinessListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
-		ESBHeader header;
 		try {
-			header = HeaderUtils.fillServiceHeader(message);
+			ESBHeader header = HeaderUtils.fillServiceHeader(message);
 			String body = ((TextMessage) message).getText();
 			ServiceMessage serviceMessage = new ServiceMessage(header, body);
 			Configuration.getServerThreadPool().process(serviceMessage);
