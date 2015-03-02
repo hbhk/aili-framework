@@ -21,6 +21,7 @@ public class ZKDataListeners implements  InitializingBean {
 			for (IDataListener listener : dataListeners) {
 				//获取监听目录
 				String path = listener.getPath();
+				log.debug(path+"-->"+listener);
 				//注册监听
 				zkClient.subscribeDataChanges(path, listener);
 			}
