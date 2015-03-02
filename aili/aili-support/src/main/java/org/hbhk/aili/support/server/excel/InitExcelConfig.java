@@ -17,7 +17,7 @@ public class InitExcelConfig implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		FileAsStringUtil stringUtil = new FileAsStringUtil();
 		// 获取所有excel配置文件
-		List<String> excelConfig = stringUtil.scanBeansXml(path);
+		List<String> excelConfig = stringUtil.scanBeansXml(path,"xml");
 		if (excelConfig != null && excelConfig.size() != 0) {
 			ExcelConvertor convertor = new ExcelConvertor();
 			for (String str : excelConfig) {
