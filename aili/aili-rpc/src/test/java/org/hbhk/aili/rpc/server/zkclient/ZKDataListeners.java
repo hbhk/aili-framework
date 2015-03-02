@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ZKDataListeners implements  InitializingBean {
 	public static final Logger log = LoggerFactory.getLogger(ZKDataListeners.class);
-	private  ZkClient zkClient;
-	List<IDataListener> dataListeners;
+	private ZkClient zkClient;
+	private List<IDataListener> dataListeners;
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		for (IDataListener listener : dataListeners) {
