@@ -21,6 +21,9 @@ public class ZKDataListeners implements  InitializingBean {
 			for (IDataListener listener : dataListeners) {
 				//获取监听目录
 				String path = listener.getPath();
+				if(path == null || path.equals("")){
+					throw new NullPointerException("监听路径path为空");
+				}
 				log.debug(path+"-->"+listener);
 				//注册监听
 				zkClient.subscribeDataChanges(path, listener);
