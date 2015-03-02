@@ -15,11 +15,18 @@ public class FileAsStringUtil {
 
 	private Log log = LogFactory.getLog(getClass());
 
-	public List<String> scanBeansXml(String path) throws IOException {
+	public List<String> scanBeansXml(String path, String suffix)
+			throws IOException {
 		Resource[] resources = FileLoadUtil
 				.getResourcesForClasspathByPath(path);
 		List<String> beansXml = new ArrayList<String>();
 		for (Resource res : resources) {
+			if (!res.isReadable()) {
+				continue;
+			}
+			if (!res.getFile().getName().endsWith(suffix)) {
+				continue;
+			}
 			InputStreamReader inputStreamReader = new InputStreamReader(
 					res.getInputStream());
 			char[] data = new char[10240];
