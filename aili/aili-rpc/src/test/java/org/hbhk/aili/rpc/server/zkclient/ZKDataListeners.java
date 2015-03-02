@@ -47,6 +47,12 @@ public class ZKDataListeners implements  InitializingBean {
 	public void setDataListeners(List<IDataListener> dataListeners) {
 		this.dataListeners = dataListeners;
 	}
+	public IZkStateListener getZkStateListener() {
+		return zkStateListener;
+	}
+	public void setZkStateListener(IZkStateListener zkStateListener) {
+		this.zkStateListener = zkStateListener;
+	}
 	
 	
 }
