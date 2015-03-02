@@ -32,7 +32,7 @@ public class AppTest1 {
 			List<UserInfo> user = userDao.get(params);
 			Long e = System.currentTimeMillis();
 			//166
-			System.out.println("pppppppppppppp:"+(e-s));
+			System.out.println("pppppppppppppp:"+(e-s)+user);
 			//System.out.println(user.size()+user.get(0).getCreatUser()+user.get(0).getName()+user.get(0).getCreateTime());
 		} catch (Exception e) {
 			e.printStackTrace();
