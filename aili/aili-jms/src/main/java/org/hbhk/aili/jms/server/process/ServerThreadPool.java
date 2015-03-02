@@ -102,6 +102,10 @@ public class ServerThreadPool {
 			}
 			return;
 		}
+		if(message.getBody() == null){
+			//如果等于空则不发送响应消息
+			return;
+		}
 		// 业务逻辑处理完成
 		if(StringUtils.isNotEmpty(statusQueue)){
 			sendStatus(statusQueue,Constant.STATUS_305);
