@@ -1,7 +1,5 @@
 package org.hbhk.aili.jms.server;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
