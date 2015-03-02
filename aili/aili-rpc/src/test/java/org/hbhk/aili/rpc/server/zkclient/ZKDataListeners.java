@@ -16,17 +16,19 @@ public class ZKDataListeners implements  InitializingBean {
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		//添加数据监听
 		if(dataListeners != null){
+			//添加数据监听
 			for (IDataListener listener : dataListeners) {
+				//获取监听目录
 				String path = listener.getPath();
+				//注册监听
 				zkClient.subscribeDataChanges(path, listener);
 			}
 		}
 		if(zkStateListener == null){
 			zkStateListener = new DefaultZkStateListener();
 		}
-		//添加zk断开监听
+		//添加zk断开重连监听
 		zkClient.subscribeStateChanges(zkStateListener);
 	}
 	public ZkClient getZkClient() {
