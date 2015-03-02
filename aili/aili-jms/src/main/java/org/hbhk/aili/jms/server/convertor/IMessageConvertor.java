@@ -7,7 +7,7 @@ public interface IMessageConvertor<T> {
 	/**
 	 * 把字符串转换为POJO.
 	 */
-	T toMessage(String string, Class<?> cls) throws ConvertException;
+	T toMessage(String str, Class<?> cls) throws ConvertException;
 
 	/**
 	 * 把POJO转换为字符串.
