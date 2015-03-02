@@ -17,9 +17,11 @@ public class ZKDataListeners implements  InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		//添加数据监听
-		for (IDataListener listener : dataListeners) {
-			String path = listener.getPath();
-			zkClient.subscribeDataChanges(path, listener);
+		if(dataListeners != null){
+			for (IDataListener listener : dataListeners) {
+				String path = listener.getPath();
+				zkClient.subscribeDataChanges(path, listener);
+			}
 		}
 		if(zkStateListener == null){
 			zkStateListener = new DefaultZkStateListener();
