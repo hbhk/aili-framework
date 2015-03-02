@@ -33,7 +33,7 @@ public class ZKDataListeners implements  InitializingBean {
 		zkClient.subscribeStateChanges(zkStateListener);
 		int num = zkClient.numberOfListeners();
 		//总监听数
-		log.debug("zk总监听数:"+num);
+		log.debug("zk监听数:"+num);
 	}
 	public ZkClient getZkClient() {
 		return zkClient;
