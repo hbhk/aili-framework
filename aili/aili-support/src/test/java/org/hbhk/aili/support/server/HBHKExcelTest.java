@@ -24,7 +24,7 @@ public class HBHKExcelTest {
 		List<Object> models = new ArrayList<Object>();
 		for (DeptModel deptModel : deptModels) {
 			models.add(deptModel);
-			System.out.println(deptModel.getDeptName());
+			System.out.println(deptModel.getDeptName()+"--" +deptModel.getSendFileName());
 		}
 
 		File file2 = new File(

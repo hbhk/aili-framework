@@ -7,6 +7,7 @@ public class DeptModel {
 	private String deptCode;
 	private String sendFileName;
 	private Date sendDate;
+	
 
 	public String getDeptName() {
 		return deptName;

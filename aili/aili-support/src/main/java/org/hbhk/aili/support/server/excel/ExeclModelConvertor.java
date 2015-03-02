@@ -117,6 +117,7 @@ public class ExeclModelConvertor {
 
 			}
 			results.add(t);
+			//TODO 读取动态属性
 		}
 		return (T) results;
 
