@@ -13,7 +13,6 @@ import java.util.List;
 
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -67,10 +66,7 @@ public class ExeclModelConvertor {
 		Workbook book = null;
 		try {
 			book = Workbook.getWorkbook(stream);
-		} catch (BiffException e) {
-			log.error("getModel", e);
-			throw new RuntimeException(e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error("getModel", e);
 			throw new RuntimeException(e);
 		}
@@ -116,8 +112,10 @@ public class ExeclModelConvertor {
 				}
 
 			}
-			results.add(t);
 			//TODO 读取动态属性
+			
+			results.add(t);
+			
 		}
 		return (T) results;
 
