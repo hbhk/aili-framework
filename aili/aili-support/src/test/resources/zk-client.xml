@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jee 
+			http://www.springframework.org/schema/jee/spring-jee.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop.xsd
+			">
+
+	<bean id="zkClient" class="org.I0Itec.zkclient.ZkClient">
+		<constructor-arg index="0" value="127.0.0.1:2181">
+		</constructor-arg>
+	</bean>
+	<bean class="org.hbhk.aili.rpc.server.zkclient.ZKListeners">
+		<property name="zkClient" ref="zkClient" />
+		<property name="dataListeners">
+			<list>
+				<ref bean="dataListener" />
+				<ref bean="dataListener1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataListener" class="org.hbhk.aili.rpc.server.zkclient.bean.DataListener"></bean>
+	<bean id="dataListener1" class="org.hbhk.aili.rpc.server.zkclient.bean.DataListener1"></bean>
+</beans>
