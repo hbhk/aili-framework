@@ -1,4 +1,5 @@
-package org.hbhk.aili.rpc.server.zkclient;
+package org.hbhk.aili.rpc.server.zkclient.bean;
+import org.hbhk.aili.rpc.server.zkclient.IDataListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 public class DataListener  implements IDataListener {
@@ -7,7 +8,8 @@ public class DataListener  implements IDataListener {
 
 	@Override
 	public void handleDataChange(String dataPath, Object data) throws Exception {
-		
+		System.out.println("path:"+dataPath);
+    	System.out.println("data:"+data);
 	}
 
 	@Override
@@ -16,7 +18,7 @@ public class DataListener  implements IDataListener {
 	}
 
 	@Override
-	public String getNode() {
+	public String getPath() {
 		return "/hbhk1";
 	}
 }
