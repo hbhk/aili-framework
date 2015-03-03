@@ -32,8 +32,8 @@ public class EmailService implements IEmailService {
 	private Executor executor = Executors.newFixedThreadPool(10);
 	@Autowired
 	protected JavaMailSender mailSender;
-	@Value("${toEmail}")
-	private String toEmail;
+	@Value("${fromEmail}")
+	private String fromEmail;
 
 	/**
 	 * 发送带模板的单个html格式邮件
@@ -49,7 +49,7 @@ public class EmailService implements IEmailService {
 				try {
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(address); // 邮件接收地址
-					helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+					helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 					helper.setSubject(subject); // 主题
 					helper.setText(content, true); // 邮件内容，注意加参数true，表示启用html格式
 					mailSender.send(msg); // 发送邮件
@@ -75,7 +75,7 @@ public class EmailService implements IEmailService {
 				try {
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(address);
-					helper.setFrom(toEmail);
+					helper.setFrom(fromEmail);
 					helper.setSubject(subject);
 					helper.setText(content, true);
 					// 添加内嵌文件，第1个参数为cid标识这个文件,第2个参数为资源
@@ -115,7 +115,7 @@ public class EmailService implements IEmailService {
 					List<String> address = email.getEmails();
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(address.toArray(new String[] {})); // 邮件接收地址
-					helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+					helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 					helper.setSubject(email.getSubject()); // 主题
 					// String htmlText = getMailText(content); // 使用模板生成html邮件内容
 					helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
@@ -144,7 +144,7 @@ public class EmailService implements IEmailService {
 								true, "utf-8");
 						List<String> address = email.getEmails();
 						helper.setTo(address.toArray(new String[] {})); // 邮件接收地址
-						helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+						helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 						helper.setSubject(email.getSubject()); // 主题
 						// String htmlText = getMailText(content); //
 						// 使用模板生成html邮件内容
@@ -182,11 +182,11 @@ public class EmailService implements IEmailService {
 	}
 
 	public String getToEmail() {
-		return toEmail;
+		return fromEmail;
 	}
 
 	public void setToEmail(String toEmail) {
-		this.toEmail = toEmail;
+		this.fromEmail = toEmail;
 	}
 
 	@Override
@@ -203,7 +203,7 @@ public class EmailService implements IEmailService {
 					List<String> emails = email.getEmails();
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(emails.toArray(new String[] {})); // 邮件接收地址
-					helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+					helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 					helper.setSubject(email.getSubject()); // 主题
 					String htmlText = setContextData(email.getContext(), params); // 使用模板生成html邮件内容
 					helper.setText(htmlText, true); // 邮件内容，注意加参数true，表示启用html格式
@@ -232,7 +232,7 @@ public class EmailService implements IEmailService {
 								true, "utf-8");
 						List<String> emails = email.getEmails();
 						helper.setTo(emails.toArray(new String[] {})); // 邮件接收地址
-						helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+						helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 						helper.setSubject(email.getSubject()); // 主题
 						String htmlText = setContextData(email.getContext(),
 								params); //
@@ -259,7 +259,7 @@ public class EmailService implements IEmailService {
 				try {
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(address); // 邮件接收地址
-					helper.setFrom(toEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
+					helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 					helper.setSubject(subject); // 主题
 					String newcontent = setContextData(content, params);
 					helper.setText(newcontent, true); // 邮件内容，注意加参数true，表示启用html格式
@@ -283,7 +283,7 @@ public class EmailService implements IEmailService {
 				try {
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(address);
-					helper.setFrom(toEmail);
+					helper.setFrom(fromEmail);
 					helper.setSubject(subject);
 					String newcontent = setContextData(content, params);
 					helper.setText(newcontent, true);
