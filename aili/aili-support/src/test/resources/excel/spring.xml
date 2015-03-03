@@ -7,9 +7,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<context:component-scan base-package="org.hbhk.aili.support.server.excel.**" />
-
-	<context:annotation-config />
+	<!-- <context:component-scan base-package="org.hbhk.aili.support.server.excel.**" /> -->
 	
 	<bean id="excelManipulatorFactory" class="org.hbhk.aili.support.server.excel.poi.ExcelManipulatorFactory">
 		<property name="config"><value>excel/excel_template.xml</value></property>
@@ -42,5 +40,5 @@
 	<bean id="report5Writer" factory-bean="excelManipulatorFactory" factory-method="createExcelWriter">
 		<constructor-arg><value>excel/reporttemplate-sample4.xlsx</value></constructor-arg>
 		<constructor-arg><value>report5</value></constructor-arg>
-	</bean> 
+	</bean>
 </beans>
