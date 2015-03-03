@@ -23,6 +23,10 @@
 	</bean>
 	<bean class="org.hbhk.aili.support.server.zkclient.ZKListeners">
 		<property name="zkClient" ref="zkClient" />
+		<!--两种方式可以选择其中一种或结合使用都可以  -->
+		<!--包扫描方式 多个包以,分隔  -->
+		<property name="basePackages" value="org.hbhk.aili.support.server.bean"></property>
+		<!--注入方式  -->
 		<property name="dataListeners">
 			<list>
 				<ref bean="dataListener" />

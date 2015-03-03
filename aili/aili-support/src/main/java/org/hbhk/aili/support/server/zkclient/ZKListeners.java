@@ -1,4 +1,5 @@
 package org.hbhk.aili.support.server.zkclient;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.I0Itec.zkclient.IZkStateListener;
@@ -6,7 +7,14 @@ import org.I0Itec.zkclient.ZkClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ClassUtils;
 @Component
 public class ZKListeners implements  InitializingBean {
 	public static final Logger log = LoggerFactory.getLogger(ZKListeners.class);
@@ -14,9 +22,12 @@ public class ZKListeners implements  InitializingBean {
 	private List<IDataListener> dataListeners;
 	private List<IChildListener> childListeners;
 	private IZkStateListener zkStateListener;
-	
+	private String basePackages;
+	private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();  
+    private static final String RESOURCE_PATTERN = "/**/*.class";  
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		initScanPackages();
 		if(dataListeners != null){
 			//添加数据监听
 			for (IDataListener listener : dataListeners) {
@@ -52,6 +63,46 @@ public class ZKListeners implements  InitializingBean {
 		//总监听数
 		log.debug("zk监听数:"+num);
 	}
+	
+	private void initScanPackages() throws Exception{
+		if(basePackages != null){
+			String[] packagesList = basePackages.split(",");
+			for (String pkg : packagesList) {  
+                String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  
+                        ClassUtils.convertClassNameToResourcePath(pkg) + RESOURCE_PATTERN;  
+                Resource[] resources = this.resourcePatternResolver.getResources(pattern);  
+                MetadataReaderFactory readerFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);  
+                for (Resource resource : resources) {  
+                    if (resource.isReadable()) {  
+                        MetadataReader reader = readerFactory.getMetadataReader(resource);  
+                        String className = reader.getClassMetadata().getClassName();  
+                        Class<?> clz =  Class.forName(className);
+                        if(!clz.isInterface()){
+                        	Class<?>[] clsList = clz.getInterfaces();
+                        	for (int i = 0;clsList != null && i < clsList.length; i++) {
+                        		Class<?> cls = clsList[i];
+                        		if(cls.isAssignableFrom(IDataListener.class)){
+                            		IDataListener dataListener = (IDataListener) clz.newInstance();
+                            		if(dataListeners == null){
+                            			dataListeners = new ArrayList<IDataListener>();
+                            		}
+                            		dataListeners.add(dataListener);
+                            	}
+                            	if(cls.isAssignableFrom(IChildListener.class)){
+                            		IChildListener childListener = (IChildListener) clz.newInstance();
+                            		if(childListeners == null){
+                            			childListeners = new ArrayList<IChildListener>();
+                            		}
+                            		childListeners.add(childListener);
+                            	}
+							}
+                        	
+                        }
+                    }  
+                }  
+            }  
+		}
+	}
 	public ZkClient getZkClient() {
 		return zkClient;
 	}
@@ -75,6 +126,14 @@ public class ZKListeners implements  InitializingBean {
 	}
 	public void setChildListeners(List<IChildListener> childListeners) {
 		this.childListeners = childListeners;
+	}
+
+	public String getBasePackages() {
+		return basePackages;
+	}
+
+	public void setBasePackages(String basePackages) {
+		this.basePackages = basePackages;
 	}
 	
 	
