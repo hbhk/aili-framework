@@ -168,7 +168,7 @@ public class EmailService implements IEmailService {
 		template.render(datas, writer);
 		String context = writer.toString();
 		log.debug("email-->> context:" + context);
-		return "context";
+		return context;
 	}
 
 	public String setContextData(Map<String, Object> datas)
