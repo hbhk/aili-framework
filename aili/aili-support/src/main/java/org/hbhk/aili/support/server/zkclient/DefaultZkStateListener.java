@@ -9,12 +9,12 @@ public class DefaultZkStateListener implements IZkStateListener {
 
 	@Override
 	public void handleStateChanged(KeeperState state) throws Exception {
-		log.info("state:"+state);
+		log.warn("state:"+state);
 	}
 
 	@Override
 	public void handleNewSession() throws Exception {
-		log.info("handleNewSession");
+		log.warn("handleNewSession");
 	}
 }
 
