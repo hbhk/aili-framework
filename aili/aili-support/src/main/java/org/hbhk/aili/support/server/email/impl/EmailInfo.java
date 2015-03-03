@@ -1,13 +1,15 @@
 package org.hbhk.aili.support.server.email.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class EmailInfo  implements Serializable{
 
 	private static final long serialVersionUID = 5100697778850407790L;
 	private String subject;
 	private String context;
-	private String email;
+	private List<String> emails;
+	private List<String> attachments;
 	public String getSubject() {
 		return subject;
 	}
@@ -20,13 +22,17 @@ public class EmailInfo  implements Serializable{
 	public void setContext(String context) {
 		this.context = context;
 	}
-	public String getEmail() {
-		return email;
+	public List<String> getEmails() {
+		return emails;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmails(List<String> emails) {
+		this.emails = emails;
 	}
-	
-	
+	public List<String> getAttachments() {
+		return attachments;
+	}
+	public void setAttachments(List<String> attachments) {
+		this.attachments = attachments;
+	}
 	
 }

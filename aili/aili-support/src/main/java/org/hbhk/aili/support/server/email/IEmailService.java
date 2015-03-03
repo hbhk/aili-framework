@@ -1,22 +1,30 @@
 package org.hbhk.aili.support.server.email;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.mail.MessagingException;
+import java.util.Map;
 
 import org.hbhk.aili.support.server.email.impl.EmailInfo;
 
 public interface IEmailService {
 
+	void sendEmail(String subject, String content, String... address)
+			throws Exception ;
+	void sendEmail(String subject, String content,Map<String, Object> params,String... address)
+			throws Exception ;
+	void sendEmailWithAttachment(String subject, String content,List<String> paths,
+			String... address) throws Exception;
+	
+	void sendEmailWithAttachment(String subject, String content,List<String> paths,Map<String, Object> params,
+			String... address) throws Exception;
 	/**
 	 * 发送单个html格式邮件
 	 */
-	void sendEmail(EmailInfo email) throws MessagingException, IOException;
+	void sendEmail(EmailInfo email) throws Exception;
+	void sendEmail(EmailInfo email,Map<String, Object> params) throws Exception;
 
 	/**
 	 * 批量发送html格式邮件
 	 */
-	void sendBatchEmail(List<EmailInfo> emails) throws MessagingException,
-			IOException;
+	void sendBatchEmail(List<EmailInfo> emails) throws Exception;
+	void sendBatchEmail(List<EmailInfo> emails,Map<String, Object> params) throws Exception;
 }
