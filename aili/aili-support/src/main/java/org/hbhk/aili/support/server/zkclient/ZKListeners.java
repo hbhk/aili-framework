@@ -59,9 +59,11 @@ public class ZKListeners implements  InitializingBean {
 		}
 		//添加zk断开重连监听
 		zkClient.subscribeStateChanges(zkStateListener);
-		int num = zkClient.numberOfListeners();
-		//总监听数
-		log.debug("zk监听数:"+num);
+		if(log.isDebugEnabled()){
+			int num = zkClient.numberOfListeners();
+			//总监听数
+			log.debug("zk监听数:"+num);
+		}
 	}
 	
 	private void initScanPackages() throws Exception{
