@@ -199,7 +199,7 @@ public class DefaultExcelReader implements ExcelReader, Serializable {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void readLoopBlock(Workbook wb, int sheetNo, ExcelBlock blockDefinition,
 			OgnlStack stack, ReadStatus readStatus){
 		//Loop Block will only care about row loop
@@ -378,9 +378,12 @@ public class DefaultExcelReader implements ExcelReader, Serializable {
 	private Class<? extends Object> getPropertyType(Object object, String dataName) 
 		throws Exception {
 		//log.debug("Get Class for '" + dataName +"' in " + object.getClass());
+		if(object == null){
+			 return null;
+		}
 		if(object instanceof Map){
 			logger.debug("getPropertyType for Map[{}] with Key {}.", object, dataName);
-			if(object == null) return null;
+		
 			Map<String, Object> map = (Map<String, Object>) object;
 			int delim = dataName.indexOf('.');
 			if(delim > 0){				
