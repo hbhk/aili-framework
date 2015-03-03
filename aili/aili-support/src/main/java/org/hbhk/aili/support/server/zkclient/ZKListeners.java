@@ -23,7 +23,7 @@ public class ZKListeners implements  InitializingBean {
 	private List<IChildListener> childListeners;
 	private IZkStateListener zkStateListener;
 	private String basePackages;
-	private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();  
+	
     private static final String RESOURCE_PATTERN = "/**/*.class";  
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -67,11 +67,12 @@ public class ZKListeners implements  InitializingBean {
 	private void initScanPackages() throws Exception{
 		if(basePackages != null){
 			String[] packagesList = basePackages.split(",");
-			for (String pkg : packagesList) {  
+			for (String pkg : packagesList) { 
+				ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();  
                 String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  
                         ClassUtils.convertClassNameToResourcePath(pkg) + RESOURCE_PATTERN;  
-                Resource[] resources = this.resourcePatternResolver.getResources(pattern);  
-                MetadataReaderFactory readerFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);  
+                Resource[] resources = resourcePatternResolver.getResources(pattern);  
+                MetadataReaderFactory readerFactory = new CachingMetadataReaderFactory(resourcePatternResolver);  
                 for (Resource resource : resources) {  
                     if (resource.isReadable()) {  
                         MetadataReader reader = readerFactory.getMetadataReader(resource);  
