@@ -6,7 +6,7 @@
 //
 
 
-package org.hbhk.aili.support.server.excel.model;
+package org.hbhk.aili.support.server.excel.jxl.model;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

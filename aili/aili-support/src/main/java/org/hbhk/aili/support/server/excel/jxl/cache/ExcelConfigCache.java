@@ -1,9 +1,9 @@
-package org.hbhk.aili.support.server.excel.cache;
+package org.hbhk.aili.support.server.excel.jxl.cache;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.hbhk.aili.support.server.excel.model.Model;
+import org.hbhk.aili.support.server.excel.jxl.model.Model;
 
 public class ExcelConfigCache {
 

@@ -16,8 +16,8 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.support.server.excel.model.Models;
-import org.hbhk.aili.support.server.excel.model.ObjectFactory;
+import org.hbhk.aili.support.server.excel.jxl.model.Models;
+import org.hbhk.aili.support.server.excel.jxl.model.ObjectFactory;
 
 public class OrmConvertor {
 

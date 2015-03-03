@@ -1,4 +1,4 @@
-package org.hbhk.aili.support.server.excel;
+package org.hbhk.aili.support.server.excel.jxl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.share.util.FileLoadUtil;
-import org.hbhk.aili.support.server.excel.cache.ExcelConfigCache;
-import org.hbhk.aili.support.server.excel.model.Entry;
-import org.hbhk.aili.support.server.excel.model.Model;
-import org.hbhk.aili.support.server.excel.model.Property;
+import org.hbhk.aili.support.server.excel.jxl.cache.ExcelConfigCache;
+import org.hbhk.aili.support.server.excel.jxl.model.Entry;
+import org.hbhk.aili.support.server.excel.jxl.model.Model;
+import org.hbhk.aili.support.server.excel.jxl.model.Property;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.core.io.Resource;

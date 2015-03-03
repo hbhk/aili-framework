@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.hbhk.aili.support.server.excel.model.Models;
+import org.hbhk.aili.support.server.excel.jxl.model.Models;
 
 public class ExcelTest {
 

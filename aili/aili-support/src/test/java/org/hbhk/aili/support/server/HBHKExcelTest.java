@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.hbhk.aili.support.server.excel.ExeclModelConvertor;
+import org.hbhk.aili.support.server.excel.jxl.ExeclModelConvertor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

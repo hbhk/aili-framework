@@ -1,4 +1,4 @@
-package org.hbhk.aili.support.server.excel.convertor;
+package org.hbhk.aili.support.server.excel.jxl.convertor;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
@@ -16,8 +16,8 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.support.server.excel.model.Models;
-import org.hbhk.aili.support.server.excel.model.ObjectFactory;
+import org.hbhk.aili.support.server.excel.jxl.model.Models;
+import org.hbhk.aili.support.server.excel.jxl.model.ObjectFactory;
 import org.hbhk.aili.support.server.util.JAXBContextUtil;
 
 public class ExcelConvertor {

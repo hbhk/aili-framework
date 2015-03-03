@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.hbhk.org/orm/excel", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.hbhk.aili.support.server.excel.model;
+package org.hbhk.aili.support.server.excel.jxl.model;

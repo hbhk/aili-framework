@@ -6,7 +6,7 @@
 //
 
 
-package org.hbhk.aili.support.server.excel.model;
+package org.hbhk.aili.support.server.excel.jxl.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

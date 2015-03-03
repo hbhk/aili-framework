@@ -1,8 +1,7 @@
 package org.hbhk.aili.support.server;
 
-import java.io.IOException;
-
-import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hbhk.aili.core.server.web.WebApplicationContextHolder;
 import org.hbhk.aili.support.server.email.IEmailService;
@@ -12,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MailTest {
 
-	public static void main(String[] args) throws MessagingException, IOException {
+	public static void main(String[] args) throws Exception {
 		
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(
 				"spring.xml");
@@ -22,7 +21,9 @@ public class MailTest {
 		EmailInfo emailInfo = new EmailInfo();
 		emailInfo.setSubject("hbhk");
 		emailInfo.setContext("hbhk");
-		emailInfo.setEmail("1024784402@qq.com");
+		List<String> list = new  ArrayList<String>();
+		list.add("1024784402@qq.com");
+		emailInfo.setEmails(list);
 		sender.sendEmail(emailInfo);
 
 	}
