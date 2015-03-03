@@ -33,7 +33,7 @@ public class ExcelWriterTest {
 	private ApplicationContext ac;
 
 	@Autowired
-	//@Qualifier("report1Writer")
+	@Qualifier("report1Writer")
 	private ExcelWriter report1ExcelWriter;
 
 	@Autowired
