@@ -271,6 +271,9 @@ public class DefaultExcelWriter implements ExcelWriter, Serializable {
 		    Sheet sheet = wb.getSheetAt(sheetNum);
 		    for(Row r : sheet) {
 		        for(Cell c : r) {
+		        	if(Cell.CELL_TYPE_ERROR==c.getCellType() ){
+		        		continue;
+		        	}
 		            if(c.getCellType() == Cell.CELL_TYPE_FORMULA) {
 		                evaluator.evaluateFormulaCell(c);
 		            }
