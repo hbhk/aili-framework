@@ -32,7 +32,7 @@ public class EmailService implements IEmailService {
 	private Executor executor = Executors.newFixedThreadPool(10);
 	@Autowired
 	protected JavaMailSender mailSender;
-	@Value("${fromEmail}")
+	@Value("${email.username}")
 	private String fromEmail;
 
 	/**
