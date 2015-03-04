@@ -10,18 +10,18 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoxiaSupportSettings {
-final static Logger logger = LoggerFactory.getLogger(LoxiaSupportSettings.class);
+public class SupportSettings {
+final static Logger logger = LoggerFactory.getLogger(SupportSettings.class);
 	
-	private static LoxiaSupportSettings instance;
-	private static final String[] CONFIGS = new String[]{"loxiasupport","loxia/support-default"};
+	private static SupportSettings instance;
+	private static final String[] CONFIGS = new String[]{"excel-support","excel/support-default"};
 	
 	private List<Properties> props = new ArrayList<Properties>(); 
 	
-	private LoxiaSupportSettings(){
+	private SupportSettings(){
 		for(String config: CONFIGS){
 			InputStream is = getResourceAsStream(
-					config + ".properties", LoxiaSupportSettings.class);
+					config + ".properties", SupportSettings.class);
 			if(is != null){
 				Properties prop = new Properties();
 				try {
@@ -37,8 +37,8 @@ final static Logger logger = LoggerFactory.getLogger(LoxiaSupportSettings.class)
 		}
 	}
 	
-	public static LoxiaSupportSettings getInstance(){
-		if(instance == null) instance = new LoxiaSupportSettings();		
+	public static SupportSettings getInstance(){
+		if(instance == null) instance = new SupportSettings();		
 		return instance;
 	}
 	
@@ -64,7 +64,7 @@ final static Logger logger = LoggerFactory.getLogger(LoxiaSupportSettings.class)
         URL url = null;
         url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
         if (url == null) {
-            url = LoxiaSupportSettings.class.getClassLoader().getResource(resourceName);
+            url = SupportSettings.class.getClassLoader().getResource(resourceName);
         }
         if (url == null) {
             url = callingClass.getClassLoader().getResource(resourceName);

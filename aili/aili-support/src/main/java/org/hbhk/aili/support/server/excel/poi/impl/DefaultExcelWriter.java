@@ -27,8 +27,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.hbhk.aili.support.server.excel.poi.ExcelUtil;
 import org.hbhk.aili.support.server.excel.poi.ExcelWriter;
-import org.hbhk.aili.support.server.excel.poi.LoxiaSupportConstants;
-import org.hbhk.aili.support.server.excel.poi.LoxiaSupportSettings;
+import org.hbhk.aili.support.server.excel.poi.SupportConstants;
+import org.hbhk.aili.support.server.excel.poi.SupportSettings;
 import org.hbhk.aili.support.server.excel.poi.WriteStatus;
 import org.hbhk.aili.support.server.excel.poi.definition.ExcelBlock;
 import org.hbhk.aili.support.server.excel.poi.definition.ExcelCell;
@@ -644,8 +644,8 @@ public class DefaultExcelWriter implements ExcelWriter, Serializable {
 				}
 				style.setDataFormat(
 						cell.getSheet().getWorkbook().getCreationHelper().createDataFormat()
-							.getFormat(LoxiaSupportSettings.getInstance().
-									get(LoxiaSupportConstants.DATE_PATTERN))
+							.getFormat(SupportSettings.getInstance().
+									get(SupportConstants.DATE_PATTERN))
 						);
 				cell.setCellStyle(style);
 			}					

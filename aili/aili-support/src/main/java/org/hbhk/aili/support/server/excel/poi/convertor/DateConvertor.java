@@ -6,16 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.DateUtil;
-import org.hbhk.aili.support.server.excel.poi.LoxiaSupportConstants;
-import org.hbhk.aili.support.server.excel.poi.LoxiaSupportSettings;
+import org.hbhk.aili.support.server.excel.poi.SupportConstants;
+import org.hbhk.aili.support.server.excel.poi.SupportSettings;
 import org.hbhk.aili.support.server.excel.poi.definition.ExcelCell;
 import org.hbhk.aili.support.server.excel.poi.exception.ErrorCode;
 import org.hbhk.aili.support.server.excel.poi.exception.ExcelManipulateException;
 
 public class DateConvertor implements DataConvertor<Date> {
 	
-	private String datePattern = LoxiaSupportSettings.getInstance().
-		get(LoxiaSupportConstants.DATE_PATTERN);
+	private String datePattern = SupportSettings.getInstance().
+		get(SupportConstants.DATE_PATTERN);
 	
 	public String getDatePattern() {
 		return datePattern;
