@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import org.hbhk.aili.rpc.server.dubbo.TableConfig;
 import org.hbhk.aili.rpc.share.model.PersonEntity;
 /**
  * 
@@ -14,4 +15,6 @@ import org.hbhk.aili.rpc.share.model.PersonEntity;
  */
 public interface IPersonService extends Remote {
 	List<PersonEntity> getList() throws RemoteException;
+	
+	String deal1(TableConfig test ,String data) throws RemoteException;
 }

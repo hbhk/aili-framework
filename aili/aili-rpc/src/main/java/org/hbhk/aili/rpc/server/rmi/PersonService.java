@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hbhk.aili.rpc.server.dubbo.TableConfig;
 import org.hbhk.aili.rpc.share.model.PersonEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,5 +44,9 @@ public class PersonService extends UnicastRemoteObject implements
 		personList.add(person2);
 
 		return personList;
+	}
+	@Override
+	public String deal1(TableConfig test, String data) {
+		return test.getCaption()+"";
 	}
 }
