@@ -10,4 +10,9 @@ public class ProcessData implements IProcessData {
 		}
 		return "Finished:" + data;
 	}
+
+	@Override
+	public String deal1(TableConfig test, String data) {
+		return test.getCaption()+"";
+	}
 }
