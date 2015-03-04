@@ -310,4 +310,12 @@ public class EmailService implements IEmailService {
 		});
 	}
 
+	public String getFromEmail() {
+		return fromEmail;
+	}
+
+	public void setFromEmail(String fromEmail) {
+		this.fromEmail = fromEmail;
+	}
+
 }

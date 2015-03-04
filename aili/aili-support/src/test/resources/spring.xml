@@ -30,6 +30,7 @@
 	</bean>
 	<bean id="emailService" class="org.hbhk.aili.support.server.email.impl.EmailService">
 		<property name="mailSender" ref="mailSender"/>
+		<property name="fromEmail" value="${email.username}"/>
 	</bean>
 
 </beans>
