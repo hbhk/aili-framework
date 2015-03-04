@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,9 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +29,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.NumberToTextConverter;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hbhk.aili.support.server.excel.poi.ExcelUtil;
 import org.hbhk.aili.support.server.excel.poi.ExcelWriter;
 import org.hbhk.aili.support.server.excel.poi.SupportConstants;
@@ -253,7 +260,13 @@ public class DefaultExcelWriter implements ExcelWriter, Serializable {
 	}
 	
 	private void reCalculateWorkbook(Workbook wb){
-		FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+		FormulaEvaluator evaluator=null;  
+        if(wb instanceof HSSFWorkbook)  {
+        	evaluator=new HSSFFormulaEvaluator((HSSFWorkbook) wb);  
+        } else if(wb instanceof XSSFWorkbook)  {
+        	evaluator=new XSSFFormulaEvaluator((XSSFWorkbook) wb);  
+        }
+		//FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
 		for(int sheetNum = 0; sheetNum < wb.getNumberOfSheets(); sheetNum++) {
 		    Sheet sheet = wb.getSheetAt(sheetNum);
 		    for(Row r : sheet) {
@@ -709,7 +722,45 @@ public class DefaultExcelWriter implements ExcelWriter, Serializable {
 			logger.error("Init Write Template Error");
 		}
 	}
-	
+	public final static String DATE_OUTPUT_PATTERNS = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
+	public String getCellValue(Cell cell) {
+			String ret;
+			switch (cell.getCellType()) {
+			case Cell.CELL_TYPE_BLANK:
+				ret = "";
+				break;
+			case Cell.CELL_TYPE_BOOLEAN:
+				ret = String.valueOf(cell.getBooleanCellValue());
+				break;
+			case Cell.CELL_TYPE_ERROR:
+				ret = null;
+				break;
+			case Cell.CELL_TYPE_FORMULA:
+				Workbook wb = cell.getSheet().getWorkbook();
+				CreationHelper crateHelper = wb.getCreationHelper();
+				FormulaEvaluator evaluator = crateHelper.createFormulaEvaluator();
+				ret = getCellValue(evaluator.evaluateInCell(cell));
+				break;
+			case Cell.CELL_TYPE_NUMERIC:
+				if (DateUtil.isCellDateFormatted(cell)) { 
+					Date theDate = cell.getDateCellValue();
+					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SupportSettings.getInstance().get(SupportConstants.DATE_PATTERN));
+					ret = simpleDateFormat.format(theDate);
+				} else { 
+					ret = NumberToTextConverter.toText(cell.getNumericCellValue());
+				}
+				break;
+			case Cell.CELL_TYPE_STRING:
+				ret = cell.getRichStringCellValue().getString();
+				break;
+			default:
+				ret = null;
+			}
+			
+			return ret; //有必要自行trim
+	}
+
 	public ExcelManipulatorDefinition getDefinition() {
 		return definition;
 	}
