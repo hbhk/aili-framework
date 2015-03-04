@@ -48,6 +48,9 @@ final static Logger logger = LoggerFactory.getLogger(SupportSettings.class);
 			result = prop.getProperty(name);
 			if(result != null) break;
 		}
+		if(result==null){
+			result = "yyyy-MM-dd HH:mm:ss";
+		}
 		return result;
 	}
 	
