@@ -18,6 +18,7 @@ import jetbrick.template.ResourceNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hbhk.aili.support.server.email.IEmailCallBack;
 import org.hbhk.aili.support.server.email.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,19 @@ public class EmailService implements IEmailService {
 	protected JavaMailSender mailSender;
 	@Value("${email.username}")
 	private String fromEmail;
-
+	
+	@Autowired(required=false)
+	private IEmailCallBack emailCallBack;
+	
+	private void emailCallBack(String[] address,boolean flag){
+		if(emailCallBack!=null){
+			if(flag){
+				emailCallBack.success(address);
+			}else{
+				emailCallBack.fail(address);
+			}
+		}
+	}
 	/**
 	 * 发送带模板的单个html格式邮件
 	 */
@@ -53,8 +66,10 @@ public class EmailService implements IEmailService {
 					helper.setSubject(subject); // 主题
 					helper.setText(content, true); // 邮件内容，注意加参数true，表示启用html格式
 					mailSender.send(msg); // 发送邮件
+					emailCallBack(address, true);
 				} catch (Exception e) {
 					log.error("sead emial error", e);
+					emailCallBack(address, false);
 				}
 			}
 		});
@@ -94,8 +109,10 @@ public class EmailService implements IEmailService {
 					// MimeUtility.encodeWord(String word,String charset,String
 					// encoding)
 					mailSender.send(msg);
+					emailCallBack(address, true);
 				} catch (Exception e) {
 					log.error("sead emial error", e);
+					emailCallBack(address, false);
 				}
 			}
 		});
@@ -111,8 +128,9 @@ public class EmailService implements IEmailService {
 				MimeMessage msg = mailSender.createMimeMessage();
 				// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
 				MimeMessageHelper helper;
+				List<String> address =null;
 				try {
-					List<String> address = email.getEmails();
+					address = email.getEmails();
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(address.toArray(new String[] {})); // 邮件接收地址
 					helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
@@ -120,8 +138,10 @@ public class EmailService implements IEmailService {
 					// String htmlText = getMailText(content); // 使用模板生成html邮件内容
 					helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
 					mailSender.send(msg); // 发送邮件
+					emailCallBack(address.toArray(new String[]{}), true);
 				} catch (Exception e) {
 					log.error("sead emial error", e);
+					emailCallBack(address.toArray(new String[]{}), false);
 				}
 
 			}
@@ -137,12 +157,13 @@ public class EmailService implements IEmailService {
 			@Override
 			public void run() {
 				for (EmailInfo email : emails) {
+					List<String> address = null;
 					try {
 						MimeMessage msg = mailSender.createMimeMessage();
 						// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
 						MimeMessageHelper helper = new MimeMessageHelper(msg,
 								true, "utf-8");
-						List<String> address = email.getEmails();
+						address = email.getEmails();
 						helper.setTo(address.toArray(new String[] {})); // 邮件接收地址
 						helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 						helper.setSubject(email.getSubject()); // 主题
@@ -150,8 +171,10 @@ public class EmailService implements IEmailService {
 						// 使用模板生成html邮件内容
 						helper.setText(email.getContext(), true); // 邮件内容，注意加参数true，表示启用html格式
 						mailSender.send(msg); // 发送邮件
+						emailCallBack(address.toArray(new String[]{}), true);
 					} catch (Exception e) {
 						log.error("sead emial error", e);
+						emailCallBack(address.toArray(new String[]{}), false);
 					}
 
 				}
@@ -199,8 +222,9 @@ public class EmailService implements IEmailService {
 				MimeMessage msg = mailSender.createMimeMessage();
 				// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
 				MimeMessageHelper helper;
+				List<String> emails = null;
 				try {
-					List<String> emails = email.getEmails();
+					emails = email.getEmails();
 					helper = new MimeMessageHelper(msg, true, "utf-8");
 					helper.setTo(emails.toArray(new String[] {})); // 邮件接收地址
 					helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
@@ -208,8 +232,10 @@ public class EmailService implements IEmailService {
 					String htmlText = setContextData(email.getContext(), params); // 使用模板生成html邮件内容
 					helper.setText(htmlText, true); // 邮件内容，注意加参数true，表示启用html格式
 					mailSender.send(msg); // 发送邮件
+					emailCallBack(emails.toArray(new String[]{}), true);
 				} catch (Exception e) {
 					log.error("sead emial error", e);
+					emailCallBack(emails.toArray(new String[]{}), false);
 				}
 
 			}
@@ -225,13 +251,14 @@ public class EmailService implements IEmailService {
 			@Override
 			public void run() {
 				for (EmailInfo email : emails) {
+					List<String> address =null;
 					try {
 						MimeMessage msg = mailSender.createMimeMessage();
 						// 设置utf-8或GBK编码，否则邮件会有乱码，true表示为multipart邮件
 						MimeMessageHelper helper = new MimeMessageHelper(msg,
 								true, "utf-8");
-						List<String> emails = email.getEmails();
-						helper.setTo(emails.toArray(new String[] {})); // 邮件接收地址
+						address = email.getEmails();
+						helper.setTo(address.toArray(new String[] {})); // 邮件接收地址
 						helper.setFrom(fromEmail); // 邮件发送地址,这里必须和xml里的邮件地址相同一致
 						helper.setSubject(email.getSubject()); // 主题
 						String htmlText = setContextData(email.getContext(),
@@ -239,8 +266,10 @@ public class EmailService implements IEmailService {
 						// 使用模板生成html邮件内容
 						helper.setText(htmlText, true); // 邮件内容，注意加参数true，表示启用html格式
 						mailSender.send(msg); // 发送邮件
+						emailCallBack(address.toArray(new String[]{}), true);
 					} catch (Exception e) {
 						log.error("sead emial error", e);
+						emailCallBack(address.toArray(new String[]{}), false);
 					}
 				}
 			}
@@ -264,8 +293,10 @@ public class EmailService implements IEmailService {
 					String newcontent = setContextData(content, params);
 					helper.setText(newcontent, true); // 邮件内容，注意加参数true，表示启用html格式
 					mailSender.send(msg); // 发送邮件
+					emailCallBack(address, true);
 				} catch (Exception e) {
 					log.error("sead emial error", e);
+					emailCallBack(address, false);
 				}
 			}
 		});
@@ -303,8 +334,10 @@ public class EmailService implements IEmailService {
 					// MimeUtility.encodeWord(String word,String charset,String
 					// encoding)
 					mailSender.send(msg);
+					emailCallBack(address, true);
 				} catch (Exception e) {
 					log.error("sead emial error", e);
+					emailCallBack(address, false);
 				}
 			}
 		});
