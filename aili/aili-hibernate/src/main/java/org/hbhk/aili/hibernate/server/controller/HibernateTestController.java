@@ -2,7 +2,6 @@ package org.hbhk.aili.hibernate.server.controller;
 
 import javax.annotation.Resource;
 
-import org.hbhk.aili.core.server.annotation.SecurityFilter;
 import org.hbhk.aili.hibernate.server.service.ICateService;
 import org.hbhk.aili.hibernate.share.model.Category;
 import org.hbhk.aili.hibernate.share.model.User;
@@ -17,7 +16,6 @@ public class HibernateTestController {
 	ICateService cateService;
 
 	@RequestMapping("/t1")
-	@SecurityFilter(false)
 	@ResponseBody
 	public String t1() {
 		User user = new User();
@@ -28,7 +26,6 @@ public class HibernateTestController {
 	}
 
 	@RequestMapping("/t2")
-	@SecurityFilter(false)
 	@ResponseBody
 	public String t2() {
 		Category c = new Category();
