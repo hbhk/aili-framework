@@ -28,7 +28,7 @@ public class OrmContext {
 		OrmConvertor convertor = new OrmConvertor();
 
 		List<String> orms = scanUtil.scanBeansXml(
-				PropertiesUtil.getPValue(path));
+				PropertiesUtil.getPValue(path),"xml");
 		for (String str : orms) {
 			Orm orm = convertor.toMessage(str);
 			List<Insert> inserts = orm.getInsert();
