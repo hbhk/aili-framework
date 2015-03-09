@@ -64,7 +64,11 @@ public class IOHelper {
 		FileOutputStream fileDest = new FileOutputStream(dest);
 		copyInputStream(fileSrc, fileDest,4096);
 	}
-
+	public static void copyFile(File src, File dest,int buffer) throws IOException {
+		FileInputStream fileSrc = new FileInputStream(src);
+		FileOutputStream fileDest = new FileOutputStream(dest);
+		copyInputStream(fileSrc, fileDest,buffer);
+	}
 	public static void copyInputStream(InputStream in, OutputStream out,int buffer)
 			throws IOException {
 		byte[] bts = new byte[buffer];
