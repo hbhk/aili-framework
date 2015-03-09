@@ -67,7 +67,7 @@ public class IOHelper {
 
 	public static void copyInputStream(InputStream in, OutputStream out,int buffer)
 			throws IOException {
-		byte[] bts = new byte[4096];
+		byte[] bts = new byte[buffer];
 		int len = in.read(bts);
 		while (len >= 0) {
 			out.write(bts, 0, len);
