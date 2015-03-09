@@ -11,17 +11,14 @@
            http://www.springframework.org/schema/mvc   
            http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-	<bean id="resourceBean" class="org.hbhk.aili.core.server.context.ResourceRoot"
-		init-method="init" />
-
 	<!-- 约定优于配置，约定优于配置 -->
 
 	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理-->
-	<mvc:resources mapping="#{resourceBean.resourcePrefix}/images/**"
+	<mvc:resources mapping="/images/**"
 		location="/images/" cache-period="31556926"/>
-	<mvc:resources mapping="#{resourceBean.resourcePrefix}/scripts/**"
+	<mvc:resources mapping="/scripts/**"
 		location="/scripts/" />
-	<mvc:resources mapping="#{resourceBean.resourcePrefix}/styles/**"
+	<mvc:resources mapping="/styles/**"
 		location="/styles/" />
 
 	<!-- 异常统一处理 -->
@@ -108,7 +105,7 @@
 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView">
-			<value>/framework/error/error</value> <!-- 接受界面 -->
+			<value>/error/error</value> <!-- 接受界面 -->
 		</property>
 		<property name="defaultStatusCode">
 			<value>500</value> <!-- 错误类型 -->
