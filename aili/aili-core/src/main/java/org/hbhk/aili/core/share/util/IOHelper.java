@@ -13,10 +13,6 @@ import org.slf4j.LoggerFactory;
 public class IOHelper {
 	public static final Logger log = LoggerFactory.getLogger(IOHelper.class);
 
-	protected static final int MAX_DIR_NAME_LENGTH = Integer.valueOf(System.getProperty("MaximumDirNameLength", "200")).intValue();
-	protected static final int MAX_FILE_NAME_LENGTH = Integer.valueOf(System.getProperty("MaximumFileNameLength", "64")).intValue();
-
-
 	public static boolean deleteFile(File fileToDelete) {
 		if ((fileToDelete == null) || (!fileToDelete.exists())) {
 			return true;
