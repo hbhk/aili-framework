@@ -71,7 +71,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
-		<url-pattern>*.htm</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- struts2 -->
@@ -110,7 +110,7 @@
 	</servlet-mapping> -->
 	
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>/</welcome-file>
 	</welcome-file-list>
 
 </web-app>
