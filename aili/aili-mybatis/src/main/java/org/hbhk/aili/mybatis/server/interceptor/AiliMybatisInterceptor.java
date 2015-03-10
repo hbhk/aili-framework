@@ -26,7 +26,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor.BoundSqlSqlSource;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 import org.hbhk.aili.mybatis.server.support.Pagination;
-import org.hbhk.aili.mybatis.share.model.BaseInfo;
+import org.hbhk.aili.mybatis.share.model.BaseModel;
 import org.hbhk.aili.mybatis.share.util.FieldColumn;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
 
@@ -146,7 +146,7 @@ public class AiliMybatisInterceptor implements Interceptor {
 				builder.resultMaps(resultMaps);
 			}else {
 				if(id.indexOf("!") < 0){
-					if(type.isAssignableFrom(BaseInfo.class) || type.isAssignableFrom(Pagination.class)){
+					if(type.isAssignableFrom(BaseModel.class) || type.isAssignableFrom(Pagination.class)){
 						//处理属性和列名不一样的
 						List<ResultMapping> resultMappings= getResultMapping(gnericInterfaceType, ms);
 						ResultMap.Builder reBuilder = new ResultMap.Builder(

@@ -11,8 +11,8 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.StatementType;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
-import org.hbhk.aili.mybatis.share.model.BaseInfo;
-public interface IBaseDao<T extends BaseInfo, PK> {
+import org.hbhk.aili.mybatis.share.model.BaseModel;
+public interface IBaseDao<T extends BaseModel, PK> {
 
 	@InsertProvider(type = DynamicSqlTemplate.class, method = "insert")
 	@SelectKey(statement={"select last_insert_id() as id"},keyProperty="id",before =false,

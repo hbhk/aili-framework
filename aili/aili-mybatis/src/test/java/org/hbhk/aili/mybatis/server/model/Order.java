@@ -1,8 +1,8 @@
 package org.hbhk.aili.mybatis.server.model;
 
-import org.hbhk.aili.mybatis.share.model.BaseInfo;
+import org.hbhk.aili.mybatis.share.model.BaseModel;
 
-public class Order extends BaseInfo{
+public class Order extends BaseModel{
 	private static final long serialVersionUID = -8042656832011605832L;
 	private Long id;
 	private double price;

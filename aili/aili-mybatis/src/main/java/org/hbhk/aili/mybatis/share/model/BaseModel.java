@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Id;
 
-public class BaseInfo implements Serializable {
+public class BaseModel implements Serializable {
 	private static final long serialVersionUID = 5009300140634580156L;
 	@Column("id")
 	@Id

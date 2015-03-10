@@ -2,9 +2,9 @@ package org.hbhk.aili.mybatis.server.model;
 
 import java.util.List;
 
-import org.hbhk.aili.mybatis.share.model.BaseInfo;
+import org.hbhk.aili.mybatis.share.model.BaseModel;
 
-public class Person extends BaseInfo{
+public class Person extends BaseModel{
 
 	private static final long serialVersionUID = 5710475763489918931L;
 	private Long id;
