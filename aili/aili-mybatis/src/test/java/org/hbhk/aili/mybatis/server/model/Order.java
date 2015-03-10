@@ -1,7 +1,10 @@
 package org.hbhk.aili.mybatis.server.model;
 
-public class Order {
-	private int id;
+import org.hbhk.aili.mybatis.share.model.BaseInfo;
+
+public class Order extends BaseInfo{
+	private static final long serialVersionUID = -8042656832011605832L;
+	private Long id;
 	private double price;
 	private Person person;
 
@@ -13,11 +16,11 @@ public class Order {
 		this.person = person;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -32,11 +35,6 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", price=" + price + "]";
-	}
-
-	public Order() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

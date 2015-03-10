@@ -2,17 +2,20 @@ package org.hbhk.aili.mybatis.server.model;
 
 import java.util.List;
 
-public class Person {
+import org.hbhk.aili.mybatis.share.model.BaseInfo;
 
-	private int id;
+public class Person extends BaseInfo{
+
+	private static final long serialVersionUID = 5710475763489918931L;
+	private Long id;
 	private String name;
 	private List<Order> orderList;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -35,18 +38,6 @@ public class Person {
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", name=" + name + "]";
-	}
-
-	public Person() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Person(int id, String name, List<Order> orderList) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.orderList = orderList;
 	}
 
 }
