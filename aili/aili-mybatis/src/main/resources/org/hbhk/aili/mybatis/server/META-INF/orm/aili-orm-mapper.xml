@@ -3,19 +3,108 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hbhk.aili.mybatis.server.dao.IUserDao">
+	<typeAliases>
+		<!--给实体类起一个别名 user -->
+		<typeAlias type="org.hbhk.aili.mybatis.share.model.UserInfo"
+			alias="User" />
+	</typeAliases>
 	<resultMap type="org.hbhk.aili.mybatis.share.model.UserInfo"
 		id="userMap">
 		<result column="id" property="id" />
 		<result column="name" property="name" />
 	</resultMap>
-	<select id="get1" resultType="org.hbhk.aili.mybatis.share.model.UserInfo">
-		select *from t_aili_user
+	<!-- 一对多 -->
+	<resultMap type="org.hbhk.aili.mybatis.server.model.Person"
+		id="PersonreSultMap">
+		<id column="p_id" property="id" />
+		<result column="name" property="name" />
+		<collection property="orderList"
+			ofType="org.hbhk.aili.mybatis.server.model.Order" column="pid">
+			<id column="o_id" property="id" />
+			<result column="code" property="code" />
+		</collection>
+	</resultMap>
+	<select id="selectPersonFetchOrder" parameterType="int"
+		resultMap="personreSultMap">
+		select p.*,o.* from person p,order o where o.pid=p.p_id and p.p_id=#{id}
 	</select>
-	<insert id="insertUser" parameterType="org.hbhk.aili.mybatis.share.model.BaseInfo" >
+	<!--多对一 -->
+	<resultMap type="org.hbhk.aili.mybatis.server.model.Order"
+		id="OrderResultMap">
+		<id column="o_id" property="id" />
+		<result column="price" property="price" />
+		<association property="person"
+			javaType="org.hbhk.aili.mybatis.server.model.Person">
+			<id column="p_id" property="id" />
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+	<select id="selectOrdersFetchPerson" resultMap="OrdersResultMap">
+		select p.*,o.* from person p,order o where o.pid=p.p_id and o.o_id=#{id}
+	</select>
+	<sql id="user_select">select *from t_aili_user</sql>
+	<!--简单查询 -->
+	<select id="get1" resultType="User">
+		<include refid="user_select"/>
+	</select>
+	<!-- sql片段 -->
+	<sql id="user_update">
+		<!--设置当前上下文变量  -->
+		<bind name="" value=""/>
+		<choose>  
+	        <when test="name != null">  
+	            and name = #{name}  
+	        </when>  
+	        <when test="creatUser != null">  
+	            and creatUser = #{creatUser}  
+	        </when>  
+	        <otherwise>  
+	            and status = 1  
+	        </otherwise>  
+    	</choose>  
+		<if test="name != null">  
+            and name = #{name}  
+        </if>  
+		<!-- 解决动态更新sql错误 -->
+		<set></set>
+		<!-- 解决动态更新sql错误 -->
+		<where>
+		
+		</where>
+		<!-- 与 where标签等价-->
+		<trim></trim>
+		
+	</sql>
+	<!--插入 -->
+	<insert id="insertUser" parameterType="org.hbhk.aili.mybatis.share.model.BaseInfo">
 		<selectKey resultType="java.lang.Long" keyProperty="id">
-			select last_insert_id() as id
+			select
+			last_insert_id() as id
 		</selectKey>
-		insert into t_aili_user (name,creatUser,createTime,updateUser,updateTime,status) 
+		insert into t_aili_user
+		(name,creatUser,createTime,updateUser,updateTime,status)
 		values(#{name},#{creatUser},#{createTime},#{updateUser},#{updateTime},#{status})
 	</insert>
+	<!--批量插入 -->
+	<insert id="addTrainRecordBatch" useGeneratedKeys="true"
+		parameterType="java.util.List">
+		<selectKey resultType="java.lang.Long" keyProperty="id">
+			select
+			last_insert_id() as id
+		</selectKey>
+		insert into t_aili_user(name,creatUser,createTime,updateUser,updateTime,status) 
+		values
+		<foreach collection="list" item="user" index="index"
+			separator=",">
+			(#{user.name},#{user.creatUser},#{user.createTime},#{user.updateUser},#{user.updateTime},#{user.status})
+		</foreach>
+	</insert>
+	<!-- 批量操作   (修改和删除操作相同)-->
+	<select id="batchUpdateStudentWithMap" parameterType="java.util.Map" >  
+	 	 select *from t_aili_user where id id    
+	    <foreach collection="idList" index="index" item="id" open="(" separator="," close=")">   
+	        #{id}   
+	    </foreach>  
+	</select>
+	
 </mapper>
