@@ -419,15 +419,9 @@ public class DynamicSqlTemplate implements InitializingBean {
 			}
 		}
 	}
-
 	private String getTableName() {
-		String tabName = getType().getAnnotation(Table.class).value();
-		tabName = nameHandler.getTableName(tabName);
-		return tabName;
-	}
-
-	private Class<?> getType() {
-		return GnericInterfaceTypeContext.getType();
+		ModelInfo modelInfo = tabs.get(getKey());
+		return modelInfo.getTable();
 	}
 	private String getKey() {
 		return GnericInterfaceTypeContext.getType().getName();
