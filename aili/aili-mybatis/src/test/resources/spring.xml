@@ -41,6 +41,7 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<!-- <mybatis:scan base-package="org.hbhk.**.server.dao"/> -->
+	<!-- <mybatis:scan base-package="" marker-interface="" annotation="" name-generator="" factory-ref="" template-ref=""/> -->
 	 <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.hbhk.**.server.dao"></property>
 		<property name="markerInterface" value="org.hbhk.aili.mybatis.server.dao.IBaseDao" />
