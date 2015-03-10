@@ -3,13 +3,9 @@ package org.hbhk.aili.mybatis.share.model;
 import java.util.Date;
 
 import org.hbhk.aili.mybatis.server.annotation.Column;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BizBaseModel extends BaseModel {
 	private static final long serialVersionUID = 2088264869615355602L;
-	public static final Logger log = LoggerFactory
-			.getLogger(BizBaseModel.class);
 	
 	@Column("creatUser")
 	private String creatUser;
