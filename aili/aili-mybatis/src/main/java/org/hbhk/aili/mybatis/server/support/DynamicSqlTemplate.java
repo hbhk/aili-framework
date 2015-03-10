@@ -12,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.core.server.annotation.AnnotationScanning;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
+import org.hbhk.aili.mybatis.server.handler.DefaultNameHandler;
+import org.hbhk.aili.mybatis.server.handler.INameHandler;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DynamicSqlTemplate implements InitializingBean {
 
+	private INameHandler nameHandler;
+	
 	/**
 	 * 多个包用,分割
 	 */
@@ -366,6 +370,9 @@ public class DynamicSqlTemplate implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		if(nameHandler == null){
+			nameHandler = new DefaultNameHandler();
+		}
 		if (StringUtils.isNotEmpty(autoTablePath)) {
 			String[] autoTablePaths = autoTablePath.split(",");
 			List<Class<?>> tabClasses = AnnotationScanning.getInstance()
@@ -379,7 +386,9 @@ public class DynamicSqlTemplate implements InitializingBean {
 					List<String> fieldList = new ArrayList<String>();
 					StringBuilder columnFields = new StringBuilder();
 					String pk = SqlUtil.getpriKey(fields);
+					pk = nameHandler.getPrimaryName(pk);
 					String tabName = tab.getAnnotation(Table.class).value();
+					tabName = nameHandler.getTableName(tabName);
 					Map<String, String> fieldColumnMap = new HashMap<String, String>();
 					for (Field field : fields) {
 						Column col = field.getAnnotation(Column.class);
@@ -388,6 +397,7 @@ public class DynamicSqlTemplate implements InitializingBean {
 //							continue;
 //						}
 						String fieldName = field.getName();
+						colName = nameHandler.getColumnName(colName);
 						columnList.add(colName);
 						fieldList.add(fieldName);
 						columnFields.append(colName + ",");
@@ -411,8 +421,9 @@ public class DynamicSqlTemplate implements InitializingBean {
 	}
 
 	private String getTableName() {
-		String tab = getType().getAnnotation(Table.class).value();
-		return tab;
+		String tabName = getType().getAnnotation(Table.class).value();
+		tabName = nameHandler.getTableName(tabName);
+		return tabName;
 	}
 
 	private Class<?> getType() {
