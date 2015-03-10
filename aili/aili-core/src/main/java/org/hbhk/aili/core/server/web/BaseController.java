@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbhk.aili.core.share.pojo.ResultEntity;
+import org.hbhk.aili.core.share.entity.ResultEntity;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.WebApplicationContext;
