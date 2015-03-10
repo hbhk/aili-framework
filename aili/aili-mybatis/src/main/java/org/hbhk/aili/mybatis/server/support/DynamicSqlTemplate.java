@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.hbhk.aili.core.server.annotation.AnnotationScanning;
+import org.hbhk.aili.core.share.util.AnnotationScanningUtil;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
 import org.hbhk.aili.mybatis.server.handler.DefaultNameHandler;
@@ -377,8 +377,7 @@ public class DynamicSqlTemplate implements InitializingBean {
 		}
 		if (StringUtils.isNotEmpty(autoTablePath)) {
 			String[] autoTablePaths = autoTablePath.split(",");
-			List<Class<?>> tabClasses = AnnotationScanning.getInstance()
-					.getAnnotatedClasses(Table.class, autoTablePaths);
+			List<Class<?>> tabClasses = AnnotationScanningUtil.getAnnotatedClasses(Table.class, autoTablePaths);
 			if (tabClasses != null) {
 				for (Class<?> tab : tabClasses) {
 					Field[] fields = SqlUtil.getColumnFields(tab);

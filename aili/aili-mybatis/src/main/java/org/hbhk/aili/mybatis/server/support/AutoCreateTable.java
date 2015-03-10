@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.core.server.annotation.AnnotationScanning;
 import org.hbhk.aili.core.share.util.AnnotationScanningUtil;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
@@ -111,7 +110,7 @@ public class AutoCreateTable implements InitializingBean {
 			getAllTableNames();
 			initTableMap();
 			String[] autoTablePaths = autoTablePath.split(",");
-			List<Class<?>> classes = AnnotationScanning.getInstance()
+			List<Class<?>> classes = AnnotationScanningUtil
 					.getAnnotatedClasses(Table.class, autoTablePaths);
 			if (classes != null) {
 				for (Class<?> cls : classes) {
