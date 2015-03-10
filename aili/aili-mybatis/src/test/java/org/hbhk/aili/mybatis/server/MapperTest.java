@@ -2,7 +2,6 @@ package org.hbhk.aili.mybatis.server;
 import java.util.List;
 
 import org.hbhk.aili.mybatis.server.support.ColumnInfo;
-import org.hbhk.aili.mybatis.server.support.OneToManyRowMapperResultSetExtractor;
 import org.hbhk.aili.mybatis.server.support.TableInfo;
 import org.hbhk.aili.mybatis.server.support.TableInfoMapper;
 import org.junit.Test;
