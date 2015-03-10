@@ -16,12 +16,14 @@ import org.hbhk.aili.mybatis.server.handler.DefaultNameHandler;
 import org.hbhk.aili.mybatis.server.handler.INameHandler;
 import org.hbhk.aili.mybatis.share.util.SqlUtil;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DynamicSqlTemplate implements InitializingBean {
 
+	@Autowired(required=false)
 	private INameHandler nameHandler;
 	
 	/**
