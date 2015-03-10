@@ -1,4 +1,4 @@
-package org.hbhk.aili.core.share.pojo;
+package org.hbhk.aili.core.share.entity;
 
 import java.io.Serializable;
 
