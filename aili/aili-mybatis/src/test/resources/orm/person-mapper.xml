@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hbhk.aili.mybatis.server.dao.IPersonDao">
+	
+	<!-- 一对多 -->
+	<resultMap type="org.hbhk.aili.mybatis.server.model.Person"
+		id="PersonreSultMap">
+		<id column="p_id" property="id" />
+		<result column="name" property="name" />
+		<collection property="orderList"
+			ofType="org.hbhk.aili.mybatis.server.model.Order" column="pid">
+			<id column="o_id" property="id" />
+			<result column="code" property="code" />
+		</collection>
+	</resultMap>
+	
+	<select id="selectPersonFetchOrder" parameterType="Long"
+		resultMap="PersonreSultMap">
+		select p.*,o.* from person p,orders o where o.pid=p.p_id and p.p_id=#{id}
+	</select>
+	<!--多对一 -->
+	<resultMap type="org.hbhk.aili.mybatis.server.model.Order"
+		id="OrderResultMap">
+		<id column="o_id" property="id" />
+		<result column="price" property="price" />
+		<association property="person"
+			javaType="org.hbhk.aili.mybatis.server.model.Person">
+			<id column="p_id" property="id" />
+			<result column="price" property="price" />
+		</association>
+	</resultMap>
+	<select id="selectOrdersFetchPerson" resultMap="OrderResultMap">
+		select p.*,o.* from person p,orders o where o.pid=p.p_id and o.o_id=#{id}
+	</select>
+	
+</mapper>
