@@ -36,6 +36,16 @@ public class SqlUtil {
 				}
 			}
 		}
+		if (clazz.getSuperclass().getSuperclass() != null) {
+			Class<?> superClass = clazz.getSuperclass().getSuperclass();
+			fields = superClass.getDeclaredFields();
+			for (Field field : fields) {
+				Column col = field.getAnnotation(Column.class);
+				if (col != null) {
+					list.add(field);
+				}
+			}
+		}
 		return list.toArray(new Field[] {});
 	}
 
