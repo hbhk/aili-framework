@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.hbhk.aili.mybatis.server.dao.IUserTestDao;
-import org.hbhk.aili.mybatis.share.model.UserInfo;
+import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

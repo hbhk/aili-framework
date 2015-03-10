@@ -2,9 +2,9 @@ package org.hbhk.aili.mybatis.server.dao;
 
 import java.util.Map;
 
+import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
-import org.hbhk.aili.mybatis.share.model.UserInfo;
 
 
 public interface IUserDao1 extends  IBaseDao<UserInfo, Long> {

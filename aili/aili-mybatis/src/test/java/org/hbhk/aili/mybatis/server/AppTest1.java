@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.mybatis.server.dao.IUserTestDao;
-import org.hbhk.aili.mybatis.share.model.UserInfo;
+import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

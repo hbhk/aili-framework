@@ -4,10 +4,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.SelectProvider;
 import org.hbhk.aili.mybatis.server.UserInfo1;
+import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
-import org.hbhk.aili.mybatis.share.model.UserInfo;
 
 
 public interface IUserDao extends  IBaseDao<UserInfo, Long> {
