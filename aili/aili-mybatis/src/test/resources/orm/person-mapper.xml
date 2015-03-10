@@ -12,7 +12,7 @@
 		<collection property="orderList"
 			ofType="org.hbhk.aili.mybatis.server.model.Order" column="pid">
 			<id column="o_id" property="id" />
-			<result column="code" property="code" />
+			<result column="price" property="price" />
 		</collection>
 	</resultMap>
 	
@@ -28,7 +28,7 @@
 		<association property="person"
 			javaType="org.hbhk.aili.mybatis.server.model.Person">
 			<id column="p_id" property="id" />
-			<result column="price" property="price" />
+			<result column="name" property="name" />
 		</association>
 	</resultMap>
 	<select id="selectOrdersFetchPerson" resultMap="OrderResultMap">
