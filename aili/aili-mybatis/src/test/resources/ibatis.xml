@@ -3,8 +3,9 @@
 	"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
 	<settings>
-		<!-- <setting name="cacheEnabled" value="false" /> -->
-		<!-- <setting name="lazyLoadingEnabled" value="true" /> -->
+		<setting name="cacheEnabled" value="false" /> 
+		<!-- true依赖Enhancer -->
+		<setting name="lazyLoadingEnabled" value="false" />
 		<setting name="multipleResultSetsEnabled" value="true" />
 		<setting name="useColumnLabel" value="true" />
 		<setting name="useGeneratedKeys" value="false" />
@@ -13,7 +14,7 @@
 		<setting name="defaultStatementTimeout" value="25" />
 		<setting name="safeRowBoundsEnabled" value="false" />
 		<setting name="mapUnderscoreToCamelCase" value="false" />
-		<!-- <setting name="localCacheScope" value="SESSION" /> -->
+		<setting name="localCacheScope" value="SESSION" /> 
 		<setting name="jdbcTypeForNull" value="OTHER" />
 		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
 	</settings>
