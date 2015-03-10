@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbhk.aili.core.share.pojo.ResponseEntity;
+import org.hbhk.aili.core.share.pojo.ResultEntity;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.WebApplicationContext;
@@ -15,40 +15,40 @@ public abstract class BaseController {
 		return WebApplicationContextHolder.getWebApplicationContext();
 	}
 
-	public ResponseEntity returnSuccess() {
-		return new ResponseEntity();
+	public ResultEntity returnSuccess() {
+		return new ResultEntity();
 	}
 
-	public ResponseEntity returnSuccess(String msg, Object result,
+	public ResultEntity returnSuccess(String msg, Object result,
 			String dealUrl) {
-		ResponseEntity response = new ResponseEntity();
+		ResultEntity response = new ResultEntity();
 		response.setMsg(msg);
 		response.setResult(result);
 		response.setDealUrl(dealUrl);
 		return response;
 	}
 
-	public ResponseEntity returnSuccess(Object result) {
-		ResponseEntity response = new ResponseEntity();
+	public ResultEntity returnSuccess(Object result) {
+		ResultEntity response = new ResultEntity();
 		response.setResult(result);
 		return response;
 	}
 
-	public ResponseEntity returnSuccess(String msg) {
-		ResponseEntity response = new ResponseEntity();
+	public ResultEntity returnSuccess(String msg) {
+		ResultEntity response = new ResultEntity();
 		response.setMsg(msg);
 		return response;
 	}
 
-	public ResponseEntity returnException() {
-		ResponseEntity response = new ResponseEntity();
+	public ResultEntity returnException() {
+		ResultEntity response = new ResultEntity();
 		response.setException(true);
 		response.setSuccess(false);
 		return response;
 	}
 
-	public ResponseEntity returnException(String msg) {
-		ResponseEntity response = new ResponseEntity();
+	public ResultEntity returnException(String msg) {
+		ResultEntity response = new ResultEntity();
 		response.setException(true);
 		response.setSuccess(false);
 		response.setMsg(msg);

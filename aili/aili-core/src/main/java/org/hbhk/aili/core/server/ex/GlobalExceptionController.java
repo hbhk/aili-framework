@@ -2,29 +2,42 @@ package org.hbhk.aili.core.server.ex;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hbhk.aili.core.server.web.WebApplicationContextHolder;
 import org.hbhk.aili.core.share.ex.BusinessException;
 import org.hbhk.aili.core.share.pojo.ExceptionEntity;
+import org.hbhk.aili.core.share.pojo.ResultEntity;
 import org.hbhk.aili.core.share.util.WebErrorUtils;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.WebApplicationContext;
 
 @ControllerAdvice
 public class GlobalExceptionController {
 
 	private Log log = LogFactory.getLog(getClass());
 
+	
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<ExceptionEntity> handleCustomException(
+	public ResponseEntity<ResultEntity> handleCustomException(
 			BusinessException ex) {
 
-		ExceptionEntity entity = new ExceptionEntity();
-		entity.setCode(ex.getErrorCode());
-		entity.setMsg(ex.getMessage());
-
-		ResponseEntity<ExceptionEntity> httpEntity = new ResponseEntity<ExceptionEntity>(
-				entity, HttpStatus.BAD_REQUEST);
+		ResultEntity entity = new ResultEntity();
+		entity.setSuccess(false);
+		entity.setException(true);
+		String errCode = ex.getErrCode();
+		if(errCode!=null && errCode!=""){
+			WebApplicationContext	context = WebApplicationContextHolder.getWebApplicationContext();
+			String msg =context.getMessage(errCode, null,
+						LocaleContextHolder.getLocale());
+			entity.setMsg(msg);
+		}else{
+			entity.setMsg(ex.getErrMsg());
+		}
+		ResponseEntity<ResultEntity> httpEntity = new ResponseEntity<ResultEntity>(
+				entity, HttpStatus.OK);
 
 		return httpEntity;
 

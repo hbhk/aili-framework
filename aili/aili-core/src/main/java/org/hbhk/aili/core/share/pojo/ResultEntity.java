@@ -2,7 +2,7 @@ package org.hbhk.aili.core.share.pojo;
 
 import java.io.Serializable;
 
-public class ResponseEntity implements Serializable {
+public class ResultEntity implements Serializable {
 	private static final long serialVersionUID = -5207285996548676020L;
 
 	private boolean success = true;

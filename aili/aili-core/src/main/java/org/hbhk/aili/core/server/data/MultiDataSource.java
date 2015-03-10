@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.context.SpObserver;
-import org.hbhk.aili.core.share.ex.UnknowGeneralException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -75,7 +74,7 @@ public class MultiDataSource implements DataSource,ApplicationContextAware {
 			}
 			return (DataSource)this.applicationContext.getBean(dataSourceName);
 		}catch(NoSuchBeanDefinitionException ex){
-			throw new UnknowGeneralException("There is not the dataSource <name:"+dataSourceName+"> in the applicationContext!");
+			throw new RuntimeException("There is not the dataSource <name:"+dataSourceName+"> in the applicationContext!");
 		}
 	}
 	
