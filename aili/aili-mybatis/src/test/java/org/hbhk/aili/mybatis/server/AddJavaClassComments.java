@@ -69,7 +69,7 @@ public class AddJavaClassComments {
 
 	public static void main(String[] args) throws Exception {
 
-		String PROJECT_DIR = "D:/baocun-ws/aili/aili-mybatis/src/main/java";
+		String PROJECT_DIR = "D:/baocun-ws/aili/aili-support/src/main/java";
 		File root = new File(PROJECT_DIR);
 		listNext(root);
 	}
