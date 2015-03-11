@@ -3,6 +3,13 @@ package org.hbhk.aili.core.share.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class EncryptUtil {
 	public static final String SHA_1 = "SHA-1";
 	public static final String MD5 = "MD5";

@@ -2,6 +2,13 @@ package org.hbhk.aili.core.share.util;
 
 import java.util.Calendar;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ChineseCalendar {
 
 	private int gregorianYear;

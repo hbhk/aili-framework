@@ -8,6 +8,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StopWatch;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class PerformanceWatchInterceptor extends HandlerInterceptorAdapter {
 	private Log log = LogFactory.getLog(getClass());
 	ThreadLocal<StopWatch> stopWatchLocal = new ThreadLocal<StopWatch>();

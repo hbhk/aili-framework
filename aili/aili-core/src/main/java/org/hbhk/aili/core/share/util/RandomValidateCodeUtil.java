@@ -14,6 +14,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class RandomValidateCodeUtil {
 	private static Log logger = LogFactory.getLog(RandomValidateCodeUtil.class);
 	private static Random random = new Random();

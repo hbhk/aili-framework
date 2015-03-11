@@ -17,6 +17,13 @@ import org.hbhk.aili.core.share.util.PropertiesUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public final class ModuleManager {
 
 	private static final Log LOGGER = LogFactory.getLog(ModuleManager.class);

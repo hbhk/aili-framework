@@ -14,6 +14,13 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class MultiDataSource implements DataSource,ApplicationContextAware {
 
 	private static final Log log = LogFactory.getLog(MultiDataSource.class);

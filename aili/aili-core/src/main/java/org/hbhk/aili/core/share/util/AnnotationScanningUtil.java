@@ -12,6 +12,13 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class AnnotationScanningUtil {
 	
 	private static  Map<String, List<String>> urlsCache = new ConcurrentHashMap<String, List<String>>();
@@ -44,6 +51,13 @@ public class AnnotationScanningUtil {
 	}
 	
 	
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 	public static List<String> getRequestMappingUrls(Class<? extends Annotation> annotation,
 			String... scannPackage){
 		if(annotation==null || scannPackage==null || scannPackage.length==0){

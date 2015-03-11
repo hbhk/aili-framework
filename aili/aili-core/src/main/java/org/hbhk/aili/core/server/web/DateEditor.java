@@ -8,6 +8,13 @@ import java.util.Date;
 
 import org.springframework.util.StringUtils;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class DateEditor extends PropertyEditorSupport {
 
 	private static final DateFormat DATEFORMAT = new SimpleDateFormat(

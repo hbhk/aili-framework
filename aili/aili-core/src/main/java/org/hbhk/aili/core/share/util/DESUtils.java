@@ -9,6 +9,13 @@ import javax.crypto.KeyGenerator;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 @SuppressWarnings("restriction")
 public class DESUtils {
 

@@ -8,6 +8,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.deploy.ModuleManager;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class AppContextListener implements ServletContextListener {
 
 	private final Log log = LogFactory.getLog(getClass());

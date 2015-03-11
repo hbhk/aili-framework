@@ -1,5 +1,12 @@
 package org.hbhk.aili.core.share.ex;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class BusinessException extends RuntimeException {
 
 	private static final long serialVersionUID = 1937263904748419090L;

@@ -9,6 +9,13 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public abstract class BaseController {
 
 	public WebApplicationContext getWebApplicationContext() {

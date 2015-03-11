@@ -6,6 +6,13 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 @Component
 public class WebApplicationContextHolder implements ApplicationContextAware {
 	

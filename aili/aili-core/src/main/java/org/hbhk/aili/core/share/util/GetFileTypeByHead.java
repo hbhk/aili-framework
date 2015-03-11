@@ -4,6 +4,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * 
+ * @Description: aili框架核心处理和基本支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class GetFileTypeByHead {
 	// 缓存文件头信息-文件头信息
 	public static final HashMap<String, String> mFileTypes = new HashMap<String, String>();
