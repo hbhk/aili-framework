@@ -16,6 +16,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hbhk.aili.support.server.excel.poi.exception.ExcelManipulateException;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ExcelKit {
 	public static final String DEFAULT_MESSAGE = "excelkit_message_default";
 

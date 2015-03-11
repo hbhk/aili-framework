@@ -15,6 +15,13 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.hbhk.aili.support.server.httpclient.exception.ClientException;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class HttpClientUtil extends Client {
 
 	public HttpClientUtil(CloseableHttpClient client, String url) {

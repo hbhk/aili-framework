@@ -15,6 +15,13 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 @Component
 public class ZKListeners implements  InitializingBean {
 	public static final Logger log = LoggerFactory.getLogger(ZKListeners.class);

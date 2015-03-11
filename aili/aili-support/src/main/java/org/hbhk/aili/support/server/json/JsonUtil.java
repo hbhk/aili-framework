@@ -6,6 +6,13 @@ import org.hbhk.aili.support.server.httpclient.exception.ClientException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public abstract class JsonUtil {
 
 	private static ObjectMapper mapper = new ObjectMapper();

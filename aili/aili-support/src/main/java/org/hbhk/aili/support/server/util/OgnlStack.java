@@ -11,6 +11,13 @@ import ognl.Ognl;
 import ognl.OgnlException;
 import ognl.OgnlRuntime;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class OgnlStack{	
 	
 	private List<Object> stack = new ArrayList<Object>();

@@ -2,6 +2,13 @@ package org.hbhk.aili.support.server.excel.poi.definition;
 
 import org.hbhk.aili.support.server.excel.poi.ExcelUtil;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ExcelCellConditionStyle {
 	private int startRow = 0;
 	private int startCol = 0;

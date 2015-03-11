@@ -20,6 +20,13 @@ import org.hbhk.aili.support.server.excel.jxl.model.Models;
 import org.hbhk.aili.support.server.excel.jxl.model.ObjectFactory;
 import org.hbhk.aili.support.server.util.JAXBContextUtil;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ExcelConvertor {
 
 	private static Log log = LogFactory.getLog(ExcelConvertor.class);

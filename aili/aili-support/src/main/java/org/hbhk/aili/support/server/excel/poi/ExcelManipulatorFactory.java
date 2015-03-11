@@ -16,6 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ExcelManipulatorFactory {
 	static final Logger logger = LoggerFactory.getLogger(ExcelManipulatorFactory.class);
 	

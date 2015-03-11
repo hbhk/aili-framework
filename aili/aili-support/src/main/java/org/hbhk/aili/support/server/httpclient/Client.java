@@ -19,6 +19,13 @@ import org.hbhk.aili.support.server.httpclient.exception.ExceptionEntity;
 import org.hbhk.aili.support.server.httpclient.exception.ResponseException;
 import org.hbhk.aili.support.server.json.JsonUtil;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public abstract class Client {
 
 	protected Log log = LogFactory.getLog(getClass());

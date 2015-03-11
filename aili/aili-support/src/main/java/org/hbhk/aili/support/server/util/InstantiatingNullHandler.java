@@ -18,6 +18,13 @@ import ognl.OgnlRuntime;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * 
+ * @Description: 整合第三方框架支持
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class InstantiatingNullHandler implements NullHandler {
 
     private static final Log LOG = LogFactory.getLog(InstantiatingNullHandler.class);    
