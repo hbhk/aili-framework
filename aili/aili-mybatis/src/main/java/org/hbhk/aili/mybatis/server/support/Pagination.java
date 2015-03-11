@@ -3,6 +3,13 @@ package org.hbhk.aili.mybatis.server.support;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class Pagination<T> implements Serializable {
 
 	private static final long serialVersionUID = 520741651051423364L;

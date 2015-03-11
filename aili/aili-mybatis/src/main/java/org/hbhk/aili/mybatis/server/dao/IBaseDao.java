@@ -12,6 +12,13 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.StatementType;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.share.model.BaseModel;
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public interface IBaseDao<T extends BaseModel, PK> {
 
 	@InsertProvider(type = DynamicSqlTemplate.class, method = "insert")

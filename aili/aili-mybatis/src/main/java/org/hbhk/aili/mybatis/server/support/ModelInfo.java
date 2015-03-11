@@ -5,6 +5,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ModelInfo implements Serializable {
 
 	private static final long serialVersionUID = 2533773647509691060L;

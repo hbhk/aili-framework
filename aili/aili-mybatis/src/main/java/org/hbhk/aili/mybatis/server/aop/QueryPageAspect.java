@@ -33,6 +33,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 @Aspect
 @Component
 public class QueryPageAspect implements Ordered {

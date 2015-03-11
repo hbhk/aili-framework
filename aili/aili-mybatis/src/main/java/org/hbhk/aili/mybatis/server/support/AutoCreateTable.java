@@ -24,6 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class AutoCreateTable implements InitializingBean {
 
 	public static Log logger = LogFactory.getLog(AutoCreateTable.class);

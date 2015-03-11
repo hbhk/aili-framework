@@ -4,6 +4,13 @@ import java.util.List;
 
 import org.hbhk.aili.mybatis.server.support.Pagination;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public interface IAiliDao<T, PK> {
 	/**
 	 * 按ID获取实体

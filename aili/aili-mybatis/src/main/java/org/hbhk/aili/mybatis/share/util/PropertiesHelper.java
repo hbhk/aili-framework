@@ -12,6 +12,13 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class PropertiesHelper {
 	public static final int SYSTEM_PROPERTIES_MODE_NEVER = 0;
 

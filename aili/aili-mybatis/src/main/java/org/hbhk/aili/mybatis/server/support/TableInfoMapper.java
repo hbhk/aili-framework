@@ -9,6 +9,13 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * 
+ * @Description: mybatis增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class TableInfoMapper implements RowMapper<TableInfo> {
 	
 	private Map<String, TableInfo>  mappers = new HashMap<String, TableInfo>();
