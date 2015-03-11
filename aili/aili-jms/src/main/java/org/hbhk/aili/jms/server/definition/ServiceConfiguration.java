@@ -4,6 +4,13 @@ import org.hbhk.aili.jms.server.convertor.IMessageConvertor;
 import org.hbhk.aili.jms.server.process.ICallBackProcess;
 import org.hbhk.aili.jms.server.process.IProcess;
 
+/**
+ * 
+ * @Description: jms增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class ServiceConfiguration {
 
 	private IMessageConvertor<?> messageConvertor;

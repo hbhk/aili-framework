@@ -4,6 +4,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.JavaType;
 import org.springframework.util.StringUtils;
 
+/**
+ * 
+ * @Description: jms增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public abstract class JsonUtil {
 
 	private static ObjectMapper mapper = new ObjectMapper();

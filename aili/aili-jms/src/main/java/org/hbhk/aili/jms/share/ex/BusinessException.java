@@ -2,6 +2,13 @@ package org.hbhk.aili.jms.share.ex;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @Description: jms增强处理
+ * @author 何波
+ * @date 2015年3月11日 上午10:05:24 
+ *
+ */
 public class BusinessException extends RuntimeException implements Serializable, IException {
 	
 	private static final long serialVersionUID = 1937263904748419090L;
