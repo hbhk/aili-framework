@@ -3,6 +3,8 @@ package org.hbhk.aili.support.server.file;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -25,4 +27,6 @@ public interface IFileService {
 
 	String saveImage(InputStream input, String path, String name, int width,
 			int height) throws IOException;
+	
+	void downloadFile(HttpServletResponse response,InputStream input,String name,int buffer) throws IOException;
 }
