@@ -27,7 +27,6 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 		if (!(handler instanceof HandlerMethod)) {
 			return false;
 		}
-		HandlerMethod method = (HandlerMethod) handler;
 		// 用户请求URL
 		String url = urlPathHelper.getLookupPathForRequest(request);
 		String username = (String) request.getSession().getAttribute(
