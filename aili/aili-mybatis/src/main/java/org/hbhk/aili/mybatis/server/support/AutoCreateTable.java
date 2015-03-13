@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hbhk.aili.core.share.util.AnnotationScanningUtil;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
 import org.hbhk.aili.mybatis.server.handler.INameHandler;

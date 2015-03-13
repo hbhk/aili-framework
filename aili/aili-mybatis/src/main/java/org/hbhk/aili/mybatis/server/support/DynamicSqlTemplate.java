@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hbhk.aili.core.share.util.AnnotationScanningUtil;
 import org.hbhk.aili.mybatis.server.annotation.Column;
 import org.hbhk.aili.mybatis.server.annotation.Table;
 import org.hbhk.aili.mybatis.server.handler.DefaultNameHandler;
