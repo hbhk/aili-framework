@@ -1,11 +1,11 @@
 package org.hbhk.aili.security.share.pojo;
 
-import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.Tabel;
-import org.hbhk.aili.orm.share.model.BaseInfo;
+import org.hbhk.aili.mybatis.server.annotation.Column;
+import org.hbhk.aili.mybatis.server.annotation.Table;
+import org.hbhk.aili.mybatis.share.model.BizBaseModel;
 
-@Tabel("t_aili_login_log")
-public class LoginLogInfo extends BaseInfo {
+@Table("t_aili_login_log")
+public class LoginLogInfo extends BizBaseModel {
 
 	private static final long serialVersionUID = -8810269314527736345L;
 	@Column("user")

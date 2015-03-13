@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.core.server.annotation.SecurityFilter;
 import org.hbhk.aili.security.server.service.IUserService;
 import org.hbhk.aili.security.share.define.UserConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +28,6 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 		HandlerMethod method = (HandlerMethod) handler;
-		SecurityFilter annotation = (SecurityFilter) method
-				.getMethodAnnotation(org.hbhk.aili.core.server.annotation.SecurityFilter.class);
-
-		if (annotation != null && annotation.value() == false) {
-			return true;
-		}
 		// 用户请求URL
 		String url = urlPathHelper.getLookupPathForRequest(request);
 		String username = (String) request.getSession().getAttribute(

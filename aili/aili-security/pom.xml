@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
-			<artifactId>aili-orm</artifactId>
+			<artifactId>aili-mybatis</artifactId>
 			<version>${aili-version}</version>
 		</dependency>
 		<dependency>
@@ -57,11 +57,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<!-- jetbrick -->
-		<dependency>
-			<groupId>com.github.subchen</groupId>
-			<artifactId>jetbrick-template</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>c3p0</groupId>

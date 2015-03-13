@@ -1,5 +1,8 @@
 package org.hbhk.aili.security.server.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.server.web.BaseController;
-import org.hbhk.aili.core.share.pojo.ResponseEntity;
+import org.hbhk.aili.core.share.entity.ResultEntity;
 import org.hbhk.aili.security.server.context.UserContext;
 import org.hbhk.aili.security.server.service.ILoginLogInfoService;
 import org.hbhk.aili.security.server.service.IUserService;
@@ -37,7 +40,7 @@ public class SecurityController extends BaseController {
 
 	@RequestMapping("/login")
 	@ResponseBody
-	public ResponseEntity login(HttpServletResponse response,
+	public ResultEntity login(HttpServletResponse response,
 			HttpServletRequest request, String userName, String password) {
 		try {
 			if (userService.login(userName, password)) {
@@ -72,7 +75,7 @@ public class SecurityController extends BaseController {
 
 	@RequestMapping("/regist")
 	@ResponseBody
-	public ResponseEntity regist(HttpServletRequest request, UserInfo user,
+	public ResultEntity regist(HttpServletRequest request, UserInfo user,
 			String code) {
 		try {
 			String scode = (String) request.getSession().getAttribute(
@@ -96,7 +99,9 @@ public class SecurityController extends BaseController {
 			emailInfo.setSubject("买客网用户注册");
 			String info = "恭喜您成功注册！您的用户名为：" + user.getUserName();
 			emailInfo.setContext(info);
-			emailInfo.setEmail(user.getEmail());
+			List<String> emails = new ArrayList<String>();
+			emails.add(user.getEmail());
+			emailInfo.setEmails(emails);
 			emailService.sendEmail(emailInfo);
 			return returnSuccess();
 		} catch (Exception e) {
@@ -107,7 +112,7 @@ public class SecurityController extends BaseController {
 
 	@RequestMapping("/validateEmail")
 	@ResponseBody
-	public ResponseEntity getUserByMail(String mail) {
+	public ResultEntity getUserByMail(String mail) {
 		try {
 			UserInfo u = new UserInfo();
 			u.setEmail(mail);
@@ -124,7 +129,7 @@ public class SecurityController extends BaseController {
 
 	@RequestMapping("/validateName")
 	@ResponseBody
-	public ResponseEntity getUserByName(String name) {
+	public ResultEntity getUserByName(String name) {
 		try {
 			UserInfo u = new UserInfo();
 			u.setNickName(name);

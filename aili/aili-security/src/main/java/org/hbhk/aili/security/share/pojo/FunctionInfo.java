@@ -1,15 +1,15 @@
 package org.hbhk.aili.security.share.pojo;
 
-import org.hbhk.aili.orm.server.annotation.Column;
-import org.hbhk.aili.orm.server.annotation.Tabel;
-import org.hbhk.aili.orm.share.model.BaseInfo;
+import org.hbhk.aili.mybatis.server.annotation.Column;
+import org.hbhk.aili.mybatis.server.annotation.Table;
+import org.hbhk.aili.mybatis.share.model.BizBaseModel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_EMPTY)
-@Tabel("t_aili_function")
-public class FunctionInfo extends BaseInfo {
+@Table("t_aili_function")
+public class FunctionInfo extends BizBaseModel {
 
 	private static final long serialVersionUID = 9125685922301392808L;
 	@Column("code")

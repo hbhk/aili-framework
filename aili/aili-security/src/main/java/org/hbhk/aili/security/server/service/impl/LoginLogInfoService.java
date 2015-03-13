@@ -2,13 +2,10 @@ package org.hbhk.aili.security.server.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.hbhk.aili.orm.server.surpport.Page;
-import org.hbhk.aili.orm.server.surpport.Sort;
-import org.hbhk.aili.orm.share.model.Pagination;
+import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.security.server.dao.ILoginLogInfoDao;
 import org.hbhk.aili.security.server.service.ILoginLogInfoService;
 import org.hbhk.aili.security.share.pojo.LoginLogInfo;
@@ -31,13 +28,13 @@ public class LoginLogInfoService implements ILoginLogInfoService {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
-				loginLogInfoDao.save(model);
+				loginLogInfoDao.insert(model);
 			}
 		} );
 		return model;
 	}
 
-	public LoginLogInfo update(LoginLogInfo model) {
+	public int update(LoginLogInfo model) {
 		model.setUpdateTime(new Date());
 		model.setUpdateUser("admin");
 		return loginLogInfoDao.update(model);
@@ -55,10 +52,5 @@ public class LoginLogInfoService implements ILoginLogInfoService {
 		return null;
 	}
 
-	@Override
-	public Pagination<LoginLogInfo> queryLogsByPage(Page page, Sort sort,
-			Map<String, Object> params) {
-		return loginLogInfoDao.queryLogsByPage(page, sort, params);
-	}
 
 }

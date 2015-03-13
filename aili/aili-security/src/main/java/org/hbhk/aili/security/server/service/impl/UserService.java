@@ -1,6 +1,8 @@
 package org.hbhk.aili.security.server.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,10 +13,10 @@ import org.hbhk.aili.cache.server.CacheManager;
 import org.hbhk.aili.cache.server.ICache;
 import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.share.ex.BusinessException;
+import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.core.share.util.EncryptUtil;
-import org.hbhk.aili.orm.server.surpport.Page;
-import org.hbhk.aili.orm.server.surpport.Sort;
-import org.hbhk.aili.orm.share.model.Pagination;
+import org.hbhk.aili.mybatis.server.support.Page;
+import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.security.server.cache.LoginLimitCache;
 import org.hbhk.aili.security.server.cache.UserCache;
 import org.hbhk.aili.security.server.cache.UserResourceCache;
@@ -42,15 +44,27 @@ public class UserService implements IUserService {
 	public UserInfo getMe(String username) {
 		UserInfo u = new UserInfo();
 		u.setUserName(username);
-		return userDao.getOne(u);
+		Map<String, Object> params = new HashMap<String, Object>();
+		BeanToMapUtil.convert( u, params);
+		List<UserInfo> users = userDao.get(params);
+		if(users!=null && users.size()>0){
+			return users.get(0);
+		}
+		return null;
 	}
 
 	@Override
 	public boolean login(String username, String password) {
 		UserInfo u = new UserInfo();
 		u.setUserName(username);
+		Map<String, Object> params = new HashMap<String, Object>();
+		BeanToMapUtil.convert( u, params);
+		List<UserInfo> users = userDao.get(params);
+		UserInfo userInfo = null;
+		if(users!=null && users.size()>0){
+			userInfo = users.get(0);
+		}
 		String epwd = EncryptUtil.encodeSHA1(password);
-		UserInfo userInfo = userDao.getOne(u);
 		if (userInfo != null && epwd.equals(userInfo.getPassword())) {
 			UserContext.setCurrentUser(userInfo);
 			UserContext.setCurrentUserName(username);
@@ -107,7 +121,8 @@ public class UserService implements IUserService {
 		String pwd = user.getPassword();
 		pwd = EncryptUtil.encodeSHA1(pwd);
 		user.setPassword(pwd);
-		return userDao.save(user);
+		userDao.insert(user);
+		return user;
 	}
 
 	@Override
@@ -115,7 +130,7 @@ public class UserService implements IUserService {
 		if (user == null) {
 			return null;
 		}
-		return userDao.getOne(user);
+		return userDao.getById(user.getId()+"");
 	}
 
 	public String getDefaultHead() {
@@ -127,7 +142,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public UserInfo update(UserInfo user) {
+	public int update(UserInfo user) {
 		ICache<String, UserInfo> usercache = CacheManager.getInstance()
 				.getCache(UserCache.cacheID);
 		String username = UserContext.getCurrentContext().getCurrentUserName();
@@ -140,9 +155,16 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Pagination<UserInfo> queryUsersByPage(Page page, Sort sort,
-			Map<String, Object> params) {
-		return userDao.queryUsersByPage(page, sort, params);
+	public UserInfo getOne(UserInfo model) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public List<UserInfo> get(UserInfo model) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

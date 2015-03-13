@@ -1,4 +1,4 @@
-package org.hbhk.aili.security.share.pojo;
+package org.hbhk.spring.security.share;
 
 import java.util.Set;
 
