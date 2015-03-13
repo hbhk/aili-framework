@@ -14,7 +14,6 @@
 	<name>aili-security</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-version>3.2.2.RELEASE</spring-version>
 		<security-version>3.1.4.RELEASE</security-version>
 		<moduleName>security</moduleName>
 	</properties>
