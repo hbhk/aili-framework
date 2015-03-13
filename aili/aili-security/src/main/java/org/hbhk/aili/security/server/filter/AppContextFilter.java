@@ -20,7 +20,7 @@ import org.hbhk.aili.security.server.context.UserContext;
 import org.hbhk.aili.security.share.define.UserConstants;
 import org.hbhk.aili.security.share.pojo.UserInfo;
 
-public class AppFilter implements Filter {
+public class AppContextFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
