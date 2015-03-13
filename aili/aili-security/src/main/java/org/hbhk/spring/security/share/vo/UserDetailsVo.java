@@ -23,12 +23,6 @@ public class UserDetailsVo implements UserDetails {
 	/** 用户的密码 */
 	private String password;
 
-	/** 当前组织ID */
-	private String currentOrgId;
-
-	/** 当前组织名称 */
-	private String currentOrgName;
-
 	public UserDetailsVo() {
 	}
 
@@ -91,22 +85,6 @@ public class UserDetailsVo implements UserDetails {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
-	}
-
-	public String getCurrentOrgId() {
-		return currentOrgId;
-	}
-
-	public void setCurrentOrgId(String currentOrgId) {
-		this.currentOrgId = currentOrgId;
-	}
-
-	public String getCurrentOrgName() {
-		return currentOrgName;
-	}
-
-	public void setCurrentOrgName(String currentOrgName) {
-		this.currentOrgName = currentOrgName;
 	}
 
 }
