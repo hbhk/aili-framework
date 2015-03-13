@@ -31,13 +31,13 @@
 
 	<!-- 认证管理 -->
 	<authentication-manager>
-		<authentication-provider user-service-ref="userDetailsService">
+		<authentication-provider user-service-ref="userService">
 			<password-encoder ref="bcryptPasswordEncoder" />
 		</authentication-provider>
 	</authentication-manager>
 
-	<beans:bean id="userDetailsService"
-		class="com.baozun.wms4.web.manager.auth.UserDetailsServiceImpl"></beans:bean>
+	<beans:bean id="userService"
+		class="org.hbhk.aili.security.server.service.impl.UserService"></beans:bean>
 
 	<beans:bean id="bcryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>

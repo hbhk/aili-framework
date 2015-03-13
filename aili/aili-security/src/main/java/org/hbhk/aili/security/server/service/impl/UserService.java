@@ -15,8 +15,6 @@ import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.share.ex.BusinessException;
 import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.core.share.util.EncryptUtil;
-import org.hbhk.aili.mybatis.server.support.Page;
-import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.security.server.cache.LoginLimitCache;
 import org.hbhk.aili.security.server.cache.UserCache;
 import org.hbhk.aili.security.server.cache.UserResourceCache;
@@ -25,12 +23,16 @@ import org.hbhk.aili.security.server.context.UserContext;
 import org.hbhk.aili.security.server.dao.IUserDao;
 import org.hbhk.aili.security.server.service.IUserService;
 import org.hbhk.aili.security.share.define.UserConstants;
+import org.hbhk.aili.security.share.pojo.UserDetailsCommand;
 import org.hbhk.aili.security.share.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements IUserService {
+public class UserService implements IUserService, UserDetailsService {
 
 	@Resource
 	private IUserDao userDao;
@@ -164,6 +166,14 @@ public class UserService implements IUserService {
 	public List<UserInfo> get(UserInfo model) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username)
+			throws UsernameNotFoundException {
+		  // 密码 123456
+        UserDetailsCommand user = new UserDetailsCommand(1L, "admin", "$2a$10$DNwraci8NJfOySAi6KhOnOBJw7M8tl3of2Uo6OPm3CUTNvuwqPI7O");
+		return user;
 	}
 
 
