@@ -17,6 +17,7 @@
 	<http pattern="/test/" security="none"></http>
 
 	<http use-expressions="true" >
+		<!-- <custom-filter ref="customLoginFilter" position="FORM_LOGIN_FILTER" /> -->
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<!-- 登录设置 -->
 		<form-login login-page="/loginpage" default-target-url="/"
