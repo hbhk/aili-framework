@@ -16,17 +16,18 @@
 	<http pattern="/login" security="none" />
 	<http pattern="/test/" security="none"></http>
 
-	<http use-expressions="true">
+	<http use-expressions="true" >
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<!-- 登录设置 -->
-		<form-login login-page="/login" default-target-url="/index"
-			always-use-default-target="true" />
+		<form-login login-page="/loginpage" default-target-url="/"
+			always-use-default-target="true" username-parameter="username" password-parameter="password" login-processing-url="/login" />
 		<!-- 登出设置 -->
-		<logout logout-url="/lout" delete-cookies="JSESSIONID" />
+		<logout logout-url="/logout" delete-cookies="JSESSIONID" />
 		<!-- session控制 -->
-		<session-management invalid-session-url="/login">
+		<session-management invalid-session-url="/loginpage">
 			<concurrency-control session-registry-alias="sessionRegistry" />
 		</session-management>
+		
 	</http>
 
 	<!-- 认证管理 -->
