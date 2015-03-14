@@ -13,6 +13,9 @@
 	<!-- registry address, used for service to register itself -->
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
 
+	<!-- 用dubbo协议在20880 20891端口暴露服务 -->
+	<dubbo:protocol  id="dubbo" name="dubbo" port="20880" />
+	<dubbo:provider protocol="dubbo" default="true" version="${dubbo.default.version}" timeout="350000" />
 	<!-- expose this service through dubbo protocol, through port 20880 -->
 	<!-- <dubbo:protocol name="dubbo" port="20880" /> <dubbo:protocol name="dubbo" 
 		port="9090" server="netty" client="netty" codec="dubbo" serialization="hessian2" 
