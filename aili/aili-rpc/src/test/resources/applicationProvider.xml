@@ -11,23 +11,25 @@
 	<dubbo:application name="hbhk-app" />
 
 	<!-- registry address, used for service to register itself -->
-	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
+	<dubbo:registry address="zookeeper://127.0.0.1:2181"
+		register="true" />
 
 	<!-- 用dubbo协议在20880 20891端口暴露服务 -->
-	<dubbo:protocol  id="dubbo" name="dubbo" port="20880" />
-	<dubbo:provider protocol="dubbo" default="true" version="${dubbo.default.version}" timeout="350000" />
+	<dubbo:protocol id="dubbo" name="dubbo" port="20880" />
+	<dubbo:provider protocol="dubbo" default="true" timeout="350000" />
 	<!-- expose this service through dubbo protocol, through port 20880 -->
-	<!-- <dubbo:protocol name="dubbo" port="20880" /> <dubbo:protocol name="dubbo" 
-		port="9090" server="netty" client="netty" codec="dubbo" serialization="hessian2" 
-		charset="UTF-8" threadpool="fixed" threads="100" queues="0" iothreads="9" 
-		buffer="8192" accepts="1000" payload="8388608" /> -->
+	<dubbo:protocol name="dubbo" port="20880" /> 
+	<!-- <dubbo:protocol name="dubbo" port="9090" server="netty"
+		client="netty"  serialization="hessian2" charset="UTF-8"
+		threadpool="fixed" threads="100" queues="0" iothreads="9" buffer="8192"
+		accepts="1000" payload="8388608" /> -->
 	<!-- Service interface Concurrent Control -->
 	<dubbo:service interface="org.hbhk.aili.rpc.server.dubbo.IProcessData"
 		ref="processData" executes="10" />
 
 	<!-- Default Protocol -->
 	<!-- <dubbo:protocol server="netty" /> -->
- 	<!-- <dubbo:protocol name="dubbo" port="20880"  /> -->
+	<!-- <dubbo:protocol name="dubbo" port="20880" /> -->
 	<!-- designate implementation -->
 	<bean id="processData" class="org.hbhk.aili.rpc.server.dubbo.ProcessData" />
 
