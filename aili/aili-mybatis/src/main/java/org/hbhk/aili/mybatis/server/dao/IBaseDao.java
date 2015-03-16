@@ -10,8 +10,6 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.StatementType;
-import org.hbhk.aili.mybatis.server.UserInfo1;
-import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
@@ -72,7 +70,7 @@ public interface IBaseDao<T extends BaseModel, PK> {
 	* @throws
 	 */
 	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPagination")
-	Pagination<UserInfo> getPagination(Map<String, Object> params, Page page);
+	Pagination<T> getPagination(Map<String, Object> params, Page page);
 	/**
 	 * 
 	* @author 何波
@@ -83,6 +81,6 @@ public interface IBaseDao<T extends BaseModel, PK> {
 	* Pagination<UserInfo>   
 	* @throws
 	 */
-	Pagination<UserInfo1> getCustomPagination(Map<String, Object> params, Page page);
+	<MT> Pagination<MT> getCustomPagination(Map<String, Object> params, Page page);
 
 }
