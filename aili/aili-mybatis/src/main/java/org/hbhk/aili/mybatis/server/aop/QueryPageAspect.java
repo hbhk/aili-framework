@@ -23,6 +23,7 @@ import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
+import org.hbhk.aili.mybatis.share.util.AopTargetUtil;
 import org.hbhk.aili.mybatis.share.util.MybatisSqlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +65,9 @@ public class QueryPageAspect implements Ordered {
 		MethodSignature ms = (MethodSignature) pjp.getSignature();
 		Method method = ms.getMethod();
 		Class<?> rt = method.getReturnType();
+		String mapperIdPrefix= AopTargetUtil.getJdkDynamicProxyTargeInterface(pjp.getThis());
 		if(rt.isAssignableFrom(Pagination.class)){
 			Class<?> cls = method.getDeclaringClass();
-			String clsName =  method.getDeclaringClass().getName();
 			SelectProvider selectProvider = method.getAnnotation(SelectProvider.class);
 			if(selectProvider !=null){
 				Class<?> type =  selectProvider.type();
@@ -78,7 +79,7 @@ public class QueryPageAspect implements Ordered {
 			String methodName = method.getName();
 			Pagination<Object> pagination = new Pagination<Object>();
 			Object[] args = pjp.getArgs();
-			String statement = clsName+"."+methodName;
+			String statement = mapperIdPrefix+"."+methodName;
 			Page page = getPage(args);
 			Map<String, Object> params = getParams(args);
 			RowBounds rowBounds = new RowBounds(page.getPageNum(),page.getPageSize());

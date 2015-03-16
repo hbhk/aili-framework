@@ -10,7 +10,11 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.StatementType;
+import org.hbhk.aili.mybatis.server.UserInfo1;
+import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
+import org.hbhk.aili.mybatis.server.support.Page;
+import org.hbhk.aili.mybatis.server.support.Pagination;
 import org.hbhk.aili.mybatis.share.model.BaseModel;
 /**
  * 
@@ -57,6 +61,28 @@ public interface IBaseDao<T extends BaseModel, PK> {
 
 	@UpdateProvider(type = DynamicSqlTemplate.class, method = "updateStatusById")
 	int updateStatusById(@Param("id") PK id, @Param("status") int status);
-
+	/**
+	 * 
+	* @author 何波
+	* @Description: 注解方式,不需要编写对应mapper，且只能是本dao单表
+	* @param params
+	* @param page
+	* @return   
+	* Pagination<UserInfo>   
+	* @throws
+	 */
+	@SelectProvider(type = DynamicSqlTemplate.class, method = "getPagination")
+	Pagination<UserInfo> getPagination(Map<String, Object> params, Page page);
+	/**
+	 * 
+	* @author 何波
+	* @Description: 编写对应mapper映射文件
+	* @param params
+	* @param page
+	* @return   
+	* Pagination<UserInfo>   
+	* @throws
+	 */
+	Pagination<UserInfo1> getCustomPagination(Map<String, Object> params, Page page);
 
 }

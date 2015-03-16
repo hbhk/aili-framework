@@ -43,13 +43,14 @@ public class AppTest {
 			List<UserInfo> user = userDao.get(params);
 			Long e = System.currentTimeMillis();
 			// 166
-			System.out.println("pppppppppppppp:" + (e - s)+user);
+			System.out.println("pppppppppppppp:" + (e - s) + user);
 			// System.out.println(user.size()+user.get(0).getCreatUser()+user.get(0).getName()+user.get(0).getCreateTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	@Test
 	public void testById() {
 		try {
@@ -62,75 +63,78 @@ public class AppTest {
 			UserInfo user = userDao.getById(1L);
 			Long e = System.currentTimeMillis();
 			// 166
-			System.out.println("pppppppppppppp:" + (e - s)+":"+user.getName());
+			System.out.println("pppppppppppppp:" + (e - s) + ":"
+					+ user.getName());
 			// System.out.println(user.size()+user.get(0).getCreatUser()+user.get(0).getName()+user.get(0).getCreateTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	@Test
 	public void getPagetest() {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo query = new UserInfo();
-			//query.setId(1l);
+			// query.setId(1l);
 			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
-			List<UserInfo> user = userDao.getPage(params,2,2);
+			List<UserInfo> user = userDao.getPage(params, 2, 2);
 			System.out.println(user.size() + "" + user.get(0).getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	@Test
 	public void getPagetest1() {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo query = new UserInfo();
-			//query.setId(1l);
+			// query.setId(1l);
 			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
-			Page page  = new Page();
+			Page page = new Page();
 			page.setPageNum(2);
 			page.setPageSize(20);
-			Pagination<UserInfo> user = userDao.getPagination(params,page);
+			Pagination<UserInfo> user = userDao.getPagination(params, page);
 			System.out.println(user.getDatas());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	@Test
 	public void getPagetest2() {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo query = new UserInfo();
-			//query.setId(1l);
+			// query.setId(1l);
 			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
-			Page page  = new Page();
+			Page page = new Page();
 			page.setPageNum(2);
 			page.setPageSize(2);
-			Pagination<UserInfo1> user = userDao.getPagination1(params,page);
+			Pagination<UserInfo1> user = userDao.getCustomPagination(params,
+					page);
 			for (UserInfo1 iterable_element : user.getDatas()) {
-				System.out.println("id:"+iterable_element.getId());
+				System.out.println("id:" + iterable_element.getId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	@Test
 	public void getPagetestCount() {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			UserInfo query = new UserInfo();
-			//query.setId(1l);
+			// query.setId(1l);
 			query.setName("hbhk");
 			BeanToMapUtil.convert(query, params);
 			int user = userDao.getPageTotalCount(params);
@@ -151,14 +155,14 @@ public class AppTest {
 			user.setCreateTime(new Date());
 			user.setUpdateTime(new Date());
 			user.setCreatUser("hbhk");
-			//user.setUpdateUser("hbhk");
+			// user.setUpdateUser("hbhk");
 			userDao.insert(user);
 			System.out.println(user.getId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 	}
 
 	@Test
