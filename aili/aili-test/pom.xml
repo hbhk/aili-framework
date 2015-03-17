@@ -13,18 +13,12 @@
 	<name>aili-test</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-version>3.2.2.RELEASE</spring-version>
 		<security-version>3.1.4.RELEASE</security-version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-core</artifactId>
-			<version>${aili-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hbhk.aili</groupId>
-			<artifactId>aili-job</artifactId>
 			<version>${aili-version}</version>
 		</dependency>
 		<!-- CXF Dependencies -->
@@ -129,12 +123,28 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<!-- <plugin> <groupId>org.apache.cxf</groupId> <artifactId>cxf-codegen-plugin</artifactId> 
-				<version>${cxf.version}</version> <executions> <execution> <id>generate-sources</id> 
-				<phase>generate-sources</phase> <configuration> <sourceRoot>generated/cxf</sourceRoot> 
-				<wsdlOptions> <wsdlOption> <wsdl>http://localhost:8082/cxf-spring-test/getInfoService?wsdl</wsdl> 
-				</wsdlOption> </wsdlOptions> </configuration> <goals> <goal>wsdl2java</goal> 
-				</goals> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceRoot>generated/cxf</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>http://10.8.17.6:9999/bizhub-service/my/HelloWorld?wsdl</wsdl>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 	</build>

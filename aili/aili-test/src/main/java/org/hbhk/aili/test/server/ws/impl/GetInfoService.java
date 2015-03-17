@@ -1,5 +1,6 @@
 package org.hbhk.aili.test.server.ws.impl;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.hbhk.aili.test.server.ws.IGetInfoService;
@@ -13,7 +14,7 @@ public class GetInfoService implements IGetInfoService {
 	}
 
 	@Override
-	public String getRetInfo(String name, int age) {
+	public String getRetInfo(@WebParam(name = "name")String name, int age) {
 		return name + "" + age;
 	}
 
