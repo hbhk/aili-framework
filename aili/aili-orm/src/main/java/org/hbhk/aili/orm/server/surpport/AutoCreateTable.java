@@ -13,7 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.core.server.annotation.AnnotationScanning;
+import org.hbhk.aili.core.share.util.AnnotationScanningUtil;
 import org.hbhk.aili.orm.server.annotation.Column;
 import org.hbhk.aili.orm.server.annotation.Tabel;
 import org.hbhk.aili.orm.server.handler.INameHandler;
@@ -100,7 +100,7 @@ public class AutoCreateTable implements InitializingBean {
 		if (StringUtils.isNotEmpty(autoTablePath)) {
 			getAllTableNames();
 			String[] autoTablePaths =  autoTablePath.split(",");
-			List<Class<?>> classes = AnnotationScanning.getInstance()
+			List<Class<?>> classes = AnnotationScanningUtil
 					.getAnnotatedClasses(Tabel.class, autoTablePaths);
 			if (CollectionUtils.isNotEmpty(classes)) {
 				for (Class<?> cls : classes) {
