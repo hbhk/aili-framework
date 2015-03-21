@@ -73,7 +73,7 @@
 	</insert>
 	<!-- 批量操作   (修改和删除操作相同)-->
 	<select id="batchUpdateStudentWithMap" parameterType="java.util.Map" >  
-	 	 select *from t_aili_user where id id    
+	 	 select *from t_aili_user where id in    
 	    <foreach collection="idList" index="index" item="id" open="(" separator="," close=")">   
 	        #{id}   
 	    </foreach>  

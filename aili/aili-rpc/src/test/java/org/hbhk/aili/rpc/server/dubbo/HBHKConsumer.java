@@ -3,11 +3,10 @@ package org.hbhk.aili.rpc.server.dubbo;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class HBHKConsumer  {
-
+	static	ClassPathXmlApplicationContext context =null;
 	public static void run() {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+		context = new ClassPathXmlApplicationContext(
 				new String[] { "applicationConsumer.xml" });
-		context.start();
 		IProcessData processData = (IProcessData) context
 				.getBean("processData"); // get
 											// service
@@ -15,8 +14,8 @@ public class HBHKConsumer  {
 		String hello = processData.deal("hello"); // do invoke!
 		System.out.println(Thread.currentThread().getName() + " " + hello);
 		
-		String ss = processData.deal1(new BasicTableConfigSupport("str"), "data");
-		System.out.println(ss);
+	/*	String ss = processData.deal1(new BasicTableConfigSupport("str"), "data");
+		System.out.println(ss);*/
 	}
 
 	public static void main(String[] args) {
