@@ -6,9 +6,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hbhk.aili.cache.server.DefaultCacheSerialize;
+import org.hbhk.aili.cache.server.ICacheSerialize;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 import org.hbhk.aili.cache.share.pojo.KeyValue;
-import org.hbhk.aili.cache.share.util.SerializeUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -18,7 +19,15 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,InitializingBean {
 	private static final Log log = LogFactory.getLog(RedisCacheTemplet.class);
 	private StringRedisTemplate stringRedisTemplate;
-
+	
+	private ICacheSerialize<byte[]> cacheSerialize;
+	
+	public RedisCacheTemplet() {
+		if(cacheSerialize == null){
+			cacheSerialize = new DefaultCacheSerialize();
+		}
+	}
+ 
 	public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
 		this.stringRedisTemplate = stringRedisTemplate;
 	}
@@ -36,7 +45,7 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,Initializi
 				if (connection.exists(newKey.getBytes())) {
 					byte[] values = connection.get(newKey.getBytes());
 					if (values != null && values.length > 0) {
-						obj = (V) SerializeUtil.deserializeObject(values);
+						obj = (V) cacheSerialize.deserialize(values);
 					}
 				}
 				return obj;
@@ -80,7 +89,7 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,Initializi
 				public V doInRedis(RedisConnection connection)
 						throws DataAccessException {
 					// String valueStr = CacheUtils.toJsonString(newValue);
-					byte[] bs = SerializeUtil.serializeObject(newValue);
+					byte[] bs = cacheSerialize.serialize(newValue);
 					connection.setEx(newKey.getBytes(), newexpire, bs);
 					return null;
 				}
@@ -105,7 +114,7 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,Initializi
 				public Boolean doInRedis(RedisConnection connection)
 						throws DataAccessException {
 					// String valueStr = CacheUtils.toJsonString(newValue);
-					byte[] bs = SerializeUtil.serializeObject(newValue);
+					byte[] bs = cacheSerialize.serialize(newValue);
 					if(connection.exists(newKey.getBytes())){
 						return false;
 					}
@@ -137,7 +146,7 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,Initializi
 						if(connection.exists(newKey)){
 							continue ;
 						}
-						byte[] bs = SerializeUtil.serializeObject(keyValue.getValue());
+						byte[] bs = cacheSerialize.serialize(keyValue.getValue());
 						connection.setEx(newKey, newexpire, bs);
 					}
 					connection.openPipeline();
@@ -202,7 +211,7 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,Initializi
 			public V doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				// String valueStr = CacheUtils.toJsonString(newValue);
-				byte[] bs = SerializeUtil.serializeObject(newValue);
+				byte[] bs = cacheSerialize.serialize(newValue);
 				connection.set(newKey.getBytes(), bs);
 				return null;
 			}
