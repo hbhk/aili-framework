@@ -6,8 +6,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.cache.server.DefaultCacheSerialize;
-import org.hbhk.aili.cache.server.ICacheSerialize;
+import org.hbhk.aili.cache.server.serialize.ICacheSerialize;
+import org.hbhk.aili.cache.server.serialize.impl.DefaultCacheSerialize;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 import org.hbhk.aili.cache.share.pojo.KeyValue;
 import org.springframework.beans.factory.InitializingBean;
@@ -149,7 +149,7 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V>,Initializi
 						byte[] bs = cacheSerialize.serialize(keyValue.getValue());
 						connection.setEx(newKey, newexpire, bs);
 					}
-					connection.openPipeline();
+					connection.closePipeline();
 					return true;
 				}
 
