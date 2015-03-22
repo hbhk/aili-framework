@@ -1,10 +1,12 @@
-package org.hbhk.aili.cache.server;
+package org.hbhk.aili.cache.server.serialize.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import org.hbhk.aili.cache.server.serialize.ICacheSerialize;
 
 public class DefaultCacheSerialize implements ICacheSerialize<byte[]> {
 

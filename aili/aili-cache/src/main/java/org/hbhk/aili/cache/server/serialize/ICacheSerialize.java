@@ -1,4 +1,4 @@
-package org.hbhk.aili.cache.server;
+package org.hbhk.aili.cache.server.serialize;
 
 public interface ICacheSerialize<T> {
 
