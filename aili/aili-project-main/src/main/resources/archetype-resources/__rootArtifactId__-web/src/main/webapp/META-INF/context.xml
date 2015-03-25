@@ -1,0 +1,11 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<Resource  name="jdbc/hbhkds" auth="Container" type="javax.sql.DataSource"
+		username="root" password="135246" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://127.0.0.1:3306/springmvc" maxActive="8"
+		maxIdle="4"  logAbandoned="true"  />
+		
+</Context>
