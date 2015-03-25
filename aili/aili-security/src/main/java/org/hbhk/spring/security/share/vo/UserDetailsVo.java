@@ -1,6 +1,7 @@
 package org.hbhk.spring.security.share.vo;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,8 @@ public class UserDetailsVo implements UserDetails {
 	/** 用户的密码 */
 	private String password;
 
+	private Set<String> privilegeUrls;
+	
 	public UserDetailsVo() {
 	}
 
@@ -87,4 +90,13 @@ public class UserDetailsVo implements UserDetails {
 		this.userId = userId;
 	}
 
+	public Set<String> getPrivilegeUrls() {
+		return privilegeUrls;
+	}
+
+	public void setPrivilegeUrls(Set<String> privilegeUrls) {
+		this.privilegeUrls = privilegeUrls;
+	}
+
+	
 }
