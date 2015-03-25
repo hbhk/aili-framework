@@ -18,7 +18,7 @@ import org.hbhk.aili.core.share.consts.Protocol;
 import org.hbhk.aili.security.server.cache.UserCache;
 import org.hbhk.aili.security.server.context.UserContext;
 import org.hbhk.aili.security.share.define.UserConstants;
-import org.hbhk.aili.security.share.pojo.UserInfo;
+import org.hbhk.aili.security.share.model.UserInfo;
 
 public class AppContextFilter implements Filter {
 

@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.hbhk.aili.cache.server.CacheSupport;
 import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.security.server.dao.IUserDao;
-import org.hbhk.aili.security.share.pojo.UserInfo;
+import org.hbhk.aili.security.share.model.UserInfo;
 import org.springframework.stereotype.Component;
 
 @Component

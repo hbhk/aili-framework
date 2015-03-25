@@ -23,7 +23,7 @@ import org.hbhk.aili.security.server.context.UserContext;
 import org.hbhk.aili.security.server.dao.IUserDao;
 import org.hbhk.aili.security.server.service.IUserService;
 import org.hbhk.aili.security.share.define.UserConstants;
-import org.hbhk.aili.security.share.pojo.UserInfo;
+import org.hbhk.aili.security.share.model.UserInfo;
 import org.hbhk.spring.security.share.vo.UserDetailsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

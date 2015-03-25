@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.security.server.dao.ILoginLogInfoDao;
 import org.hbhk.aili.security.server.service.ILoginLogInfoService;
-import org.hbhk.aili.security.share.pojo.LoginLogInfo;
+import org.hbhk.aili.security.share.model.LoginLogInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

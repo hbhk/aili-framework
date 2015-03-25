@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.core.share.util.BeanToMapUtil;
 import org.hbhk.aili.security.server.dao.IResourceDao;
 import org.hbhk.aili.security.server.service.IResourceService;
-import org.hbhk.aili.security.share.pojo.ResourceInfo;
+import org.hbhk.aili.security.share.model.ResourceInfo;
 import org.springframework.stereotype.Service;
 
 @Service

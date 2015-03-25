@@ -2,7 +2,7 @@ package org.hbhk.aili.security.server.comparator;
 
 import java.util.Comparator;
 
-import org.hbhk.aili.security.share.pojo.ResourceInfo;
+import org.hbhk.aili.security.share.model.ResourceInfo;
 
 public class ResourceComparator implements Comparator<ResourceInfo> {
 

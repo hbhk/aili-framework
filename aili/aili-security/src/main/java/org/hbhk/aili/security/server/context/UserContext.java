@@ -1,6 +1,6 @@
 package org.hbhk.aili.security.server.context;
 
-import org.hbhk.aili.security.share.pojo.UserInfo;
+import org.hbhk.aili.security.share.model.UserInfo;
 
 
 

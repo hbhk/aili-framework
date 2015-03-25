@@ -2,7 +2,7 @@ package org.hbhk.aili.security.server.service;
 
 import java.util.List;
 
-import org.hbhk.aili.security.share.pojo.ResourceInfo;
+import org.hbhk.aili.security.share.model.ResourceInfo;
 
 public interface IResourceService {
 

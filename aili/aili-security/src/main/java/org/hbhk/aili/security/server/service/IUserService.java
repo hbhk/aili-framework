@@ -1,6 +1,6 @@
 package org.hbhk.aili.security.server.service;
 
-import org.hbhk.aili.security.share.pojo.UserInfo;
+import org.hbhk.aili.security.share.model.UserInfo;
 
 public interface IUserService extends ICommonService<UserInfo> {
 	
