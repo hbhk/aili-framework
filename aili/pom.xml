@@ -40,6 +40,7 @@
 		<module>aili-rpc</module>
 		<module>aili-search</module>
 		<module>aili-jms</module>
+		<module>aili-sso</module>
 		<module>aili-project-main</module>
 		<module>aili-project-module</module>
 	</modules>
