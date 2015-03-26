@@ -62,6 +62,7 @@ public class OffsetLimitInterceptor implements Interceptor {
             limit = RowBounds.NO_ROW_LIMIT;
 
             queryArgs[rowboundsIndex] = new RowBounds(offset, limit);
+            //TODO 排序处理
             BoundSql newBoundSql =
                 new BoundSql(ms.getConfiguration(), sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
             // 将原有的BoundSql中的MetaParameter复制到新的BoundSql中
