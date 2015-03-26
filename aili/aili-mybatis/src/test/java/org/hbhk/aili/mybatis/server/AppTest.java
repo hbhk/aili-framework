@@ -14,6 +14,7 @@ import org.hbhk.aili.mybatis.server.dao.IUserDao;
 import org.hbhk.aili.mybatis.server.model.UserInfo;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
+import org.hbhk.aili.mybatis.server.support.Sort;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,7 @@ public class AppTest {
 			Page page = new Page();
 			page.setPageNum(2);
 			page.setPageSize(20);
-			Pagination<UserInfo> user = userDao.getPagination(params, page);
+			Pagination<UserInfo> user = userDao.getPagination(params, page,new Sort("aaa"));
 			System.out.println(user.getDatas());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +120,7 @@ public class AppTest {
 			page.setPageNum(2);
 			page.setPageSize(2);
 			Pagination<UserInfo1> user = userDao.getCustomPagination(params,
-					page);
+					page,new Sort("name"));
 			for (UserInfo1 iterable_element : user.getDatas()) {
 				System.out.println("id:" + iterable_element.getId());
 			}

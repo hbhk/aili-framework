@@ -1,5 +1,6 @@
 package org.hbhk.aili.mybatis.server.interceptor;
 
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.ibatis.executor.Executor;
@@ -16,6 +17,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.mybatis.server.dialect.Dialect;
+import org.hbhk.aili.mybatis.server.support.Sort;
 import org.hbhk.aili.mybatis.share.util.PropertiesHelper;
 
 /**
@@ -42,10 +44,11 @@ public class OffsetLimitInterceptor implements Interceptor {
     /**
      * 拦截分页请求，使用方言将原sql转化成分页sql processIntercept
      */
-    void processIntercept(final Object[] queryArgs) {
+    @SuppressWarnings("unchecked")
+	void processIntercept(final Object[] queryArgs) {
         // queryArgs = query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler)
         MappedStatement ms = (MappedStatement) queryArgs[mappedStatementIndex];
-        Object parameter = queryArgs[parameterIndex];
+        Map<String, Object>  parameter = (Map<String, Object>) queryArgs[parameterIndex];
         final RowBounds rowBounds = (RowBounds) queryArgs[rowboundsIndex];
         int offset = rowBounds.getOffset();
         int limit = rowBounds.getLimit();
@@ -53,6 +56,13 @@ public class OffsetLimitInterceptor implements Interceptor {
         if (dialect.supportsLimit() && (offset != RowBounds.NO_ROW_OFFSET || limit != RowBounds.NO_ROW_LIMIT)) {
             BoundSql boundSql = ms.getBoundSql(parameter);
             String sql = boundSql.getSql().trim();
+            if(parameter.get("sorts") != null){
+           	 //排序处理
+               Sort[] sorts= (Sort[]) parameter.get("sorts");
+               if(sorts != null && sorts.length>0){
+               	sql=sql+" order by "+Sort.toSortStr(sorts);
+               }
+           }
             if (dialect.supportsLimitOffset()) {
                 sql = dialect.getLimitString(sql, offset, limit);
                 offset = RowBounds.NO_ROW_OFFSET;
@@ -62,7 +72,7 @@ public class OffsetLimitInterceptor implements Interceptor {
             limit = RowBounds.NO_ROW_LIMIT;
 
             queryArgs[rowboundsIndex] = new RowBounds(offset, limit);
-            //TODO 排序处理
+           
             BoundSql newBoundSql =
                 new BoundSql(ms.getConfiguration(), sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
             // 将原有的BoundSql中的MetaParameter复制到新的BoundSql中

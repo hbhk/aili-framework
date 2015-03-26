@@ -23,6 +23,7 @@ import org.hbhk.aili.mybatis.server.support.DynamicSqlTemplate;
 import org.hbhk.aili.mybatis.server.support.GnericInterfaceTypeContext;
 import org.hbhk.aili.mybatis.server.support.Page;
 import org.hbhk.aili.mybatis.server.support.Pagination;
+import org.hbhk.aili.mybatis.server.support.Sort;
 import org.hbhk.aili.mybatis.share.util.AopTargetUtil;
 import org.hbhk.aili.mybatis.share.util.MybatisSqlHelper;
 import org.slf4j.Logger;
@@ -82,6 +83,8 @@ public class QueryPageAspect implements Ordered {
 			String statement = mapperIdPrefix+"."+methodName;
 			Page page = getPage(args);
 			Map<String, Object> params = getParams(args);
+			Sort[] sorts = getSorts(args);
+			params.put("sorts", sorts);
 			RowBounds rowBounds = new RowBounds(page.getPageNum(),page.getPageSize());
 			SqlSession session = sqlSessionFactory.openSession();
 			List<Object> list = session.selectList(statement, params,rowBounds);
@@ -172,15 +175,26 @@ public class QueryPageAspect implements Ordered {
 	}
 	
 	private Page getPage(Object[] args ){
-		Page page = new Page();
 		if(args!=null){
 			for (Object arg : args) {
 				if(arg instanceof Page ){
 					return   (Page) arg;
 				}
 			}
-		}page.setPageNum(0);
+		}
+		Page page = new Page();
+		page.setPageNum(0);
 		page.setPageSize(10);
 		return page;
+	}
+	private Sort[] getSorts(Object[] args ){
+		if(args!=null){
+			for (Object arg : args) {
+				if(arg instanceof Sort[] ){
+					return   (Sort[]) arg;
+				}
+			}
+		}
+		return null;
 	}
 }
