@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.I0Itec.zkclient.IZkStateListener;
 import org.I0Itec.zkclient.ZkClient;
+import org.I0Itec.zkclient.serialize.ZkSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -13,28 +14,28 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+
 /**
- * 
- * @Description: 整合第三方框架支持
  * @author 何波
- * @date 2015年3月11日 上午10:05:24 
- *
+ * @date 2015年3月4日 下午3:36:40 
  */
-@Component
 public class ZKListeners implements  InitializingBean {
 	public static final Logger log = LoggerFactory.getLogger(ZKListeners.class);
 	private ZkClient zkClient;
-	private List<IDataListener> dataListeners;
-	private List<IChildListener> childListeners;
+	public static List<IDataListener> dataListeners;
+	public static List<IChildListener> childListeners;
 	private IZkStateListener zkStateListener;
+	private ZkSerializer zkSerializer;
 	private String basePackages;
 	
     private static final String RESOURCE_PATTERN = "/**/*.class";  
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		initScanPackages();
+		if(zkSerializer != null){
+			zkClient.setZkSerializer(zkSerializer);
+		}
 		if(dataListeners != null){
 			//添加数据监听
 			for (IDataListener listener : dataListeners) {
@@ -123,7 +124,7 @@ public class ZKListeners implements  InitializingBean {
 		return dataListeners;
 	}
 	public void setDataListeners(List<IDataListener> dataListeners) {
-		this.dataListeners = dataListeners;
+		ZKListeners.dataListeners = dataListeners;
 	}
 	public IZkStateListener getZkStateListener() {
 		return zkStateListener;
@@ -135,7 +136,7 @@ public class ZKListeners implements  InitializingBean {
 		return childListeners;
 	}
 	public void setChildListeners(List<IChildListener> childListeners) {
-		this.childListeners = childListeners;
+		ZKListeners.childListeners = childListeners;
 	}
 
 	public String getBasePackages() {
