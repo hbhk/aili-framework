@@ -29,7 +29,7 @@ public class CallbackService implements ICallbackService {
 							}
 						}
 						// 定时触发变更通知
-						Thread.sleep(5000); 
+						Thread.sleep(3000); 
 					} catch (Throwable t) { 
 						// 防御容错
 						log.error(t.getMessage(),t);
