@@ -36,13 +36,13 @@
 		</authentication-provider>
 	</authentication-manager>
 
-	<beans:bean id="userDetailsService" class="com.baozun.wms4.web.manager.auth.UserDetailsServiceImpl"></beans:bean>
-	<beans:bean id="loginSuccessHandler" class="com.baozun.wms4.web.manager.auth.LoginSuccessHandler"></beans:bean>
+	<beans:bean id="userDetailsService" class="org.hbhk.spring.security.server.filter.UserDetailsServiceImpl"></beans:bean>
+	<beans:bean id="loginSuccessHandler" class="org.hbhk.spring.security.server.filter.LoginSuccessHandler"></beans:bean>
 	<beans:bean id="urlAccessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
 		<beans:constructor-arg>
 			<beans:list>
 				<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-				<beans:bean class="com.baozun.wms4.web.manager.auth.UrlAccessDecisionVoter" />
+				<beans:bean class="org.hbhk.spring.security.server.filter.UrlAccessDecisionVoter" />
 			</beans:list>
 		</beans:constructor-arg>
 	</beans:bean>
