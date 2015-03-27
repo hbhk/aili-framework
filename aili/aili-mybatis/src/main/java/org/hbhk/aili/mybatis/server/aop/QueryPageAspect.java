@@ -77,21 +77,25 @@ public class QueryPageAspect implements Ordered {
 					GnericInterfaceTypeContext.setType(gnericInterfaceType);
 				}
 			}
+			SqlSession session = sqlSessionFactory.openSession();
 			String methodName = method.getName();
+			String statement = mapperIdPrefix+"."+methodName;
 			Pagination<Object> pagination = new Pagination<Object>();
 			Object[] args = pjp.getArgs();
-			String statement = mapperIdPrefix+"."+methodName;
-			Page page = getPage(args);
 			Map<String, Object> params = getParams(args);
-			Sort[] sorts = getSorts(args);
-			params.put("sorts", sorts);
-			RowBounds rowBounds = new RowBounds(page.getPageNum(),page.getPageSize());
-			SqlSession session = sqlSessionFactory.openSession();
-			List<Object> list = session.selectList(statement, params,rowBounds);
 			String sql = MybatisSqlHelper.getSql(session, statement, params);
 			sql = getCountQueryStringForSql(sql, false);
 			Object[] qargs = MybatisSqlHelper.getParams(session, statement, params);
 			int count = getCount(sql, qargs);
+			if(count == 0){
+				return null;
+			}
+			Page page = getPage(args);
+			Sort[] sorts = getSorts(args);
+			params.put("sorts", sorts);
+			RowBounds rowBounds = new RowBounds(page.getPageNum(),page.getPageSize());
+			List<Object> list = session.selectList(statement, params,rowBounds);
+			
 			pagination.setDatas(list);
 			pagination.setCount(count);
 			int totalPages = count/page.getPageSize();
