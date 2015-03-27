@@ -7,7 +7,6 @@ public class DubboProviderMain {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "applicationProvider.xml" });
 		context.start();
-		System.out.println("Press any key to exit.");
 		System.in.read();
 	}
 }

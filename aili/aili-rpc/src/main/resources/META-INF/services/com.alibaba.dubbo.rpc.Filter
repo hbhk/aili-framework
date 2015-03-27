@@ -1,0 +1,1 @@
+userContextFilter=org.hbhk.aili.rpc.server.dubbo.filter.UserContextFilter

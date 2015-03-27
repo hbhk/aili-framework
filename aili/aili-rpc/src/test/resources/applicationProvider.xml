@@ -15,12 +15,19 @@
 	<!-- 使用zookeeper注册中心暴露服务地址 --><!-- register="true" -->
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" register="true" />
 
-
+	<bean id="callbackService" class="org.hbhk.aili.rpc.server.dubbo.callback.impl.CallbackService" />
+	<dubbo:service interface="org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService" ref="callbackService" connections="1" callbacks="1000">
+	    <dubbo:method name="addListener">
+	        <dubbo:argument index="1" callback="true" />
+	        <!--也可以通过指定类型的方式-->
+	        <!--<dubbo:argument type="com.demo.CallbackListener" callback="true" />-->
+	    </dubbo:method>
+	</dubbo:service>
 	<!-- 用dubbo协议在20880端口暴露服务 -->
  	<dubbo:protocol name="dubbo" port="20880" />
 	<!-- scope="local" version="1.0" -->
 	<dubbo:provider protocol="dubbo" default="true"
-		 timeout="350000"     />
+		 timeout="350000"    filter="userContextFilter" />
 
 
 <!-- 	<dubbo:monitor address="${dubbo.monitor.address}" /> -->

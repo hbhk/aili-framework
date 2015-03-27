@@ -1,5 +1,7 @@
 package org.hbhk.aili.rpc.server.dubbo;
 
+import org.hbhk.aili.rpc.server.dubbo.callback.ICallbackListener;
+import org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class HBHKConsumer  {
@@ -7,18 +9,22 @@ public class HBHKConsumer  {
 	public static void run() {
 		context = new ClassPathXmlApplicationContext(
 				new String[] { "applicationConsumer.xml" });
-		IProcessData processData = (IProcessData) context
-				.getBean("processData"); // get
-											// service
-		// proxy
-		String hello = processData.deal("hello"); // do invoke!
-		System.out.println(Thread.currentThread().getName() + " " + hello);
-		
-	/*	String ss = processData.deal1(new BasicTableConfigSupport("str"), "data");
-		System.out.println(ss);*/
 	}
 
 	public static void main(String[] args) {
 		run();
+		testCallback();
+	}
+	
+	public static void testCallback() {
+		ICallbackService processData = (ICallbackService) context.getBean("callbackService"); 
+		processData.addListener("hbhk", new ICallbackListener() {
+			@Override
+			public void changed(String msg) {
+				  System.out.println("callback:" + msg);
+			}
+		});
+		
+		
 	}
 }
