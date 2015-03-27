@@ -16,7 +16,7 @@
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" register="true" />
 
 	<bean id="callbackService" class="org.hbhk.aili.rpc.server.dubbo.callback.impl.CallbackService" />
-	<dubbo:service interface="org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService" ref="callbackService" connections="1" callbacks="1000">
+	<dubbo:service interface="org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService" ref="callbackService" connections="1" callbacks="10">
 	    <dubbo:method name="addListener">
 	        <dubbo:argument index="1" callback="true" />
 	        <!--也可以通过指定类型的方式-->
