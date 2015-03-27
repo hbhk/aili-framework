@@ -80,7 +80,7 @@ public class QueryPageAspect implements Ordered {
 			SqlSession session = sqlSessionFactory.openSession();
 			String methodName = method.getName();
 			String statement = mapperIdPrefix+"."+methodName;
-			Pagination<Object> pagination = new Pagination<Object>();
+			
 			Object[] args = pjp.getArgs();
 			Map<String, Object> params = getParams(args);
 			String sql = MybatisSqlHelper.getSql(session, statement, params);
@@ -96,6 +96,7 @@ public class QueryPageAspect implements Ordered {
 			RowBounds rowBounds = new RowBounds(page.getPageNum(),page.getPageSize());
 			List<Object> list = session.selectList(statement, params,rowBounds);
 			
+			Pagination<Object> pagination = new Pagination<Object>();
 			pagination.setDatas(list);
 			pagination.setCount(count);
 			int totalPages = count/page.getPageSize();
