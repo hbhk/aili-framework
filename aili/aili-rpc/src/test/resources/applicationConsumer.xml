@@ -14,8 +14,7 @@
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
 	<dubbo:consumer timeout="50000" />
 	<!-- version="1.0"    scope="local" url="dubbo://10.8.17.43:20880" -->
-	<dubbo:reference id="processData"	interface="org.hbhk.aili.rpc.server.dubbo.IProcessData"  actives="10" loadbalance="leastactive">
-		<dubbo:method  name="deal"  actives="10" />
+	<dubbo:reference id="processData"	interface="org.hbhk.aili.rpc.server.dubbo.IProcessData" >
 	</dubbo:reference>
 		
 	<dubbo:reference id="callbackService" interface="org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService" />

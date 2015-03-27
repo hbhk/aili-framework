@@ -16,7 +16,7 @@
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" register="true" />
 
 	<bean id="callbackService" class="org.hbhk.aili.rpc.server.dubbo.callback.impl.CallbackService" />
-	<dubbo:service interface="org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService" ref="callbackService" connections="1" callbacks="10">
+	<dubbo:service interface="org.hbhk.aili.rpc.server.dubbo.callback.ICallbackService" ref="callbackService" connections="1" callbacks="3">
 	    <dubbo:method name="addListener">
 	        <dubbo:argument index="1" callback="true" />
 	        <!--也可以通过指定类型的方式-->
@@ -39,8 +39,7 @@
 		sent="false" 不等待消息发出，将消息放入IO队列，即刻返回。
 		如果你只是想异步，完全忽略返回值，可以配置return="false"，以减少Future对象的创建和管理成本：
 	 -->
-	<dubbo:service ref="processData" interface="org.hbhk.aili.rpc.server.dubbo.IProcessData" executes="10" loadbalance="leastactive" >
-		<dubbo:method  name="deal" async="true" sent="true" return="false" executes="10" />
+	<dubbo:service ref="processData" interface="org.hbhk.aili.rpc.server.dubbo.IProcessData">
 	</dubbo:service>
 
 	<!-- Default Protocol -->
@@ -48,7 +47,6 @@
 	<!-- <dubbo:protocol name="dubbo" port="20880" /> -->
 	<!-- designate implementation -->
 	<bean id="processData" class="org.hbhk.aili.rpc.server.dubbo.ProcessData" >
-		<dubbo:method  name="deal" async="true"/>
 	</bean>
 
 </beans> 
