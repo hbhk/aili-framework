@@ -429,6 +429,9 @@ public class DynamicSqlTemplate implements InitializingBean {
 	}
 	private String getTableName() {
 		ModelInfo modelInfo = tabs.get(getKey());
+		if(modelInfo==null){
+			throw new RuntimeException("未配置model信息:"+getKey());
+		}
 		return modelInfo.getTable();
 	}
 	private String getKey() {
