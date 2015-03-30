@@ -16,22 +16,12 @@
 			http://www.springframework.org/schema/aop 
 			http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<bean class="org.hbhk.aili.cache.server.aop.advice.CacheAdvice">
-		<property name="cacheTemplet" ref="memoryCacheTemplet" />
-	</bean>
-	<context:property-placeholder location="classpath:config.properties" />
 	<!-- 数据源 jndi方式 -->
 	<!-- <bean id="dataSourceSpied" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName">
 			<value>jdbc/hbhkds</value>
 		</property>
 		<property name="resourceRef" value="true" />
-	</bean> -->
-
-	<!-- com.atomikos.jdbc.AtomikosDataSourceBean -->
-	<!-- <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-		<constructor-arg ref="dataSourceSpied" />
 	</bean> -->
 
 	<!-- c3p0连接池配置 -->
@@ -96,68 +86,8 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="query*" read-only="true" />
-			<tx:method name="find*" read-only="true" />
-			<tx:method name="load*" read-only="true" />
-			<tx:method name="*" rollback-for="Exception" />
-		</tx:attributes>
-	</tx:advice>
-
-	<aop:config>
-		<aop:advisor
-			pointcut="execution(* org.hbhk.aili.*.server.service.*Service.*(..))"
-			advice-ref="txAdvice" />
-	</aop:config>
-
-
 	<!-- 事务注解支持 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<!-- myBatis文件 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="/WEB-INF/mybatis.xml" />
-		<property name="mapperLocations" value="classpath*:org/hbhk/**/META-INF/orm/*.xml" />
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<!-- 验证码 -->
-	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
-		<property name="config">
-			<bean class="com.google.code.kaptcha.util.Config">
-				<constructor-arg>
-					<props>
-						<prop key="kaptcha.border">no</prop>
-						<prop key="kaptcha.border.color">105,179,90</prop>
-						<prop key="kaptcha.textproducer.font.color">red</prop>
-						<prop key="kaptcha.image.width">250</prop>
-						<prop key="kaptcha.textproducer.font.size">90</prop>
-						<prop key="kaptcha.image.height">90</prop>
-						<prop key="kaptcha.session.key">code</prop>
-						<prop key="kaptcha.textproducer.char.length">4</prop>
-						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
-					</props>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="limitCache" class="org.hbhk.aili.security.server.cache.LoginLimitCache">
-		<property name="exp" value="500" />
-		<property name="strategy" value="3" />
-		<property name="storage" ref="redisCacheTemplet" />
-	</bean>
-
-	<!-- <context:component-scan base-package="org.hbhk"> <context:exclude-filter 
-		type="regex" expression="org.hbhk.*.*.server.controller.*" /> </context:component-scan> -->
-
-	<context:component-scan base-package="org.hbhk.aili.*.server">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
-	</context:component-scan>
 </beans>
 

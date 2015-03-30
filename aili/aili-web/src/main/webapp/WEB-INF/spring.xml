@@ -4,7 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-	xmlns:util="http://www.springframework.org/schema/util"  
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 			http://www.springframework.org/schema/beans 
 			http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -19,9 +19,11 @@
 			http://www.springframework.org/schema/util
 			 http://www.springframework.org/schema/util/spring-util.xsd
 			">
-	<util:properties  id="aili" location="classpath:config.properties"/>
+	<aop:aspectj-autoproxy />
+	<util:properties id="config"
+		location="classpath:config/config.properties" />
 	<!-- 扫描所有的controller -->
-	<context:component-scan base-package="org.hbhk.**.zk.server.*"
+	<context:component-scan base-package="org.hbhk.**.server.*"
 		use-default-filters="false">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
