@@ -22,7 +22,7 @@
 		location="/styles/" />
 
 	<!-- 扫描所有的controller -->
-	<context:component-scan base-package="org.hbhk.aili.**.server.controller"
+	<context:component-scan base-package="org.hbhk.**.server.controller"
 		use-default-filters="false">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -46,23 +46,19 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
 			<bean class="org.hbhk.aili.core.server.deploy.spring.ModuleInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
 			<bean class="org.hbhk.aili.security.server.security.SecurityInterceptor" />
 		</mvc:interceptor>
 		<!-- 	
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
 			<bean class="org.hbhk.aili.security.server.security.LoginLimitInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
 			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
 		</mvc:interceptor> 
 		-->

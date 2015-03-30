@@ -20,8 +20,7 @@
 			 http://www.springframework.org/schema/util/spring-util.xsd
 			">
 	<aop:aspectj-autoproxy />
-	<util:properties id="config"
-		location="classpath:config/config.properties" />
+	<util:properties id="config" location="classpath:config/config.properties" />
 	<!-- 扫描所有的controller -->
 	<context:component-scan base-package="org.hbhk.**.server.*"
 		use-default-filters="false">
