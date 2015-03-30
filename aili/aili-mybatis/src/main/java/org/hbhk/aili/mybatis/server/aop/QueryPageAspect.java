@@ -92,7 +92,7 @@ public class QueryPageAspect implements Ordered {
 			}
 			Page page = getPage(args);
 			Sort[] sorts = getSorts(args);
-			params.put("sorts", sorts);
+			params.put("page.sorts", sorts);
 			RowBounds rowBounds = new RowBounds(page.getPageNum(),page.getPageSize());
 			List<Object> list = session.selectList(statement, params,rowBounds);
 			

@@ -56,7 +56,7 @@ public class OffsetLimitInterceptor implements Interceptor {
         if (dialect.supportsLimit() && (offset != RowBounds.NO_ROW_OFFSET || limit != RowBounds.NO_ROW_LIMIT)) {
             BoundSql boundSql = ms.getBoundSql(parameter);
             String sql = boundSql.getSql().trim();
-            if(parameter.get("sorts") != null){
+            if(parameter.get("page.sorts") != null){
            	 //排序处理
                Sort[] sorts= (Sort[]) parameter.get("sorts");
                if(sorts != null && sorts.length>0){
