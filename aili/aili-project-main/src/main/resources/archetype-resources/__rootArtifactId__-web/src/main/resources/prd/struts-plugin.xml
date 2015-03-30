@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="hbhk-struts" extends="hbhk-struts-default">
+    	<interceptors>
+    		<interceptor-stack name="hbhkStack">
+    			<!-- <interceptor-ref name="error"/>
+    			<interceptor-ref name="module"/>
+    			<interceptor-ref name="security"/>
+    			<interceptor-ref name="defaultStack"/>
+    			<interceptor-ref name="json"/> -->
+    		</interceptor-stack>
+    	</interceptors>
+    	<default-interceptor-ref name="hbhkStack"/>
+    	
+    	<!-- <global-results>
+    		<result name="jspError" type="jsperror">${referer}</result>
+    		<result name="jsonError" type="jsonerror"></result>
+    		<result name="jspLogin" type="redirect">../login/index.action</result>
+    		<result name="jsonLogin" type="jsonerror"></result>
+    	</global-results> -->
+	</package>
+</struts>

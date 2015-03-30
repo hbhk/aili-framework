@@ -2,18 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
-		<groupId>${groupId}</groupId>
-		<artifactId>${rootArtifactId}</artifactId>
-		<version>${version}</version>
+		<groupId>org.hbhk.aili</groupId>
+		<artifactId>aili</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-
-	<artifactId>${artifactId}</artifactId>
+	<version>${aili-version}</version>
+	<artifactId>aili-web</artifactId>
 	<packaging>war</packaging>
-
 	<properties>
-		<aili-version>1.0.0-SNAPSHOT</aili-version>
+		<aili-version>1.2.0-SNAPSHOT</aili-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -23,14 +21,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
-			<artifactId>aili-orm</artifactId>
+			<artifactId>aili-mybatis</artifactId>
 			<version>${aili-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.hbhk.aili</groupId>
-			<artifactId>aili-job</artifactId>
-			<version>${aili-version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.hbhk.aili</groupId> <artifactId>aili-job</artifactId> 
+			<version>${aili-version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-cache</artifactId>
@@ -38,17 +33,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
-			<artifactId>aili-i18n</artifactId>
-			<version>${aili-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hbhk.aili</groupId>
-			<artifactId>aili-test</artifactId>
-			<version>${aili-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-security</artifactId>
+			<version>${aili-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-support</artifactId>
 			<version>${aili-version}</version>
 		</dependency>
 		<dependency>
@@ -59,16 +49,36 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
 		</dependency>
+		<!-- logback s -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<!-- logback e -->
+		<dependency>
+			<groupId>p6spy</groupId>
+			<artifactId>p6spy</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
-		<filters>
-			<filter>src/main/filters/filter-${env}.properties</filter>
-		</filters>
+		<!-- <filters>
+			<filter>src/main/resources/config-${env}.properties</filter>
+		</filters> -->
 		<resources>
 			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
+				<directory>src/main/resources/${env}</directory>
+				<!-- <filtering>true</filtering> -->
 			</resource>
 			<resource>
 				<directory>src/main/webapp</directory>
@@ -83,33 +93,48 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
 					<path>/aili</path>
-					<port>8080</port>
+					<port>5416</port>
 					<warSourceDirectory>${project.build.directory}/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
-		<!-- 	<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>7.5.Final</version>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
+			<!-- 部署到指定的tomcat上 -->
+			<!--
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<charset>${project.build.sourceEncoding}</charset>
+					<url>http://localhost:8080/manager</url>
+					<server>tomcat.server</server>
+					<path>/platform</path>
+					<port>8080</port>
+					<warFile>${project.build.directory}/platform.war</warFile>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+				</configuration>
+			</plugin>
+ 			-->
+			<!-- <plugin> <groupId>org.jboss.as.plugins</groupId> <artifactId>jboss-as-maven-plugin</artifactId> 
+				<version>7.5.Final</version> <executions> <execution> <phase>install</phase> 
+				<goals> <goal>deploy</goal> </goals> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<warName>aili</warName>
+				</configuration>
+			</plugin>
+
+			<!-- <plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.10</version>
 			</plugin> -->
-			<plugin>  
-                <groupId>org.apache.maven.plugins</groupId>  
-                <artifactId>maven-war-plugin</artifactId>  
-                <version>2.1.1</version>  
-                <configuration>  
-                	<warName>aili</warName>
-                </configuration>  
-            </plugin>  
 		</plugins>
 	</build>
 
@@ -140,4 +165,3 @@
 		</profile>
 	</profiles>
 </project>
-	

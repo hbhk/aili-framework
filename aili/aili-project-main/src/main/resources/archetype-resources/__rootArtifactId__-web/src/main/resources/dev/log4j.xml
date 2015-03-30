@@ -16,7 +16,7 @@
 		</layout>
 	</appender>
 	<logger name="jdbc.sqltiming">         
-		<level value="ERROR" />     
+		<level value="DEBUG" />     
 	</logger>
 	<logger name="jdbc.connection">         
 		<level value="ERROR" />     
@@ -28,14 +28,14 @@
 		<level value="ERROR"/>
 	</logger>
 	<logger name="jdbc.sqlonly">
-		<level value="ERROR"/>
+		<level value="DEBUG"/>
 	</logger>
 	<logger name="jdbc.resultsettable" additivity="false"> 
 		<level value="ERROR" /> 
 		<appender-ref ref="CONSOLE" /> 
 	</logger>
   	<root>
-		<level value="${log4j.level}" />
+		<level value="DEBUG" />
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE" />
 	</root>
