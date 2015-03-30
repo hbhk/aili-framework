@@ -59,7 +59,7 @@ public class OffsetLimitInterceptor implements Interceptor {
             if(parameter.get("page.sorts") != null){
            	 //排序处理
                Sort[] sorts= (Sort[]) parameter.get("page.sorts");
-               if(sorts != null && sorts.length>0){
+               if(sorts.length>0){
                	sql=sql+" order by "+Sort.toSortStr(sorts);
                }
            }
