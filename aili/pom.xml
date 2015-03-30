@@ -33,7 +33,7 @@
 		<module>aili-hibernate</module>
 		<module>aili-mybatis</module>
 		<module>aili-security</module>
-		<module>aili-test</module>
+		<!-- <module>aili-test</module> -->
 		<module>aili-support</module>
 		<module>aili-struts-mvc</module>
 		<module>aili-gen</module>
