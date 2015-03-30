@@ -11,6 +11,7 @@
 	<packaging>war</packaging>
 	<properties>
 		<aili-version>1.2.0-SNAPSHOT</aili-version>
+		<logback-version>1.1.2</logback-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -52,14 +53,17 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
+			<version>${logback-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-access</artifactId>
+			<version>${logback-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
+			<version>${logback-version}</version>
 		</dependency>
 		<!-- logback e -->
 		<dependency>
