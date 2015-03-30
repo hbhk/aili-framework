@@ -21,7 +21,8 @@
 			">
 	<aop:aspectj-autoproxy />
 	<context:annotation-config />
-	<util:properties id="config" location="classpath:config/config.properties" />
+	<!-- <util:properties id="config" location="classpath:config/config.properties" /> -->
+	<context:property-placeholder location="classpath:config/config.properties"/>
 	<!-- 扫描所有的controller -->
 	<context:component-scan base-package="org.hbhk.**.server">
 		<context:exclude-filter type="annotation"
