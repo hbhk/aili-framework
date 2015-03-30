@@ -5,8 +5,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 @Service
 public class ItestService implements InitializingBean {
-	private static final Logger log = LoggerFactory
-			.getLogger(ItestService.class);
+	private static final Logger log = LoggerFactory.getLogger(ItestService.class);
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
