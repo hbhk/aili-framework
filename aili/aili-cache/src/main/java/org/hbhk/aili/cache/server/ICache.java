@@ -35,35 +35,12 @@ public interface ICache<K, V> {
 	 */
 	void set(K key, V value);
 
-	// /**
-	// * 一次性取出所有内容
-	// * @return
-	// */
-	// Map<K,V> get();
-	// /**
-	// * 失效一组缓存
-	// *
-	// * 使旧的一组缓存全部失效
-	// * 如果是LRU的在下一次使用会自动加载最新的
-	// *
-	// * @date 2012-11-12 上午11:13:00
-	// * @see
-	// */
-	// void invalid();
-	//
-	// /**
-	// * 失效key对应的缓存
-	// * 如果是LRU的会在下一次使用这个Key时自动加载最新的
-	// * 如果是Strong的会Throws RuntimeException异常，不允许失效部分数据
-	// * @param key
-	// * @see
-	// */
+	 /**
+	 * 失效key对应的缓存
+	 * 如果是LRU的会在下一次使用这个Key时自动加载最新的
+	 * 如果是Strong的会Throws RuntimeException异常，不允许失效部分数据
+	 * @param key
+	 * @see
+	 */
 	 void invalid(K ... key);
-	//
-	// /**
-	// * 失效传入的多个key对应的缓存
-	// * @param keys
-	// * @see
-	// */
-	// void invalidMulti(K ... keys);
 }
