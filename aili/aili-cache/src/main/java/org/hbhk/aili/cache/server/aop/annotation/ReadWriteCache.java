@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface ReadCache {
+public @interface ReadWriteCache {
 
-	String namespace() default "";
+	String prefix() default "";
 
 	int expire() default 0;
 }

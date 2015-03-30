@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface CacheKey {
 
-    int order() default 0;
+	String value() default "";
+
 }

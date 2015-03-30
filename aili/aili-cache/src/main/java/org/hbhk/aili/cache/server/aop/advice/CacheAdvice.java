@@ -9,11 +9,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hbhk.aili.cache.server.aop.annotation.CacheKey;
 import org.hbhk.aili.cache.server.aop.annotation.InvaliCache;
-import org.hbhk.aili.cache.server.aop.annotation.ReadCache;
+import org.hbhk.aili.cache.server.aop.annotation.ReadWriteCache;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 
 /**
@@ -21,27 +20,20 @@ import org.hbhk.aili.cache.server.templet.ICacheTemplet;
  */
 @Aspect
 public class CacheAdvice {
-	ICacheTemplet<String, Object> cacheTemplet;
-
-	private final String pointcut = "execution(* org.hbhk.*.*.server.dao.impl.*.*(..))";
+	private ICacheTemplet<String, Object> cacheTemplet;
 
 	private static Map<String, Integer> paramIndexs = new ConcurrentHashMap<String, Integer>();
 
-	// 定义切面
-	@Pointcut(pointcut)
-	public void cachedPointcut() {
-	}
-
-	@Around("cachedPointcut()")
+	@Around("@within(org.springframework.stereotype.Component) || @within(org.springframework.stereotype.Repository)")
 	public Object doAround(ProceedingJoinPoint call) {
 		Object result = null;
 		Signature signature = call.getSignature();
 		MethodSignature methodSignature = (MethodSignature) signature;
 		Method method = methodSignature.getMethod();
-		if (method.isAnnotationPresent(ReadCache.class)) {
-			ReadCache cache = method.getAnnotation(ReadCache.class);
+		if (method.isAnnotationPresent(ReadWriteCache.class)) {
+			ReadWriteCache cache = method.getAnnotation(ReadWriteCache.class);
 			if (cache != null) {
-				String prefix = cache.namespace();
+				String prefix = cache.prefix();
 				String key = (prefix + "_" + getKey(method, call.getArgs()))
 						.trim();
 				result = cacheTemplet.get(key);
@@ -63,12 +55,13 @@ public class CacheAdvice {
 		} else if (method.isAnnotationPresent(InvaliCache.class)) {
 			InvaliCache flush = method.getAnnotation(InvaliCache.class);
 			if (flush != null) {
-				String prefix = flush.namespace();
-				String key = (prefix + "_" + getKey(method, call.getArgs())).trim();
+				String prefix = flush.prefix();
+				String key = (prefix + "_" + getKey(method, call.getArgs()))
+						.trim();
 				// 删除缓存
 				cacheTemplet.invalid(key);
 			}
-		}else{
+		} else {
 			try {
 				result = call.proceed();
 			} catch (Throwable e) {
