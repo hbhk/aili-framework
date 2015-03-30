@@ -6,7 +6,7 @@
 
 	<context-param>
 		<param-name>override</param-name>
-		<param-value>false</param-value>
+		<param-value>true</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.hbhk.aili.core.server.listener.AppContextLoaderListener</listener-class>
