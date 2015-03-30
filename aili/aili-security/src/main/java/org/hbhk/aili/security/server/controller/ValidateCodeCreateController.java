@@ -2,7 +2,6 @@ package org.hbhk.aili.security.server.controller;
 
 import java.awt.image.BufferedImage;
 
-import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hbhk.aili.security.share.define.SecurityConstant;
 import org.hbhk.aili.security.share.define.UserConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +20,7 @@ import com.google.code.kaptcha.Producer;
 @RequestMapping(SecurityConstant.moduleName)
 public class ValidateCodeCreateController {
 
-	@Resource
+	@Autowired(required =false)
 	private Producer captchaProducer;
 
 	public void setCaptchaProducer(Producer captchaProducer) {
