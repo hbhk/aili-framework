@@ -51,7 +51,7 @@
 	<logger name="java.sql.ResultSet" level="ERROR">
 		<appender-ref ref="console" />
 	</logger>
-	<root level="ERROR">
+	<root level="INFO">
 		<!-- <appender-ref ref="file" /> -->
 		<appender-ref ref="console" />
 	</root>

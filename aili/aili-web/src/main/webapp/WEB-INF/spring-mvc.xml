@@ -21,8 +21,6 @@
 	<mvc:resources mapping="/styles/**"
 		location="/styles/" />
 
-	<!-- 异常统一处理 -->
-	<bean class="org.hbhk.aili.core.server.ex.GlobalExceptionController" />
 	<!-- 扫描所有的controller -->
 	<context:component-scan base-package="org.hbhk.aili.**.server.controller"
 		use-default-filters="false">
@@ -70,18 +68,11 @@
 		-->
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="#{resourceBean.resourcePrefix}/**" />
 			<bean
 				class="org.hbhk.aili.core.server.interceptor.PerformanceWatchInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 
-	<bean class="jetbrick.template.web.springmvc.JetTemplateViewResolver">
-		<property name="prefix" value="/WEB-INF/views/"></property>
-        <property name="suffix" value=".jhtml" />
-        <property name="contentType" value="text/html; charset=UTF-8" />
-        <property name="order" value="8888" />
-    </bean>
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"></property>
