@@ -1,0 +1,14 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- <property name="current_session_context_class">thread</property>   -->
+		<!-- 引入需要映射的类 -->
+		<mapping class="org.hbhk.aili.hibernate.share.model.User" />
+		<mapping class="org.hbhk.aili.hibernate.share.model.Category" />
+		<mapping class="org.hbhk.aili.hibernate.share.model.Product" />
+		
+	</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+	"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" /> 
+		<!-- true依赖Enhancer -->
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" /> 
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+	</settings>
+	<typeHandlers>
+		<typeHandler handler="org.hbhk.aili.mybatis.server.handler.BooleanTypeHandler"
+			javaType="Boolean" jdbcType="CHAR" />
+	</typeHandlers>
+	<plugins>
+		<plugin
+			interceptor="org.hbhk.aili.mybatis.server.interceptor.OffsetLimitInterceptor">
+			<property name="dialectClass"
+				value="org.hbhk.aili.mybatis.server.dialect.MySQLDialect" />
+		</plugin>
+		<plugin
+			interceptor="org.hbhk.aili.mybatis.server.interceptor.AiliMybatisInterceptor"></plugin>
+	</plugins>
+</configuration>
