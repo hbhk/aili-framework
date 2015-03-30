@@ -1,10 +1,10 @@
 package org.hbhk.aili.nosql.share.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.nosql.server.mongodb.MongoSynchronization;
 import org.hbhk.aili.nosql.server.tx.DbHolder;
 import org.hbhk.aili.nosql.share.ex.CannotGetMongoDbConnectionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
 
@@ -15,7 +15,7 @@ import com.mongodb.Mongo;
  * 提供操作mongo数据库的工具类
  */
 public abstract class MongoDbUtils {
-	private static final Log LOGGER = LogFactory.getLog(MongoDbUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MongoDbUtils.class);
 
 	/**
      */
