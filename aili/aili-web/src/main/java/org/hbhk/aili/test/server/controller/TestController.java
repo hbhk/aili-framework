@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
 	private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
-	@RequestMapping(value = { "/", "index" })
+	@RequestMapping(value = { "/", "/index" })
 	public String index() {
 		log.info("index");
 		return "index";
