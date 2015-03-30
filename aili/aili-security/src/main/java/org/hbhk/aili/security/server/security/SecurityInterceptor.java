@@ -17,7 +17,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 
 	protected Log log = LogFactory.getLog(getClass());
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
-	@Autowired
+	@Autowired(required=false)
 	private IUserService userService; 
 
 	@Override
