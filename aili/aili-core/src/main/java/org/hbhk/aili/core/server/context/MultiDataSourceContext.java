@@ -7,7 +7,7 @@ package org.hbhk.aili.core.server.context;
  * @date 2015年3月11日 上午10:05:24 
  *
  */
-public class SpObserver {
+public class MultiDataSourceContext {
 	private static ThreadLocal<String> local = new ThreadLocal<String>();
 
 	public static void putSp(String sp) {

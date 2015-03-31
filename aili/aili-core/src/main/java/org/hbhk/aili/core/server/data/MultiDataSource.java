@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.core.server.context.SpObserver;
+import org.hbhk.aili.core.server.context.MultiDataSourceContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -90,7 +90,7 @@ public class MultiDataSource implements DataSource,ApplicationContextAware {
 	}
 
 	public DataSource getDataSource(){
-		String sp = SpObserver.getSp();
+		String sp = MultiDataSourceContext.getSp();
 		return getDataSource(sp);
 	}
 
