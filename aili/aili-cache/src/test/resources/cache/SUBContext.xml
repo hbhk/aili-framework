@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:redis="http://www.springframework.org/schema/redis" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:redis="http://www.springframework.org/schema/redis"
 	xsi:schemaLocation="   
           http://www.springframework.org/schema/beans   
           http://www.springframework.org/schema/beans/spring-beans.xsd   
@@ -35,23 +33,17 @@
 		<property name="password" value="${redis.pass}" />
 		<property name="poolConfig" ref="jedisPoolConfig" />
 	</bean>
-
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
 	</bean>
-
-	<bean id="redisCacheTemplet" 
-		class="org.hbhk.aili.cache.server.templet.impl.RedisCacheTemplet">
-		<property name="StringRedisTemplate" ref="redisTemplate" />
-	</bean>
-	<bean id="memoryCacheTemplet" class="org.hbhk.aili.cache.server.templet.impl.MemoryCacheTemplet">
-		<property name="redisTemplate" ref="redisTemplate"/>
-		<property name="isCluster" value="true"/>
-	</bean>
-	<bean id="cacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
-		<property name="cacheTemplet" ref="memoryCacheTemplet" />
-	</bean> 
 	
+	<bean id="defaultRedisMessage" class="org.hbhk.aili.cache.server.pub.impl.DefaultRedisMessage">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
+	<bean id="redisMessageListner" class="org.hbhk.aili.cache.server.RedisMessageListner"></bean>
+	<redis:listener-container connection-factory="jedisConnectionFactory">
+		<redis:listener ref="redisMessageListner" topic="hbhk" />
+	</redis:listener-container>
 
 
 </beans>  

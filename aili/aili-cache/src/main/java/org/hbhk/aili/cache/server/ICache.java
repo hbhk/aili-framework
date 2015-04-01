@@ -34,6 +34,8 @@ public interface ICache<K, V> {
 	 * @return 缓存Value
 	 */
 	void set(K key, V value);
+	
+	void set(K key, V value,int expire);
 
 	 /**
 	 * 失效key对应的缓存

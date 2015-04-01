@@ -11,13 +11,13 @@ public class TestSendMessage {
 	
 	public static void main(String[] args) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:cache/**/cacheContext.xml");
+				"classpath:cache/**/SUBContext.xml");
 	}
 	
 	@Test
 	public void sendMsg() throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:cache/**/cacheContext.xml");
+				"classpath:cache/**/SUBContext.xml");
 		redisMessage = (IRedisMessage) context.getBean("defaultRedisMessage");
 		redisMessage.sendMessage("hbhk", "hbhk");
 	}

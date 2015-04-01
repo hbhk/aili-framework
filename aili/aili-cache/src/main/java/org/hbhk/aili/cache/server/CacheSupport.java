@@ -17,16 +17,20 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 	private static final Log log = LogFactory.getLog(CacheSupport.class);
 	
 	private ICacheTemplet<String, V> cacheTemplet;
-	private int expire;
 
 	@Override
 	public void set(String key, V value) {
 		try {
-			if (expire > 0) {
-				cacheTemplet.set(key, value, expire);
-			} else {
-				cacheTemplet.set(key, value);
-			}
+			cacheTemplet.set(key, value);
+		} catch (DataAccessResourceFailureException e) {
+			log.warn(e.getMessage(), e);
+		}
+
+	}
+	@Override
+	public void set(String key, V value,int expire) {
+		try {
+			cacheTemplet.set(key, value, expire);
 		} catch (DataAccessResourceFailureException e) {
 			log.warn(e.getMessage(), e);
 		}
@@ -71,14 +75,6 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	public void setCacheTemplet(ICacheTemplet<String, V> cacheTemplet) {
 		this.cacheTemplet = cacheTemplet;
-	}
-
-	public int getExpire() {
-		return expire;
-	}
-
-	public void setExpire(int expire) {
-		this.expire = expire;
 	}
 
 }

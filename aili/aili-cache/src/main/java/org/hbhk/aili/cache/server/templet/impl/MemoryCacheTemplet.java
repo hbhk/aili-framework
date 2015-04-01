@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,21 +12,71 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hbhk.aili.cache.server.pub.impl.DefaultRedisMessage;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisTemplate;
 
 public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
 	private Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
 
 	// private Timer ttlTimer;
-	private ScheduledExecutorService scheduledExecutor = Executors
-			.newScheduledThreadPool(5);
+	private ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(5);
 
 	private volatile Map<String, TimerTask> ttlMap;
-
+	
+	private DefaultRedisMessage redisMessage;
+	
+	@Autowired(required =false)
+	private  RedisTemplate<String, Object> redisTemplate;
+	
+	private boolean isCluster = false;
+	
+	private Map<String, String> subMap = new ConcurrentHashMap<String, String>();
+	
+	private Executor taskExecutor  = Executors.newCachedThreadPool();
+	
+	private final Object monitor = new Object();
 	public MemoryCacheTemplet() {
 		// ttlTimer = new Timer();
 		ttlMap = new HashMap<String, TimerTask>();
+	}
+	private void sendMessage(final String key){
+		if(isCluster){
+			if(redisMessage == null){
+				redisMessage = new DefaultRedisMessage();
+				redisMessage.setRedisTemplate(redisTemplate);
+			}
+			redisMessage.sendMessage(key, key);
+			if(subMap.containsKey(key)){
+				return;
+			}
+			taskExecutor.execute(new Runnable() {
+				public void run() {
+					//添加监听
+					final RedisConnection  redisConnection = redisTemplate.getConnectionFactory().getConnection();
+					if (redisConnection.isSubscribed()) {
+						throw new IllegalStateException("Retrieved connection is already subscribed; aborting listening");
+					}
+					subMap.put(key, key);
+					redisConnection.subscribe(new MessageListener() {
+						@Override
+						public void onMessage(Message message, byte[] channels) {
+							String key = new String(message.getChannel());
+							log.info("更新本地缓存key:"+key);
+							if(cache.containsKey(key)){
+								log.info("删除本地 缓存key:"+key);
+								cache.remove(key);
+							}
+						}
+					}, key.getBytes());
+				}
+			});
+		}
 	}
 
 	@Override
@@ -33,6 +84,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 		try {
 			keyNot(key);
 			cache.put(key, value);
+			sendMessage(key);
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -58,6 +110,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 			task = new TTlTimerTask(key);
 			// ttlTimer.schedule(task, expire * 1000);
 			cache.put(key, value);
+			sendMessage(key);
 			scheduledExecutor.schedule(task, expire, TimeUnit.SECONDS);
 			return true;
 		} catch (Exception e) {
@@ -134,4 +187,24 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	}
 
+	public DefaultRedisMessage getRedisMessage() {
+		return redisMessage;
+	}
+	public void setRedisMessage(DefaultRedisMessage redisMessage) {
+		this.redisMessage = redisMessage;
+	}
+	public RedisTemplate<String, Object> getRedisTemplate() {
+		return redisTemplate;
+	}
+	public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
+	public boolean getIsCluster() {
+		return isCluster;
+	}
+	public void setIsCluster(boolean isCluster) {
+		this.isCluster = isCluster;
+	}
+
+	
 }
