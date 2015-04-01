@@ -67,10 +67,11 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 						@Override
 						public void onMessage(Message message, byte[] channels) {
 							String key = new String(message.getChannel());
-							log.info("更新本地缓存key:"+key);
 							if(cache.containsKey(key)){
 								log.info("删除本地 缓存key:"+key);
 								cache.remove(key);
+							}else{
+								log.info("本地缓存无需更新key:"+key);
 							}
 						}
 					}, key.getBytes());
