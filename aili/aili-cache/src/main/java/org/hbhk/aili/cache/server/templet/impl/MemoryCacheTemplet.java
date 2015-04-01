@@ -40,7 +40,6 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	
 	private Executor taskExecutor  = Executors.newCachedThreadPool();
 	
-	private final Object monitor = new Object();
 	public MemoryCacheTemplet() {
 		// ttlTimer = new Timer();
 		ttlMap = new HashMap<String, TimerTask>();
@@ -130,7 +129,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	public void invalid(String key) {
 		keyNot(key);
 		cache.remove(key);
-
+		sendMessage(key);
 	}
 
 	@Override
@@ -167,6 +166,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 		}
 		for (String key : keys) {
 			cache.remove(key);
+			sendMessage(key);
 		}
 
 	}
