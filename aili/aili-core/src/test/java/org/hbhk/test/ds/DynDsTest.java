@@ -6,11 +6,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class DynDsTest {
 
 	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"classpath:spring.xml");
 		IUserService us = (IUserService) context.getBean("userService");
-		for (int i = 0; i <2; i++) {
-			us.getUser();
-		}
-		
+		us.getUser();
+		us.getUser1();
 	}
 }

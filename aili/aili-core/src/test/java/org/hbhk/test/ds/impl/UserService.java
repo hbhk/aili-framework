@@ -12,5 +12,12 @@ public class UserService implements IUserService {
 	public void getUser() {
 		System.out.println("11111111111");
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public void getUser1() {
+		System.out.println("222222222222");
+		
+	}
              
 }

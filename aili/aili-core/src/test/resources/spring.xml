@@ -38,8 +38,8 @@
 		id="dataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
-				<entry value-ref="testDataSource" key="test"></entry>
-				<entry value-ref="UserDataSource" key="User"></entry>
+				<entry value-ref="testDataSource" key="write"></entry>
+				<entry value-ref="UserDataSource" key="read"></entry>
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="testDataSource"></property>
