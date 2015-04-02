@@ -24,21 +24,23 @@ public class SimpleJobTest {
 
 			JobService quartzService = (JobService) context
 					.getBean("jobService");
-			String jobName = "jobName";
-			List<String> topicIds = new ArrayList<String>();
-			topicIds.add("topicId1");
-			topicIds.add("topicId2");
-			String description = "description";
-			String cronPattern = "0/10 * * * * ?";
-			try {
-				quartzService.addParseModelJob(jobName, topicIds, description,
-						cronPattern, ParseModelJob.class);
+			for (int i = 0; i < 10; i++) {
+				String jobName = "jobName"+i;
+				List<String> topicIds = new ArrayList<String>();
+				topicIds.add("topicId1");
+				topicIds.add("topicId2");
+				String description = "description";
+				String cronPattern = "0/10 * * * * ?";
+				try {
+					quartzService.addParseModelJob(jobName, topicIds, description,
+							cronPattern, ParseModelJob.class);
 
-			} catch (Exception e) {
-				e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+		
 
-			quartzService.getQuartzJobList(jobName);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,7 +54,10 @@ public class SimpleJobTest {
 
 		JobService quartzService = (JobService) context
 				.getBean("jobService");
-		quartzService.deleteJob("jobName");
+		for (int i = 3; i < 10; i++) {
+			quartzService.deleteJob("jobName"+i);
+		}
+		
 	}
 	public static void main(String[] args) {
 		try {
