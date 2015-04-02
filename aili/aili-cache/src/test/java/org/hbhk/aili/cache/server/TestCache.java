@@ -19,11 +19,12 @@ public class TestCache {
 				"classpath:cache/**/cacheContext.xml");
 		CacheSupportTest cacheSupportTest = (CacheSupportTest) context
 				.getBean("cacheSupportTest");
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 1; i++) {
 			RoleInfo sss = cacheSupportTest.get("hebo"+i);
 			System.out.println(sss+"aaaaaaaaa"+i);
 			TimeUnit.SECONDS.sleep(1);
 		}
+		System.in.read();
 	
 	}
 

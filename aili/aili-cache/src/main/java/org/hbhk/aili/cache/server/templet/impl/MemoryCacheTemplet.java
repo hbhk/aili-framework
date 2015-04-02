@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,15 +15,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.pub.impl.DefaultRedisMessage;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
+import org.hbhk.aili.cache.share.ex.RedisReConnectExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
-	private Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
+	public Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
 
 	// private Timer ttlTimer;
 	private ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(5);
@@ -36,47 +38,65 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	
 	private boolean isCluster = false;
 	
-	private Map<String, String> subMap = new ConcurrentHashMap<String, String>();
+	public static Map<String, String> subMap = new ConcurrentHashMap<String, String>();
 	
-	private Executor taskExecutor  = Executors.newCachedThreadPool();
-	
+	private ExecutorService  taskExecutor  = Executors.newCachedThreadPool(new ThreadFactory() {
+		
+		@Override
+		public Thread newThread(Runnable r) {
+			 System.out.println(this + " creating new Thread");
+		        Thread t = new Thread(r);
+		        log.error("created " + t + " ID:" + t.getId());
+		        t.setUncaughtExceptionHandler(new RedisReConnectExceptionHandler());
+		        log.error("eh=" + t.getUncaughtExceptionHandler());
+		        return t;
+		}
+	});
+	private  JedisConnection  redisConnection = null;
 	public MemoryCacheTemplet() {
 		// ttlTimer = new Timer();
 		ttlMap = new HashMap<String, TimerTask>();
 	}
-	private void sendMessage(final String key){
-		if(isCluster){
-			if(redisMessage == null){
-				redisMessage = new DefaultRedisMessage();
-				redisMessage.setRedisTemplate(redisTemplate);
-			}
-			redisMessage.sendMessage(key, key);
-			if(subMap.containsKey(key)){
-				return;
-			}
-			taskExecutor.execute(new Runnable() {
-				public void run() {
-					//添加监听
-					final RedisConnection  redisConnection = redisTemplate.getConnectionFactory().getConnection();
-					if (redisConnection.isSubscribed()) {
-						throw new IllegalStateException("Retrieved connection is already subscribed; aborting listening");
-					}
-					subMap.put(key, key);
-					redisConnection.subscribe(new MessageListener() {
-						@Override
-						public void onMessage(Message message, byte[] channels) {
-							String key = new String(message.getChannel());
-							if(cache.containsKey(key)){
-								log.info("删除本地 缓存key:"+key);
-								cache.remove(key);
-							}else{
-								log.info("本地缓存无需更新key:"+key);
-							}
-						}
-					}, key.getBytes());
-				}
-			});
+	public void registerListener(final String key){
+		//添加监听
+		redisConnection = (JedisConnection) redisTemplate.getConnectionFactory().getConnection();
+		if (redisConnection.isSubscribed()) {
+			throw new IllegalStateException("Retrieved connection is already subscribed; aborting listening");
 		}
+		subMap.put(key, key);
+		redisConnection.subscribe(new MessageListener() {
+			@Override
+			public void onMessage(Message message, byte[] channels) {
+				String key = new String(message.getChannel());
+				if(cache.containsKey(key)){
+					log.info("删除本地 缓存key:"+key);
+					cache.remove(key);
+				}else{
+					log.info("本地缓存无需更新key:"+key);
+				}
+			}
+		}, key.getBytes());
+	}
+	private void sendMessage(final String key){
+		if(!isCluster){
+			return;
+		}
+		if(redisMessage == null){
+			redisMessage = new DefaultRedisMessage();
+			redisMessage.setRedisTemplate(redisTemplate);
+		}
+		redisMessage.sendMessage(key, key);
+		if(subMap.containsKey(key)){
+			return;
+		}
+		taskExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				registerListener(key);
+			}
+			
+		});
+		
 	}
 
 	@Override

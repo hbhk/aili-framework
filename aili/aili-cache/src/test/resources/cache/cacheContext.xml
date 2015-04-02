@@ -51,7 +51,7 @@
 	<bean id="cacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
 		<property name="cacheTemplet" ref="memoryCacheTemplet" />
 	</bean> 
-	
+	<bean class="org.hbhk.aili.core.server.web.WebApplicationContextHolder" />
 
 
 </beans>  
