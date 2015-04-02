@@ -27,15 +27,6 @@
 		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
 		<property name="configLocation" value="classpath:quartz.properties" />
 	</bean>
-	<!-- 
-		<bean id="quartzDao" class="org.hbhk.aili.job.server.QuartzDao">
-		</bean>
-	
-		<bean id="quartzService" class="org.hbhk.aili.job.server.QuartzService">
-			<property name="quartzDAO" ref="quartzDao" />
-			<property name="quartzScheduler" ref="quartzScheduler" />
-		</bean>
-	 -->
 	 
 	<context:component-scan base-package="org.hbhk.aili.job.server"/>
 
