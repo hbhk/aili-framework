@@ -246,6 +246,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 		    @SuppressWarnings("unchecked")
 			@Override
 		    public void uncaughtException(Thread t, Throwable e) {
+		    	cache.clear();
 		    	//只能一个线程处理断开重连添加监听
 		    	if(isDeal){
 		    		log.info("正在处理断开重连添加监听...");
