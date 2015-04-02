@@ -16,7 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisReConnectExceptionHandler  implements Thread.UncaughtExceptionHandler {
 	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
 	private boolean flag = true;
-	private static boolean isDeal = false;
+	private static volatile boolean isDeal = false;
 	private int sleep =20;
     @SuppressWarnings("unchecked")
 	@Override
@@ -32,9 +32,11 @@ public class RedisReConnectExceptionHandler  implements Thread.UncaughtException
 				 RedisTemplate<String,Object> redisTemplate = WebApplicationContextHolder.getApplicationContext().getBean("redisTemplate", RedisTemplate.class);
 				 redisTemplate.getConnectionFactory().getConnection();
 				 Set<String> keys = MemoryCacheTemplet.subMap.keySet();
-				 //MemoryCacheTemplet.subMap.clear();
+				 MemoryCacheTemplet.subMap.clear();
 				 for (String key : keys) {
-					registerListener(key);
+					 if(!MemoryCacheTemplet.subMap.containsKey(key)){
+						 registerListener(key);
+					 }
 				 }
 				flag = false;
 				isDeal = false;
@@ -62,6 +64,7 @@ public class RedisReConnectExceptionHandler  implements Thread.UncaughtException
 			@Override
 			public void onMessage(Message message, byte[] channels) {
 				String key = new String(message.getChannel());
+				 MemoryCacheTemplet.subMap.put(key, key);
 				if(cacheTemplet.cache.containsKey(key)){
 					log.info("删除本地 缓存key:"+key);
 					cacheTemplet.cache.remove(key);
