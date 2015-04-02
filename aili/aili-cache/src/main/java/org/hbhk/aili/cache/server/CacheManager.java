@@ -3,6 +3,7 @@ package org.hbhk.aili.cache.server;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hbhk.aili.cache.share.ex.CacheConfigException;
 
 
@@ -43,6 +44,9 @@ public final class CacheManager {
 	public <K,V> void registerCacheProvider(ICache<K, V> cache) throws Exception {
 		// 不允许UUID重复，应用必须在实现的Cache接口确保命名不重复
 		String cacheId = cache.getCacheId();
+		if(StringUtils.isEmpty(cacheId)){
+			   throw new RuntimeException(cache.getClass().getName() +"：getCacheId()"+"返回为空");
+		   }
 		if (uuidCaches.containsKey(cacheId)) {
 			throw new Exception("CacheId:[" + cacheId
 					+ "] to Class:[" + cache.getClass().getName()
