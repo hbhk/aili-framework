@@ -80,13 +80,13 @@ public final class CacheManager {
 	 * @throws Exception 
 	 * @see
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> T getCache(Class t,String cacheId)  {
-		try {
-			return (T) getCache(cacheId);
-		} catch(ClassCastException e) {
-			throw new CacheConfigException("CacheId:["+cacheId+"] to Class:["+t.getName()+"]");
+	@SuppressWarnings("unchecked")
+	public <V>  V getCache(String cacheId,String key) throws CacheConfigException {
+		ICache<String, V> cache = uuidCaches.get(cacheId);
+		if (cache == null) {
+			throw new CacheConfigException("CacheId:["+cacheId+"]");
 		}
+		return cache.get(key);
 	}
 
 
