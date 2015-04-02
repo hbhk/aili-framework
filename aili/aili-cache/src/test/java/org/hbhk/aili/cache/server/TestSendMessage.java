@@ -1,5 +1,7 @@
 package org.hbhk.aili.cache.server;
 
+import java.io.IOException;
+
 import org.hbhk.aili.cache.server.pub.IRedisMessage;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -9,9 +11,10 @@ public class TestSendMessage {
 	
 	private IRedisMessage redisMessage;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:cache/**/SUBContext.xml");
+		System.in.read();
 	}
 	
 	@Test
