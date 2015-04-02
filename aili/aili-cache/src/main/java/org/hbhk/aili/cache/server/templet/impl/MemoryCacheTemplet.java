@@ -24,7 +24,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
-	public Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
+	public static Map<String, Object> cache = new ConcurrentHashMap<String,Object>(10000);
 
 	// private Timer ttlTimer;
 	private ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(5);
@@ -140,9 +140,10 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(String key) {
-		return cache.get(key);
+		return (V) cache.get(key);
 	}
 
 	@Override
