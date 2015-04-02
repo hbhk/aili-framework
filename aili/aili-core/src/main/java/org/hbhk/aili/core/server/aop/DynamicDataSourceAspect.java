@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource;
+import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttributeSource;
 
@@ -21,10 +21,10 @@ public class DynamicDataSourceAspect {
 	
 	private TransactionAttributeSource transactionAttributeSouce;
 	
-	@Around("@within(org.springframework.transaction.annotation.Transactional)")
+	@Around("@target(org.springframework.transaction.annotation.Transactional)")
 	public Object doQuery(ProceedingJoinPoint pjp) throws Throwable {
 		if(transactionAttributeSouce==null){
-			transactionAttributeSouce = new MatchAlwaysTransactionAttributeSource();
+			transactionAttributeSouce = new AnnotationTransactionAttributeSource();
 		}
 		MethodSignature ms = (MethodSignature)pjp.getSignature();
 		TransactionAttribute ta = transactionAttributeSouce.getTransactionAttribute(ms.getMethod(), pjp.getTarget().getClass());
@@ -46,8 +46,6 @@ public class DynamicDataSourceAspect {
 		try {
 			Object rtn = pjp.proceed(pjp.getArgs());
 			return rtn;
-		} catch (Throwable e) {
-			throw e;
 		} finally {
 			if(ta != null){
 				if(ta.getPropagationBehavior() == TransactionDefinition.PROPAGATION_REQUIRES_NEW){
