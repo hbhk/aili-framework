@@ -32,7 +32,7 @@ public class SimpleJobTest {
 				String description = "description";
 				String cronPattern = "0/10 * * * * ?";
 				try {
-					quartzService.addParseModelJob(jobName, topicIds, description,
+					quartzService.addJob(jobName, topicIds, description,
 							cronPattern, ParseModelJob.class);
 
 				} catch (Exception e) {
