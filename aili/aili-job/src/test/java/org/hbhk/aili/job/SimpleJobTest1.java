@@ -9,7 +9,7 @@ public class SimpleJobTest1 {
 	public static void main(String[] args) {
 		try {
 			ApplicationContext context = new ClassPathXmlApplicationContext(
-					"classpath:job/jobContext1.xml");
+					"classpath:job/jobContext.xml");
 
 		} catch (Exception e) {
 			e.printStackTrace();
