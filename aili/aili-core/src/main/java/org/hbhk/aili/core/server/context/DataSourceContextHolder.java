@@ -7,14 +7,14 @@ package org.hbhk.aili.core.server.context;
  * @date 2015年3月11日 上午10:05:24 
  *
  */
-public class MultiDataSourceContext {
+public class DataSourceContextHolder {
 	private static ThreadLocal<String> local = new ThreadLocal<String>();
 
-	public static void putSp(String sp) {
-		local.set(sp);
+	public static void setgetDataSourceType(String type) {
+		local.set(type);
 	}
 
-	public static String getSp() {
+	public static String getDataSourceType() {
 		return local.get();
 	}
 }
