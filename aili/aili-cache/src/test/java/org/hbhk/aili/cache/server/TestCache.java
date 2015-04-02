@@ -25,7 +25,7 @@ public class TestCache {
 			TimeUnit.SECONDS.sleep(1);
 		}
 		System.in.read();
-	
+		RoleInfo  cache = CacheManager.getInstance().getCache("hbhk","");
 	}
 
 	public static String DownLoadFileStr(String urlStr) {
