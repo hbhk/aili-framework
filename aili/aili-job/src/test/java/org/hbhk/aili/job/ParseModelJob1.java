@@ -11,7 +11,7 @@ public class ParseModelJob1 implements Job {
 
 	@Override
 	public void execute(JobExecutionContext context)
-			throws JobExecutionException {
+			throws JobExecutionException { 
 		logger.info("这里输进任务处理的内容2");
 	}
 
