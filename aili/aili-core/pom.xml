@@ -134,6 +134,11 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.10</version>
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 </project>
