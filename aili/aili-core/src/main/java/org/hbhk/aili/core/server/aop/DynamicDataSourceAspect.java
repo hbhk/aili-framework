@@ -29,6 +29,7 @@ public class DynamicDataSourceAspect {
 			return pjp.proceed(pjp.getArgs());
 		}
 		try {
+			logger.debug("Fallback to previous Read/Write Status: {}",strategy);
 			DataSourceContextHolder.setDataSourceType(strategy);
 			Object rtn = pjp.proceed(pjp.getArgs());
 			return rtn;
