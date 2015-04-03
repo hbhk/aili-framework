@@ -1,6 +1,5 @@
 package org.hbhk.aili.cache.server;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
