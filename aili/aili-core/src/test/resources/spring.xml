@@ -17,7 +17,7 @@
 			http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<aop:aspectj-autoproxy />
-	<context:component-scan base-package="org.hbhk.test" />
+	<context:component-scan base-package="org.hbhk.test.ds" />
 	<bean class="org.hbhk.aili.core.server.aop.DynamicDataSourceAspect"></bean>
 
 	<bean id="parentDataSource" class="org.apache.commons.dbcp.BasicDataSource"

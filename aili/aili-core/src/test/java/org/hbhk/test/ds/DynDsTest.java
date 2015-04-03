@@ -10,6 +10,6 @@ public class DynDsTest {
 				"classpath:spring.xml");
 		IUserService us = (IUserService) context.getBean("userService");
 		us.getUser();
-		us.getUser1();
+		//us.getUser1();
 	}
 }

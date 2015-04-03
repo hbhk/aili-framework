@@ -10,7 +10,7 @@ package org.hbhk.aili.core.server.context;
 public class DataSourceContextHolder {
 	private static ThreadLocal<String> dataSourceLocal = new ThreadLocal<String>();
 
-	public static void setgetDataSourceType(String type) {
+	public static void setDataSourceType(String type) {
 		dataSourceLocal.set(type);
 	}
 

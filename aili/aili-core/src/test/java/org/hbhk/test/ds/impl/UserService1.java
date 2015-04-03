@@ -1,17 +1,21 @@
 package org.hbhk.test.ds.impl;
 
-import org.hbhk.test.ds.IUserService;
+import org.hbhk.test.ds.IUserService1;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
-public class UserService implements IUserService {
+public class UserService1 implements IUserService1 {
 
+	@Autowired
+	private IUserService1 userService1;
+	
 	@Override
 	public void getUser() {
 		System.out.println("11111111111");
-		getUser1();
+		userService1.getUser1();
 	}
 
 	@Override
