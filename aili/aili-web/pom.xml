@@ -43,6 +43,11 @@
 			<version>${aili-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-struts-mvc</artifactId>
+			<version>${aili-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
