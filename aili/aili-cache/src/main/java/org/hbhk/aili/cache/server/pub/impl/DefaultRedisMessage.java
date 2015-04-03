@@ -9,6 +9,12 @@ public class DefaultRedisMessage implements IRedisMessage {
 
 	private RedisTemplate<String, Object> redisTemplate = null;
 
+	
+	public DefaultRedisMessage() {
+	}
+	public DefaultRedisMessage(RedisTemplate<String, Object> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 	@Override
 	public void sendMessage(String channel, Serializable message) {
 		redisTemplate.convertAndSend(channel, message);

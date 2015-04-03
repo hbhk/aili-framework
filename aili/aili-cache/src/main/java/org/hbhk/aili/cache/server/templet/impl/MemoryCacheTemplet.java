@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hbhk.aili.cache.server.pub.IRedisMessage;
 import org.hbhk.aili.cache.server.pub.impl.DefaultRedisMessage;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 import org.hbhk.aili.core.server.web.WebApplicationContextHolder;
@@ -33,7 +34,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	private volatile Map<String, TimerTask> ttlMap;
 	
-	private DefaultRedisMessage redisMessage;
+	private IRedisMessage redisMessage;
 	
 	@Autowired(required =false)
 	private  RedisTemplate<String, Object> redisTemplate;
@@ -86,8 +87,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 			return;
 		}
 		if(redisMessage == null){
-			redisMessage = new DefaultRedisMessage();
-			redisMessage.setRedisTemplate(redisTemplate);
+			redisMessage = new DefaultRedisMessage(redisTemplate);
 		}
 		redisMessage.sendMessage(key, key);
 		if(subMap.containsKey(key)){
@@ -213,10 +213,10 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	}
 
-	public DefaultRedisMessage getRedisMessage() {
+	public IRedisMessage getRedisMessage() {
 		return redisMessage;
 	}
-	public void setRedisMessage(DefaultRedisMessage redisMessage) {
+	public void setRedisMessage(IRedisMessage redisMessage) {
 		this.redisMessage = redisMessage;
 	}
 	public RedisTemplate<String, Object> getRedisTemplate() {
