@@ -18,7 +18,7 @@ public class DynamicDataSourceService implements IDynamicDataSourceService {
 	private TransactionAttributeSource transactionAttributeSouce;
 	
 	@Override
-	public String getDataSourceType(ProceedingJoinPoint pjp) throws Throwable {
+	public String getDataSourceStrategy(ProceedingJoinPoint pjp) throws Throwable {
 		if(transactionAttributeSouce==null){
 			transactionAttributeSouce = new AnnotationTransactionAttributeSource();
 		}

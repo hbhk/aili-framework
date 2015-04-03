@@ -13,5 +13,5 @@ public interface IDynamicDataSourceService {
 	* Object   
 	* @throws
 	 */
-	String getDataSourceType(ProceedingJoinPoint pjp) throws Throwable;
+	String getDataSourceStrategy(ProceedingJoinPoint pjp) throws Throwable;
 }

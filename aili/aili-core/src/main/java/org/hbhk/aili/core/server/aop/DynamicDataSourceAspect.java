@@ -24,19 +24,17 @@ public class DynamicDataSourceAspect {
 		if (dynamicDataSourceService == null) {
 			dynamicDataSourceService = new DynamicDataSourceService();
 		}
-		String currentStatus = dynamicDataSourceService.getDataSourceType(pjp);
-		if (StringUtils.isEmpty(currentStatus)) {
+		String strategy = dynamicDataSourceService.getDataSourceStrategy(pjp);
+		if (StringUtils.isEmpty(strategy)) {
 			return pjp.proceed(pjp.getArgs());
 		}
 		try {
-			DataSourceContextHolder.setDataSourceType(currentStatus);
+			DataSourceContextHolder.setDataSourceType(strategy);
 			Object rtn = pjp.proceed(pjp.getArgs());
 			return rtn;
 		} finally {
-			logger.debug("Fallback to previous Read/Write Status: {}",currentStatus);
-			if (StringUtils.isNotEmpty(currentStatus)) {
-				DataSourceContextHolder.remove();
-			}
+			logger.debug("Fallback to previous Read/Write Status: {}",strategy);
+			DataSourceContextHolder.remove();
 		}
 	}
 }
