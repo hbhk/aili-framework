@@ -30,7 +30,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
 	private static Map<String, Object> cache = new ConcurrentHashMap<String,Object>(10000);
 
-	private ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(5);
+	private ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(100);
 
 	private volatile Map<String, TimerTask> ttlMap;
 	
