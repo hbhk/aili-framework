@@ -276,6 +276,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 						flag = false;
 						isDeal = false;
 					} catch (Exception e2) {
+						MemoryCacheTemplet.cache.clear();
 						log.error(e2.getMessage(), e2);
 						try {
 							TimeUnit.SECONDS.sleep(sleep);
