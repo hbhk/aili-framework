@@ -34,7 +34,6 @@ public class DynamicDataSourceAspect {
 			Object rtn = pjp.proceed(pjp.getArgs());
 			return rtn;
 		} finally {
-			logger.debug("Fallback to previous Read/Write Status: {}",strategy);
 			DataSourceContextHolder.remove();
 		}
 	}
