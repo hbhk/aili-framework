@@ -26,10 +26,10 @@ public class DynamicDataSourceAspect {
 		}
 		String strategy = dynamicDataSourceService.getDataSourceStrategy(pjp);
 		if (StringUtils.isEmpty(strategy)) {
-			return pjp.proceed(pjp.getArgs());
+			return pjp.proceed(pjp.getArgs()); 
 		}
 		try {
-			logger.debug("Fallback to previous Read/Write Status: {}",strategy);
+			logger.debug("数据源当前 Read/Write Status: {}",strategy);
 			DataSourceContextHolder.setDataSourceType(strategy);
 			Object rtn = pjp.proceed(pjp.getArgs());
 			return rtn;
